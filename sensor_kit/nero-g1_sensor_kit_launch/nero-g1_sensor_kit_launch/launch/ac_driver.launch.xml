@@ -1,0 +1,23 @@
+<launch>
+  <!-- Arguments -->
+  <arg name="launch_driver" default="true" description="Enable/disable the AC driver"/>
+  <arg name="image_input_fps" default="30" description="Camera frame rate"/>
+  <arg name="imu_input_fps" default="200" description="IMU frame rate"/>
+  <arg name="enable_jpeg" default="false" description="Enable JPEG compression for camera images"/>
+  <arg name="jpeg_quality" default="70" description="JPEG compression quality (0-100)"/>
+
+  <group>
+    <!-- Launch the AC driver node -->
+    <node pkg="ac_driver" exec="ms_node" name="ac_driver_node" output="screen" if="$(var launch_driver)">
+      <param name="image_input_fps" value="$(var image_input_fps)"/>
+      <param name="imu_input_fps" value="$(var imu_input_fps)"/>
+      <param name="enable_jpeg" value="$(var enable_jpeg)"/>
+      <param name="jpeg_quality" value="$(var jpeg_quality)"/>
+    </node>
+
+    <!-- Optional RViz visualization 
+    <node pkg="rviz2" exec="rviz2" name="ac_driver_rviz" output="screen" >
+      <arg name="display_config" default="$(find ac_driver)/rviz/ac_driver.rviz"/>
+    </node> -->
+  </group>
+</launch>
