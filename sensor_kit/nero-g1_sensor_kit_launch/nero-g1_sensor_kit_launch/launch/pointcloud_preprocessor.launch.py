@@ -8,26 +8,26 @@ from launch_ros.descriptions import ComposableNode
 def launch_setup(context, *args, **kwargs):
     nodes = []
 
-    # VoxelGrid filter node
+    # CropBox filter node (works without external data)
     nodes.append(
         ComposableNode(
             package="autoware_pointcloud_preprocessor",
-            plugin="autoware::pointcloud_preprocessor::VoxelGridFilterComponent",
-            name="voxel_grid_filter",
+            plugin="autoware::pointcloud_preprocessor::CropBoxFilterComponent",
+            name="crop_box_filter_test",
             remappings=[
-                ("input", "lidar/points"),
-                ("output", "lidar/points_voxel"),
+                ("input", "points_in"),   # can remain unconnected for test
+                ("output", "points_out"),
             ],
             parameters=[{
-                "leaf_size_x": 0.1,
-                "leaf_size_y": 0.1,
-                "leaf_size_z": 0.1,
+                "min_x": -1.0, "max_x": 1.0,
+                "min_y": -1.0, "max_y": 1.0,
+                "min_z": -1.0, "max_z": 1.0,
+                "negative": False
             }],
             extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
         )
     )
 
-    # Container to run the node
     container = ComposableNodeContainer(
         name=LaunchConfiguration("container_name"),
         namespace="autoware_pointcloud_preprocessor",
@@ -40,18 +40,11 @@ def launch_setup(context, *args, **kwargs):
     return [container]
 
 def generate_launch_description():
-    launch_arguments = []
-
-    # Basic launch args
-    launch_arguments.append(
-        DeclareLaunchArgument("container_name", default_value="pointcloud_container")
-    )
-    launch_arguments.append(
-        DeclareLaunchArgument("use_intra_process", default_value="true")
-    )
-    launch_arguments.append(
-        DeclareLaunchArgument("use_multithread", default_value="false")
-    )
+    launch_arguments = [
+        DeclareLaunchArgument("container_name", default_value="test_container"),
+        DeclareLaunchArgument("use_intra_process", default_value="true"),
+        DeclareLaunchArgument("use_multithread", default_value="false"),
+    ]
 
     # Container executable setup
     set_container_executable = SetLaunchConfiguration(
@@ -66,7 +59,5 @@ def generate_launch_description():
     )
 
     return launch.LaunchDescription(
-        launch_arguments
-        + [set_container_executable, set_container_mt_executable]
-        + [OpaqueFunction(function=launch_setup)]
+        launch_arguments + [set_container_executable, set_container_mt_executable, OpaqueFunction(function=launch_setup)]
     )
