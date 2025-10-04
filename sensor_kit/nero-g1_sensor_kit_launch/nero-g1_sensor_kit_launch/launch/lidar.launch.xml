@@ -1,0 +1,12 @@
+<launch>
+  <arg name="launch_driver" default="true"/>
+  <arg name="pointcloud_container_name" default="pointcloud_container"/>
+
+  <group>
+    <include file="$(find-pkg-share nero-g1_sensor_kit_launch)/launch/pointcloud_preprocessor.launch.py">
+      <arg name="use_intra_process" value="true"/>
+      <arg name="use_multithread" value="false"/>
+      <arg name="container_name" value="$(var pointcloud_container_name)"/>
+    </include>
+  </group>
+</launch>

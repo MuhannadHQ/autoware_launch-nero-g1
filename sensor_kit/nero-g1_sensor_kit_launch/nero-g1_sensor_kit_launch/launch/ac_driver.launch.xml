@@ -13,6 +13,12 @@
       <param name="imu_input_fps" value="$(var imu_input_fps)"/>
       <param name="enable_jpeg" value="$(var enable_jpeg)"/>
       <param name="jpeg_quality" value="$(var jpeg_quality)"/>
+
+      <!-- Remap topics to match Autoware conventions -->
+      <remap from="/rs_imu" to="imu_raw"/>
+      <remap from="/rs_camera/rgb" to="image_raw"/>
+      <remap from="/rs_lidar/points" to="lidar/points"/>
+
     </node>
 
     <!-- Optional RViz visualization 
