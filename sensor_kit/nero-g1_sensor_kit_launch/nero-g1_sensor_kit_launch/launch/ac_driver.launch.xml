@@ -19,8 +19,8 @@
       <remap from="/rs_camera/rgb" to="image_raw"/>
 
       <!-- Lidar PointCloud Converter -->
-      <node pkg="lidar_pointcloud_converter" exec="lidar_pointcloud_converter_node" name="lidar_converter_node" output="screen">
-      </node>      
+    <node pkg="lidar_pointcloud_converter" exec="lidar_pointcloud_converter_node" name="lidar_converter_node" output="screen">
+    </node>      
 
     </node>
 
