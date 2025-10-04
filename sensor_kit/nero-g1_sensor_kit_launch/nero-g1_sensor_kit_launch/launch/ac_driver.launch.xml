@@ -17,7 +17,10 @@
       <!-- Remap topics to match Autoware conventions -->
       <remap from="/rs_imu" to="imu_raw"/>
       <remap from="/rs_camera/rgb" to="image_raw"/>
-      <remap from="/rs_lidar/points" to="lidar/points"/>
+
+      <!-- Lidar PointCloud Converter -->
+      <node pkg="lidar_pointcloud_converter" exec="lidar_pointcloud_converter_node" name="lidar_converter_node" output="screen">
+      </node>      
 
     </node>
 
