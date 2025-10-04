@@ -22,7 +22,9 @@ def launch_setup(context, *args, **kwargs):
                 "min_x": -1.0, "max_x": 1.0,
                 "min_y": -1.0, "max_y": 1.0,
                 "min_z": -1.0, "max_z": 1.0,
-                "negative": False
+                "negative": False,
+                "input_frame": "base_link",   # <<< REQUIRED
+                "output_frame": "base_link"   # optional, but good practice
             }],
             extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
         )
