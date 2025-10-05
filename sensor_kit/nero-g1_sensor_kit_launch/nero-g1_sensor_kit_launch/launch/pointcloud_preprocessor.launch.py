@@ -4,6 +4,7 @@ from launch.conditions import IfCondition, UnlessCondition
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import ComposableNodeContainer
 from launch_ros.descriptions import ComposableNode
+from rclpy.qos import QoSProfile, ReliabilityPolicy
 
 def launch_setup(context, *args, **kwargs):
     nodes = []
@@ -15,7 +16,7 @@ def launch_setup(context, *args, **kwargs):
             plugin="autoware::pointcloud_preprocessor::CropBoxFilterComponent",
             name="crop_box_filter_test",
             remappings=[
-                ("input", "points_in"),   # can remain unconnected for test
+                ("input", "points_in"),   # check names
                 ("output", "points_out"),
             ],
             parameters=[{
@@ -23,8 +24,8 @@ def launch_setup(context, *args, **kwargs):
                 "min_y": -1.0, "max_y": 1.0,
                 "min_z": -1.0, "max_z": 1.0,
                 "negative": False,
-                "input_frame": "base_link",   # <<< REQUIRED
-                "output_frame": "base_link"   # optional, but good practice
+                "input_frame": "rslidar",   # adjust later
+                "output_frame": "rslidar"   # adjust later
             }],
             extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
         )
