@@ -16,14 +16,14 @@ def launch_setup(context, *args, **kwargs):
             plugin="autoware::pointcloud_preprocessor::CropBoxFilterComponent",
             name="crop_box_filter_test",
             remappings=[
-                ("input", "points_in"),   # check names
-                ("output", "points_out"),
+                ("input", "/points_in"),   # check names
+                ("output", "/points_out"),
             ],
             parameters=[{
                 "min_x": -1.0, "max_x": 1.0,
                 "min_y": -1.0, "max_y": 1.0,
                 "min_z": -1.0, "max_z": 1.0,
-                "negative": False,
+                "negative": True,
                 "input_frame": "rslidar",   # adjust later
                 "output_frame": "rslidar"   # adjust later
             }],
