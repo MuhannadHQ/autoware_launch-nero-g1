@@ -1,0 +1,38 @@
+<launch>
+  <!-- Arguments -->
+  <arg name="launch_driver" default="true" description="Enable/disable the AC driver"/>
+  <arg name="image_input_fps" default="30" description="Camera frame rate"/>
+  <arg name="imu_input_fps" default="200" description="IMU frame rate"/>
+  <arg name="enable_jpeg" default="false" description="Enable JPEG compression for camera images"/>
+  <arg name="jpeg_quality" default="70" description="JPEG compression quality (0-100)"/>
+
+  <!-- Launch the AC driver node -->
+  <node
+    namespace="rslidar_sdk"
+    pkg="rslidar_sdk"
+    exec="rslidar_sdk_node"
+    name="rslidar_sdk_node"
+    output="screen">
+    <param name="config_path" value="/workspace/drivers/src/rslidar_sdk/config/config.yaml"/>
+  </node> 
+
+  <!-- Lidar Pointcloud Converter Node -->
+  <node
+    pkg="lidar_pointcloud_converter"
+    exec="lidar_pointcloud_converter_node"
+    name="lidar_converter_node"
+    output="screen">
+  </node> 
+
+  <!-- Optional RViz visualization -->
+  <!--
+  <node
+    pkg="rviz2"
+    exec="rviz2"
+    name="ac_driver_rviz"
+    output="screen">
+    <param name="display_config" value="/workspace/drivers/src/rslidar_sdk/rviz/rviz.rviz"/>
+  </node>
+  -->
+</launch>
+

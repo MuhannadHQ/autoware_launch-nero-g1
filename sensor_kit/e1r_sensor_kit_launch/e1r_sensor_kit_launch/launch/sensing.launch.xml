@@ -1,25 +1,24 @@
 <launch>
   <arg name="launch_driver" default="true" description="do launch driver"/>
-  <arg name="vehicle_mirror_param_file" default="$(find-pkg-share nero-g1_sensor_kit_launch)/config/vehicle_mirror.param.yaml" description="path to the file of vehicle mirror position yaml"/>
+  <arg name="vehicle_mirror_param_file" default="$(find-pkg-share e1r_sensor_kit_launch)/config/vehicle_mirror.param.yaml" description="path to the file of vehicle mirror position yaml"/>
   <arg name="pointcloud_container_name" default="pointcloud_container"/>
   <arg name="vehicle_id" default="$(env VEHICLE_ID default)"/>
 
   <group>
 
     <!-- AC1 Sensor Driver (LiDAR + Camera + IMU in one) -->
-    <include file="$(find-pkg-share nero-g1_sensor_kit_launch)/launch/ac_driver.launch.xml">
+    <include file="$(find-pkg-share e1r_sensor_kit_launch)/launch/e1r_driver.launch.xml">
       <arg name="launch_driver" value="$(var launch_driver)"/>
       <arg name="pointcloud_container_name" value="$(var pointcloud_container_name)"/>
     </include>
 
     <!-- AC1 Lidar preprocessing container -->
-    <include file="$(find-pkg-share nero-g1_sensor_kit_launch)/launch/lidar.launch.xml">
+    <include file="$(find-pkg-share e1r_sensor_kit_launch)/launch/lidar.launch.xml">
       <arg name="launch_driver" value="$(var launch_driver)"/>
       <arg name="pointcloud_container_name" value="$(var pointcloud_container_name)"/>
     </include>
 
-
-    Vehicle Velocity Converter  
+    <!-- Vehicle Velocity Converter -->
     <include file="$(find-pkg-share autoware_vehicle_velocity_converter)/launch/vehicle_velocity_converter.launch.xml">
       <arg name="input_vehicle_velocity_topic" value="/vehicle/status/velocity_status"/>
       <arg name="output_twist_with_covariance" value="/sensing/vehicle_velocity_converter/twist_with_covariance"/>
