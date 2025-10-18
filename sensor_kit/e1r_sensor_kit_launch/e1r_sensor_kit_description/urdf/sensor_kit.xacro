@@ -55,7 +55,7 @@
       />
     </xacro:VLP-16>
 
-    <!-- camera -->
+    camera
     <xacro:monocular_camera_macro
       name="traffic_light_right_camera/camera"
       parent="sensor_kit_base_link"
@@ -177,7 +177,7 @@
       fov="1.3"
     />
 
-    <!-- gnss -->
+    gnss
     <xacro:imu_macro
       name="gnss"
       parent="sensor_kit_base_link"
@@ -191,7 +191,7 @@
       fps="100"
     />
 
-    <!-- imu -->
+    imu
     <xacro:imu_macro
       name="tamagawa/imu"
       parent="sensor_kit_base_link"
@@ -203,6 +203,6 @@
       pitch="${calibration['sensor_kit_base_link']['tamagawa/imu_link']['pitch']}"
       yaw="${calibration['sensor_kit_base_link']['tamagawa/imu_link']['yaw']}"
       fps="100"
-    />
-  </xacro:macro> -->
+    /> -->
+  </xacro:macro> 
 </robot>

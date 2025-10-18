@@ -16,14 +16,26 @@
   <arg name="vehicle_mirror_param_file"/>
   <arg name="container_name" default="velodyne_node_container"/>
   <arg name="udp_only" default="false"/>
+  
+  <!-- Launch the E1R driver node -->
+  <node
+    namespace="rslidar_sdk"
+    pkg="rslidar_sdk"
+    exec="rslidar_sdk_node"
+    name="rslidar_sdk_node"
+    output="screen">
+    <param name="config_path" value="/workspace/driver_git/src/rslidar_sdk/config/config.yaml"/>
+  </node> 
+  
+  <!-- Lidar Pointcloud Converter Node -->
+  <node
+    pkg="lidar_pointcloud_converter"
+    exec="lidar_pointcloud_converter_node"
+    name="lidar_converter_node"
+    output="screen">
+  </node> 
 
-  <group if="$(arg launch_driver)">
-    <node pkg="rslidar_sdk" type="rslidar_sdk_node" name="rslidar_sdk_node" output="screen">
-      <param name="config_path" value="$(arg config_path)"/>
-    </node>
-  </group>
-
-  <include file="$(find-pkg-share common_sensor_launch)/launch/nebula_node_container.launch.py">
+  <include file="$(find-pkg-share e1r_common_sensor_launch)/launch/nebula_node_container.launch.py">
     <arg name="launch_driver" value="$(var launch_driver)"/>
     <arg name="sensor_model" value="$(var model)"/>
     <arg name="return_mode" value="$(var return_mode)"/>
@@ -42,7 +54,5 @@
     <arg name="container_name" value="$(var container_name)"/>
     <arg name="udp_only" value="$(var udp_only)"/>
   </include>
-
-
 
 </launch>
