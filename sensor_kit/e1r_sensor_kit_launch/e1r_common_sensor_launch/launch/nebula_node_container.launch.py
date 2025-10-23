@@ -90,10 +90,10 @@ def launch_setup(context, *args, **kwargs):
     #     sensor_calib_fp = ""
 
     # Pointcloud preprocessor parameters
-    # distortion_corrector_node_param = ParameterFile(
-    #     param_file=LaunchConfiguration("distortion_correction_node_param_path").perform(context),
-    #     allow_substs=True,
-    # )
+    distortion_corrector_node_param = ParameterFile(
+        param_file=LaunchConfiguration("distortion_correction_node_param_path").perform(context),
+        allow_substs=True,
+    )
     ring_outlier_filter_node_param = ParameterFile(
         param_file=LaunchConfiguration("ring_outlier_filter_node_param_path").perform(context),
         allow_substs=True,
@@ -152,6 +152,7 @@ def launch_setup(context, *args, **kwargs):
 
     cropbox_parameters = create_parameter_dict("input_frame", "output_frame")
     cropbox_parameters["negative"] = True
+    cropbox_parameters["processing_time_threshold_sec"] = 0.01
 
     vehicle_info = get_vehicle_info(context)
     cropbox_parameters["min_x"] = vehicle_info["min_longitudinal_offset"]
@@ -197,21 +198,21 @@ def launch_setup(context, *args, **kwargs):
         )
     )
 
-    # nodes.append(
-    #     ComposableNode(
-    #         package="autoware_pointcloud_preprocessor",
-    #         plugin="autoware::pointcloud_preprocessor::DistortionCorrectorComponent",
-    #         name="distortion_corrector_node",
-    #         remappings=[
-    #             ("~/input/twist", "/sensing/vehicle_velocity_converter/twist_with_covariance"),
-    #             ("~/input/imu", "/sensing/imu/imu_data"),
-    #             ("~/input/pointcloud", "mirror_cropped/pointcloud_ex"),
-    #             ("~/output/pointcloud", "rectified/pointcloud_ex"),
-    #         ],
-    #         parameters=[distortion_corrector_node_param],
-    #         extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
-    #     )
-    # )
+    nodes.append(
+        ComposableNode(
+            package="autoware_pointcloud_preprocessor",
+            plugin="autoware::pointcloud_preprocessor::DistortionCorrectorComponent",
+            name="distortion_corrector_node",
+            remappings=[
+                ("~/input/twist", "/sensing/vehicle_velocity_converter/twist_with_covariance"),
+                ("~/input/imu", "/sensing/imu/imu_data"),
+                ("~/input/pointcloud", "mirror_cropped/pointcloud_ex"),
+                ("~/output/pointcloud", "rectified/pointcloud_ex"),
+            ],
+            parameters=[distortion_corrector_node_param],
+            extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
+        )
+    )
 
     # Ring Outlier Filter is the last component in the pipeline, so control the output frame here
     if LaunchConfiguration("output_as_sensor_frame").perform(context).lower() == "true":
@@ -224,7 +225,7 @@ def launch_setup(context, *args, **kwargs):
             plugin="autoware::pointcloud_preprocessor::RingOutlierFilterComponent",
             name="ring_outlier_filter",
             remappings=[
-                ("input", "mirror_cropped/pointcloud_ex"),
+                ("input", "rectified/pointcloud_ex"),
                 ("output", "pointcloud_before_sync"),
             ],
             parameters=[ring_outlier_filter_node_param, ring_outlier_output_frame],

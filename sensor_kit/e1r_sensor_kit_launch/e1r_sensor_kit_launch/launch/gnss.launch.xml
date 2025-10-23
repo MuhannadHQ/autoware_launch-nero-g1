@@ -1,25 +1,38 @@
 <launch>
-  <!-- Arguments -->
-  <arg name="launch_driver" default="true" description="Launch GNSS/INS driver"/>
-  <arg name="launch_ntrip" default="true" description="Launch NTRIP correction client"/>
+  <arg name="launch_driver" default="true"/>
+  <arg name="gnss_receiver" default="xsens" description="ublox or septentrio or xsens"/>
 
-  <!-- GNSS/INS (Xsens) Group -->
   <group>
     <push-ros-namespace namespace="gnss"/>
 
-    <!-- Xsens GNSS/INS driver -->
-    <group if="$(var launch_driver)">
-      <include file="$(find-pkg-share xsens_mti_ros2_driver)/launch/xsens_mti_node.launch.py">
-      </include>
+    <!-- Switch topic name -->
+    <let name="navsatfix_topic_name" value="ublox/nav_sat_fix" if="$(eval &quot;'$(var gnss_receiver)'=='ublox'&quot;)"/>
+    <let name="navsatfix_topic_name" value="septentrio/nav_sat_fix" if="$(eval &quot;'$(var gnss_receiver)'=='septentrio'&quot;)"/>
+    <let name="navsatfix_topic_name" value="xsens/nav_sat_fix" if="$(eval &quot;'$(var gnss_receiver)'=='xsens'&quot;)"/>
+    <let name="orientation_topic_name" value="/autoware_orientation"/>
+
+    <!-- Ublox Driver -->
+    <group if="$(eval &quot;'$(var gnss_receiver)'=='ublox'&quot;)">
+      <node pkg="ublox_gps" name="ublox" exec="ublox_gps_node" if="$(var launch_driver)" respawn="true" respawn_delay="1.0">
+        <remap from="~/fix" to="~/nav_sat_fix"/>
+        <param from="$(find-pkg-share ublox_gps)/c94_f9p_rover.yaml"/>
+      </node>
     </group>
 
-    <!-- NTRIP client -->
-    <group if="$(var launch_ntrip)">
+    <!-- Septentrio GNSS Driver -->
+    <group if="$(eval &quot;'$(var launch_driver)' and '$(var gnss_receiver)'=='septentrio'&quot;)">
+      <include file="$(find-pkg-share septentrio_gnss_driver)/launch/mosaic_x5_rover.launch.xml"/>
+    </group>
+
+    <!-- Xsens GNSS + RTK -->
+    <group if="$(eval &quot;'$(var launch_driver)' and '$(var gnss_receiver)'=='xsens'&quot;)">
+      <include file="$(find-pkg-share xsens_mti_ros2_driver)/launch/xsens_mti_node.launch.py"/>
+        <remap from="/gnss" to="/xsens/nav_sat_fix"/>
+        <remap from="/status" to="/autoware_orientation"/>
+        <remap from="/imu/data" to="/xsens/imu_raw"/>
+      <!-- ntrip Client -->
       <include file="$(find-pkg-share ntrip)/launch/ntrip_launch.py"/>
     </group>
-    
-  </group>
-</launch>
 
 
     <!-- NavSatFix to MGRS Pose -->
@@ -31,5 +44,7 @@
       <arg name="output_topic_gnss_pose_cov" value="pose_with_covariance"/>
       <arg name="output_topic_gnss_fixed" value="fixed"/>
 
-      <arg name="use_gnss_ins_orientation" value="true"/>
-    </include> -->
+      <arg name="use_gnss_ins_orientation" value="true"/> -->
+    </include>
+  </group>
+</launch>
