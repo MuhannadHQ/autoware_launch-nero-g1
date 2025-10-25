@@ -9,7 +9,7 @@
     vel_lim: 5.0 # limit of velocity
     vel_rate_lim: 2.0 # limit of acceleration
     steer_lim: 1.0 # limit of steering angle
-    steer_rate_lim: 1.0 # limit of steering angle change rate
+    steer_rate_lim: 5.0 # limit of steering angle change rate
     acc_time_delay: 0.1 # dead time for the acceleration input
     acc_time_constant: 0.1 # time constant of the 1st-order acceleration dynamics
     steer_time_delay: 0.24 # dead time for the steering input

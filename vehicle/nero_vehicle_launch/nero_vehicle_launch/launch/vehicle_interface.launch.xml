@@ -9,4 +9,10 @@
     output="screen"
   />
 
+  <!-- Include yhs_can_control Python launch -->
+  <include file="$(find yhs_can_control)/launch/yhs_can_control_launch.py">
+    <arg name="params_file" value="$(find yhs_can_control)/params/cfg.yaml"/>
+  </include>
+
+
 </launch>
