@@ -1473,9 +1473,9 @@ Visualization Manager:
                       Value: true
                     - Class: rviz_common/Group
                       Displays:
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
+                        - Class: rviz_default_plugins/MarkerArray
                           Enabled: true
-                          Name: PlanningFactor(StaticObstacleAvoidance)
+                          Name: VirtualWall (StaticObstacleAvoidance)
                           Namespaces:
                             {}
                           Topic:
@@ -1483,13 +1483,11 @@ Visualization Manager:
                             Durability Policy: Volatile
                             History Policy: Keep Last
                             Reliability Policy: Reliable
-                            Value: /planning/planning_factors/static_obstacle_avoidance
-                          Show Safety Factors: false
-                          show_safety_factors: false
+                            Value: /planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/virtual_wall/static_obstacle_avoidance
                           Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
+                        - Class: rviz_default_plugins/MarkerArray
                           Enabled: true
-                          Name: PlanningFactor(AvoidanceByLC)
+                          Name: VirtualWall (AvoidanceByLC)
                           Namespaces:
                             {}
                           Topic:
@@ -1497,13 +1495,11 @@ Visualization Manager:
                             Durability Policy: Volatile
                             History Policy: Keep Last
                             Reliability Policy: Reliable
-                            Value: /planning/planning_factors/avoidance_by_lane_change
-                          Show Safety Factors: false
-                          show_safety_factors: false
+                            Value: /planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/virtual_wall/avoidance_by_lane_change
                           Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
+                        - Class: rviz_default_plugins/MarkerArray
                           Enabled: true
-                          Name: PlanningFactor(LaneChangeRight)
+                          Name: VirtualWall (LaneChangeRight)
                           Namespaces:
                             {}
                           Topic:
@@ -1511,13 +1507,11 @@ Visualization Manager:
                             Durability Policy: Volatile
                             History Policy: Keep Last
                             Reliability Policy: Reliable
-                            Value: /planning/planning_factors/lane_change_right
-                          Show Safety Factors: false
-                          show_safety_factors: false
+                            Value: /planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/virtual_wall/lane_change_right
                           Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
+                        - Class: rviz_default_plugins/MarkerArray
                           Enabled: true
-                          Name: PlanningFactor(LaneChangeLeft)
+                          Name: VirtualWall (LaneChangeLeft)
                           Namespaces:
                             {}
                           Topic:
@@ -1525,13 +1519,11 @@ Visualization Manager:
                             Durability Policy: Volatile
                             History Policy: Keep Last
                             Reliability Policy: Reliable
-                            Value: /planning/planning_factors/lane_change_left
-                          Show Safety Factors: false
-                          show_safety_factors: false
+                            Value: /planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/virtual_wall/lane_change_left
                           Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
+                        - Class: rviz_default_plugins/MarkerArray
                           Enabled: true
-                          Name: PlanningFactor(ExtLaneChangeRight)
+                          Name: VirtualWall (ExtLaneChangeRight)
                           Namespaces:
                             {}
                           Topic:
@@ -1539,13 +1531,11 @@ Visualization Manager:
                             Durability Policy: Volatile
                             History Policy: Keep Last
                             Reliability Policy: Reliable
-                            Value: /planning/planning_factors/external_request_lane_change_right
-                          Show Safety Factors: false
-                          show_safety_factors: false
+                            Value: /planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/virtual_wall/external_request_lane_change_right
                           Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
+                        - Class: rviz_default_plugins/MarkerArray
                           Enabled: true
-                          Name: PlanningFactor(ExtLaneChangeLeft)
+                          Name: VirtualWall (ExtLaneChangeLeft)
                           Namespaces:
                             {}
                           Topic:
@@ -1553,13 +1543,11 @@ Visualization Manager:
                             Durability Policy: Volatile
                             History Policy: Keep Last
                             Reliability Policy: Reliable
-                            Value: /planning/planning_factors/external_request_lane_change_left
-                          Show Safety Factors: false
-                          show_safety_factors: false
+                            Value: /planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/virtual_wall/external_request_lane_change_left
                           Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
+                        - Class: rviz_default_plugins/MarkerArray
                           Enabled: true
-                          Name: PlanningFactor(GoalPlanner)
+                          Name: VirtualWall (GoalPlanner)
                           Namespaces:
                             {}
                           Topic:
@@ -1567,13 +1555,11 @@ Visualization Manager:
                             Durability Policy: Volatile
                             History Policy: Keep Last
                             Reliability Policy: Reliable
-                            Value: /planning/planning_factors/goal_planner
-                          Show Safety Factors: false
-                          show_safety_factors: false
+                            Value: /planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/virtual_wall/goal_planner
                           Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
+                        - Class: rviz_default_plugins/MarkerArray
                           Enabled: true
-                          Name: PlanningFactor(StartPlanner)
+                          Name: VirtualWall (StartPlanner)
                           Namespaces:
                             {}
                           Topic:
@@ -1581,13 +1567,11 @@ Visualization Manager:
                             Durability Policy: Volatile
                             History Policy: Keep Last
                             Reliability Policy: Reliable
-                            Value: /planning/planning_factors/start_planner
-                          Show Safety Factors: false
-                          show_safety_factors: false
+                            Value: /planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/virtual_wall/start_planner
                           Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
+                        - Class: rviz_default_plugins/MarkerArray
                           Enabled: true
-                          Name: PlanningFactor(BidirectionalTraffic)
+                          Name: VirtualWall (BidirectionalTraffic)
                           Namespaces:
                             {}
                           Topic:
@@ -1595,13 +1579,11 @@ Visualization Manager:
                             Durability Policy: Volatile
                             History Policy: Keep Last
                             Reliability Policy: Reliable
-                            Value: /planning/planning_factors/bidirectional_traffic
-                          Show Safety Factors: false
-                          show_safety_factors: false
+                            Value: /planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/virtual_wall/bidirectional_traffic
                           Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
+                        - Class: rviz_default_plugins/MarkerArray
                           Enabled: true
-                          Name: PlanningFactor(BlindSpot)
+                          Name: VirtualWall (BlindSpot)
                           Namespaces:
                             {}
                           Topic:
@@ -1609,13 +1591,11 @@ Visualization Manager:
                             Durability Policy: Volatile
                             History Policy: Keep Last
                             Reliability Policy: Reliable
-                            Value: /planning/planning_factors/blind_spot
-                          Show Safety Factors: false
-                          show_safety_factors: false
+                            Value: /planning/scenario_planning/lane_driving/behavior_planning/behavior_velocity_planner/virtual_wall/blind_spot
                           Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
+                        - Class: rviz_default_plugins/MarkerArray
                           Enabled: true
-                          Name: PlanningFactor(Crosswalk)
+                          Name: VirtualWall (Crosswalk)
                           Namespaces:
                             {}
                           Topic:
@@ -1623,13 +1603,11 @@ Visualization Manager:
                             Durability Policy: Volatile
                             History Policy: Keep Last
                             Reliability Policy: Reliable
-                            Value: /planning/planning_factors/crosswalk
-                          Show Safety Factors: false
-                          show_safety_factors: false
+                            Value: /planning/scenario_planning/lane_driving/behavior_planning/behavior_velocity_planner/virtual_wall/crosswalk
                           Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
+                        - Class: rviz_default_plugins/MarkerArray
                           Enabled: true
-                          Name: PlanningFactor(Walkway)
+                          Name: VirtualWall (Walkway)
                           Namespaces:
                             {}
                           Topic:
@@ -1637,13 +1615,11 @@ Visualization Manager:
                             Durability Policy: Volatile
                             History Policy: Keep Last
                             Reliability Policy: Reliable
-                            Value: /planning/planning_factors/walkway
-                          Show Safety Factors: false
-                          show_safety_factors: false
+                            Value: /planning/scenario_planning/lane_driving/behavior_planning/behavior_velocity_planner/virtual_wall/walkway
                           Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
+                        - Class: rviz_default_plugins/MarkerArray
                           Enabled: true
-                          Name: PlanningFactor(DetectionArea)
+                          Name: VirtualWall (DetectionArea)
                           Namespaces:
                             {}
                           Topic:
@@ -1651,13 +1627,11 @@ Visualization Manager:
                             Durability Policy: Volatile
                             History Policy: Keep Last
                             Reliability Policy: Reliable
-                            Value: /planning/planning_factors/detection_area
-                          Show Safety Factors: false
-                          show_safety_factors: false
+                            Value: /planning/scenario_planning/lane_driving/behavior_planning/behavior_velocity_planner/virtual_wall/detection_area
                           Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
+                        - Class: rviz_default_plugins/MarkerArray
                           Enabled: true
-                          Name: PlanningFactor(Intersection)
+                          Name: VirtualWall (Intersection)
                           Namespaces:
                             {}
                           Topic:
@@ -1665,13 +1639,11 @@ Visualization Manager:
                             Durability Policy: Volatile
                             History Policy: Keep Last
                             Reliability Policy: Reliable
-                            Value: /planning/planning_factors/intersection
-                          Show Safety Factors: false
-                          show_safety_factors: false
+                            Value: /planning/scenario_planning/lane_driving/behavior_planning/behavior_velocity_planner/virtual_wall/intersection
                           Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
+                        - Class: rviz_default_plugins/MarkerArray
                           Enabled: true
-                          Name: PlanningFactor(IntersectionOcclusion)
+                          Name: VirtualWall (MergeFromPrivateArea)
                           Namespaces:
                             {}
                           Topic:
@@ -1679,13 +1651,11 @@ Visualization Manager:
                             Durability Policy: Volatile
                             History Policy: Keep Last
                             Reliability Policy: Reliable
-                            Value: /planning/planning_factors/intersection_occlusion
-                          Show Safety Factors: false
-                          show_safety_factors: false
+                            Value: /planning/scenario_planning/lane_driving/behavior_planning/behavior_velocity_planner/virtual_wall/merge_from_private
                           Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
+                        - Class: rviz_default_plugins/MarkerArray
                           Enabled: true
-                          Name: PlanningFactor(MergeFromPrivateArea)
+                          Name: VirtualWall (NoStoppingArea)
                           Namespaces:
                             {}
                           Topic:
@@ -1693,13 +1663,11 @@ Visualization Manager:
                             Durability Policy: Volatile
                             History Policy: Keep Last
                             Reliability Policy: Reliable
-                            Value: /planning/planning_factors/merge_from_private
-                          Show Safety Factors: false
-                          show_safety_factors: false
+                            Value: /planning/scenario_planning/lane_driving/behavior_planning/behavior_velocity_planner/virtual_wall/no_stopping_area
                           Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
+                        - Class: rviz_default_plugins/MarkerArray
                           Enabled: true
-                          Name: PlanningFactor(NoStoppingArea)
+                          Name: VirtualWall (OcclusionSpot)
                           Namespaces:
                             {}
                           Topic:
@@ -1707,27 +1675,24 @@ Visualization Manager:
                             Durability Policy: Volatile
                             History Policy: Keep Last
                             Reliability Policy: Reliable
-                            Value: /planning/planning_factors/no_stopping_area
-                          Show Safety Factors: false
-                          show_safety_factors: false
+                            Value: /planning/scenario_planning/lane_driving/behavior_planning/behavior_velocity_planner/virtual_wall/occlusion_spot
                           Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
+                        - Class: rviz_default_plugins/MarkerArray
                           Enabled: true
-                          Name: PlanningFactor(OcclusionSpot)
+                          Name: VirtualWall (StopLine)
                           Namespaces:
-                            {}
+                            stop_factor_text: true
+                            stop_virtual_wall: true
                           Topic:
                             Depth: 5
                             Durability Policy: Volatile
                             History Policy: Keep Last
                             Reliability Policy: Reliable
-                            Value: /planning/planning_factors/occlusion_spot
-                          Show Safety Factors: false
-                          show_safety_factors: false
+                            Value: /planning/scenario_planning/lane_driving/behavior_planning/behavior_velocity_planner/virtual_wall/stop_line
                           Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
+                        - Class: rviz_default_plugins/MarkerArray
                           Enabled: true
-                          Name: PlanningFactor(StopLine)
+                          Name: VirtualWall (TrafficLight)
                           Namespaces:
                             {}
                           Topic:
@@ -1735,13 +1700,11 @@ Visualization Manager:
                             Durability Policy: Volatile
                             History Policy: Keep Last
                             Reliability Policy: Reliable
-                            Value: /planning/planning_factors/stop_line
-                          Show Safety Factors: false
-                          show_safety_factors: false
+                            Value: /planning/scenario_planning/lane_driving/behavior_planning/behavior_velocity_planner/virtual_wall/traffic_light
                           Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
+                        - Class: rviz_default_plugins/MarkerArray
                           Enabled: true
-                          Name: PlanningFactor(TrafficLight)
+                          Name: VirtualWall (VirtualTrafficLight)
                           Namespaces:
                             {}
                           Topic:
@@ -1749,13 +1712,11 @@ Visualization Manager:
                             Durability Policy: Volatile
                             History Policy: Keep Last
                             Reliability Policy: Reliable
-                            Value: /planning/planning_factors/traffic_light
-                          Show Safety Factors: false
-                          show_safety_factors: false
+                            Value: /planning/scenario_planning/lane_driving/behavior_planning/behavior_velocity_planner/virtual_wall/virtual_traffic_light
                           Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
+                        - Class: rviz_default_plugins/MarkerArray
                           Enabled: true
-                          Name: PlanningFactor(VirtualTrafficLight)
+                          Name: VirtualWall (RunOut)
                           Namespaces:
                             {}
                           Topic:
@@ -1763,13 +1724,11 @@ Visualization Manager:
                             Durability Policy: Volatile
                             History Policy: Keep Last
                             Reliability Policy: Reliable
-                            Value: /planning/planning_factors/virtual_traffic_light
-                          Show Safety Factors: false
-                          show_safety_factors: false
+                            Value: /planning/scenario_planning/lane_driving/behavior_planning/behavior_velocity_planner/virtual_wall/run_out
                           Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
+                        - Class: rviz_default_plugins/MarkerArray
                           Enabled: true
-                          Name: PlanningFactor(SpeedBump)
+                          Name: VirtualWall (SpeedBump)
                           Namespaces:
                             {}
                           Topic:
@@ -1777,13 +1736,11 @@ Visualization Manager:
                             Durability Policy: Volatile
                             History Policy: Keep Last
                             Reliability Policy: Reliable
-                            Value: /planning/planning_factors/speed_bump
-                          Show Safety Factors: false
-                          show_safety_factors: false
+                            Value: /planning/scenario_planning/lane_driving/behavior_planning/behavior_velocity_planner/virtual_wall/speed_bump
                           Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
+                        - Class: rviz_default_plugins/MarkerArray
                           Enabled: true
-                          Name: PlanningFactor(NoDrivableLane)
+                          Name: VirtualWall (NoDrivableLane)
                           Namespaces:
                             {}
                           Topic:
@@ -1791,54 +1748,10 @@ Visualization Manager:
                             Durability Policy: Volatile
                             History Policy: Keep Last
                             Reliability Policy: Reliable
-                            Value: /planning/planning_factors/no_drivable_lane
-                          Show Safety Factors: false
-                          show_safety_factors: false
-                          Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
-                          Enabled: true
-                          Name: PlanningFactor(SideShift)
-                          Namespaces:
-                            {}
-                          Topic:
-                            Depth: 5
-                            Durability Policy: Volatile
-                            History Policy: Keep Last
-                            Reliability Policy: Reliable
-                            Value: /planning/planning_factors/side_shift
-                          Show Safety Factors: false
-                          show_safety_factors: false
-                          Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
-                          Enabled: true
-                          Name: PlanningFactor(DynamicObstacleAvoidance)
-                          Namespaces:
-                            {}
-                          Topic:
-                            Depth: 5
-                            Durability Policy: Volatile
-                            History Policy: Keep Last
-                            Reliability Policy: Reliable
-                            Value: /planning/planning_factors/dynamic_obstacle_avoidance
-                          Show Safety Factors: false
-                          show_safety_factors: false
-                          Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
-                          Enabled: true
-                          Name: PlanningFactor(BehaviorPathPlanner)
-                          Namespaces:
-                            {}
-                          Topic:
-                            Depth: 5
-                            Durability Policy: Volatile
-                            History Policy: Keep Last
-                            Reliability Policy: Reliable
-                            Value: /planning/planning_factors/behavior_path_planner
-                          Show Safety Factors: false
-                          show_safety_factors: false
+                            Value: /planning/scenario_planning/lane_driving/behavior_planning/behavior_velocity_planner/virtual_wall/no_drivable_lane
                           Value: true
                       Enabled: true
-                      Name: PlanningFactor
+                      Name: VirtualWall
                   Enabled: true
                   Name: BehaviorPlanning
                 - Class: rviz_common/Group
@@ -1870,6 +1783,30 @@ Visualization Manager:
                       Displays:
                         - Class: rviz_default_plugins/MarkerArray
                           Enabled: true
+                          Name: VirtualWall (SurroundObstacle)
+                          Namespaces:
+                            {}
+                          Topic:
+                            Depth: 5
+                            Durability Policy: Volatile
+                            History Policy: Keep Last
+                            Reliability Policy: Reliable
+                            Value: /planning/scenario_planning/lane_driving/motion_planning/surround_obstacle_checker/virtual_wall
+                          Value: true
+                        - Class: rviz_default_plugins/MarkerArray
+                          Enabled: true
+                          Name: VirtualWall (ObstacleAvoidance)
+                          Namespaces:
+                            {}
+                          Topic:
+                            Depth: 5
+                            Durability Policy: Volatile
+                            History Policy: Keep Last
+                            Reliability Policy: Reliable
+                            Value: /planning/scenario_planning/lane_driving/motion_planning/obstacle_avoidance_planner/virtual_wall
+                          Value: true
+                        - Class: rviz_default_plugins/MarkerArray
+                          Enabled: true
                           Name: VirtualWall (MotionVelocitySmoother)
                           Namespaces:
                             {}
@@ -1879,6 +1816,54 @@ Visualization Manager:
                             History Policy: Keep Last
                             Reliability Policy: Reliable
                             Value: /planning/scenario_planning/velocity_smoother/virtual_wall
+                          Value: true
+                        - Class: rviz_default_plugins/MarkerArray
+                          Enabled: true
+                          Name: VirtualWall (ObstacleStop)
+                          Namespaces:
+                            {}
+                          Topic:
+                            Depth: 5
+                            Durability Policy: Volatile
+                            History Policy: Keep Last
+                            Reliability Policy: Reliable
+                            Value: /planning/scenario_planning/lane_driving/motion_planning/motion_velocity_planner/obstacle_stop/virtual_walls
+                          Value: true
+                        - Class: rviz_default_plugins/MarkerArray
+                          Enabled: true
+                          Name: VirtualWall (ObstacleSlowDown)
+                          Namespaces:
+                            {}
+                          Topic:
+                            Depth: 5
+                            Durability Policy: Volatile
+                            History Policy: Keep Last
+                            Reliability Policy: Reliable
+                            Value: /planning/scenario_planning/lane_driving/motion_planning/motion_velocity_planner/obstacle_slow_down/virtual_walls
+                          Value: true
+                        - Class: rviz_default_plugins/MarkerArray
+                          Enabled: true
+                          Name: VirtualWall (ObstacleCruise)
+                          Namespaces:
+                            {}
+                          Topic:
+                            Depth: 5
+                            Durability Policy: Volatile
+                            History Policy: Keep Last
+                            Reliability Policy: Reliable
+                            Value: /planning/scenario_planning/lane_driving/motion_planning/motion_velocity_planner/obstacle_cruise/virtual_walls
+                          Value: true
+                        - Class: rviz_default_plugins/MarkerArray
+                          Enabled: true
+                          Name: VirtualWall (OutOfLane)
+                          Namespaces:
+                            {}
+                          Topic:
+                            Depth: 5
+                            Durability Policy: Volatile
+                            History Policy: Keep Last
+                            Reliability Policy: Reliable
+                            Value: /planning/scenario_planning/lane_driving/motion_planning/motion_velocity_planner/out_of_lane/virtual_walls
                           Value: true
                         - Class: rviz_default_plugins/MarkerArray
                           Enabled: true
@@ -1894,7 +1879,7 @@ Visualization Manager:
                           Value: true
                         - Class: rviz_default_plugins/MarkerArray
                           Enabled: true
-                          Name: VirtualWall (BoundaryDeparturePrevention)
+                          Name: VirtualWall (DynamicObstacleStop)
                           Namespaces:
                             {}
                           Topic:
@@ -1902,126 +1887,34 @@ Visualization Manager:
                             Durability Policy: Volatile
                             History Policy: Keep Last
                             Reliability Policy: Reliable
-                            Value: /planning/scenario_planning/lane_driving/motion_planning/motion_velocity_planner/boundary_departure_prevention/virtual_walls
+                            Value: /planning/scenario_planning/lane_driving/motion_planning/motion_velocity_planner/dynamic_obstacle_stop/virtual_walls
+                          Value: true
+                        - Class: rviz_default_plugins/MarkerArray
+                          Enabled: true
+                          Name: VirtualWall (RunOut)
+                          Namespaces:
+                            {}
+                          Topic:
+                            Depth: 5
+                            Durability Policy: Volatile
+                            History Policy: Keep Last
+                            Reliability Policy: Reliable
+                            Value: /planning/scenario_planning/lane_driving/motion_planning/motion_velocity_planner/run_out/virtual_walls
+                          Value: true
+                        - Class: rviz_default_plugins/MarkerArray
+                          Enabled: true
+                          Name: VirtualWall (RoadUserStop)
+                          Namespaces:
+                            {}
+                          Topic:
+                            Depth: 5
+                            Durability Policy: Volatile
+                            History Policy: Keep Last
+                            Reliability Policy: Reliable
+                            Value: /planning/scenario_planning/lane_driving/motion_planning/motion_velocity_planner/road_user_stop/virtual_walls
                           Value: true
                       Enabled: true
                       Name: VirtualWall
-                    - Class: rviz_common/Group
-                      Displays:
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
-                          Enabled: true
-                          Name: PlanningFactor(SurroundObstacle)
-                          Namespaces:
-                            {}
-                          Topic:
-                            Depth: 5
-                            Durability Policy: Volatile
-                            History Policy: Keep Last
-                            Reliability Policy: Reliable
-                            Value: /planning/planning_factors/surround_obstacle_checker
-                          Show Safety Factors: false
-                          show_safety_factors: false
-                          Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
-                          Enabled: true
-                          Name: PlanningFactor(ObstacleStop)
-                          Namespaces:
-                            {}
-                          Topic:
-                            Depth: 5
-                            Durability Policy: Volatile
-                            History Policy: Keep Last
-                            Reliability Policy: Reliable
-                            Value: /planning/planning_factors/obstacle_stop
-                          Show Safety Factors: false
-                          show_safety_factors: false
-                          Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
-                          Enabled: true
-                          Name: PlanningFactor(ObstacleSlowDown)
-                          Namespaces:
-                            {}
-                          Topic:
-                            Depth: 5
-                            Durability Policy: Volatile
-                            History Policy: Keep Last
-                            Reliability Policy: Reliable
-                            Value: /planning/planning_factors/obstacle_slow_down
-                          Show Safety Factors: false
-                          show_safety_factors: false
-                          Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
-                          Enabled: true
-                          Name: PlanningFactor(ObstacleCruise)
-                          Namespaces:
-                            {}
-                          Topic:
-                            Depth: 5
-                            Durability Policy: Volatile
-                            History Policy: Keep Last
-                            Reliability Policy: Reliable
-                            Value: /planning/planning_factors/obstacle_cruise
-                          Show Safety Factors: false
-                          show_safety_factors: false
-                          Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
-                          Enabled: true
-                          Name: PlanningFactor(OutOfLane)
-                          Namespaces:
-                            {}
-                          Topic:
-                            Depth: 5
-                            Durability Policy: Volatile
-                            History Policy: Keep Last
-                            Reliability Policy: Reliable
-                            Value: /planning/planning_factors/out_of_lane
-                          Show Safety Factors: false
-                          show_safety_factors: false
-                          Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
-                          Enabled: true
-                          Name: PlanningFactor(DynamicObstacleStop)
-                          Namespaces:
-                            {}
-                          Topic:
-                            Depth: 5
-                            Durability Policy: Volatile
-                            History Policy: Keep Last
-                            Reliability Policy: Reliable
-                            Value: /planning/planning_factors/dynamic_obstacle_stop
-                          Show Safety Factors: false
-                          show_safety_factors: false
-                          Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
-                          Enabled: true
-                          Name: PlanningFactor(RunOut)
-                          Namespaces:
-                            {}
-                          Topic:
-                            Depth: 5
-                            Durability Policy: Volatile
-                            History Policy: Keep Last
-                            Reliability Policy: Reliable
-                            Value: /planning/planning_factors/run_out
-                          Show Safety Factors: false
-                          show_safety_factors: false
-                          Value: true
-                        - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
-                          Enabled: true
-                          Name: PlanningFactor(RoadUserStop)
-                          Namespaces:
-                            {}
-                          Topic:
-                            Depth: 5
-                            Durability Policy: Volatile
-                            History Policy: Keep Last
-                            Reliability Policy: Reliable
-                            Value: /planning/planning_factors/road_user_stop
-                          Show Safety Factors: false
-                          show_safety_factors: false
-                          Value: true
-                      Enabled: true
-                      Name: PlanningFactor
                   Enabled: true
                   Name: MotionPlanning
               Enabled: true
@@ -2159,38 +2052,6 @@ Visualization Manager:
                     Reliability Policy: Reliable
                     Value: /planning/planning_validator/output/markers
                   Value: false
-                - Class: rviz_common/Group
-                  Displays:
-                    - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
-                      Enabled: true
-                      Name: PlanningFactor(RearCollisionChecker)
-                      Namespaces:
-                        {}
-                      Topic:
-                        Depth: 5
-                        Durability Policy: Volatile
-                        History Policy: Keep Last
-                        Reliability Policy: Reliable
-                        Value: /planning/planning_factors/rear_collision_checker
-                      Value: true
-                      Show Safety Factors: false
-                      show_safety_factors: false
-                    - Class: tier4_planning_factor_rviz_plugin/PlanningFactorRvizPlugin
-                      Enabled: true
-                      Name: PlanningFactor(IntersectionCollisionChecker)
-                      Namespaces:
-                        {}
-                      Topic:
-                        Depth: 5
-                        Durability Policy: Volatile
-                        History Policy: Keep Last
-                        Reliability Policy: Reliable
-                        Value: /planning/planning_factors/intersection_collision_checker
-                      Value: true
-                      Show Safety Factors: false
-                      show_safety_factors: false
-                  Enabled: true
-                  Name: PlanningFactor
               Enabled: true
               Name: PlanningValidator
           Enabled: false
@@ -2456,7 +2317,6 @@ Visualization Manager:
                           DynamicObstacleAvoidance: true
                           GoalPlanner: true
                           Intersection: true
-                          Roundabout: true
                           LaneFollowing: true
                           LeftLaneChange: true
                           NoDrivableLane: true
@@ -2498,35 +2358,30 @@ Visualization Manager:
                         PathReference_LaneChangeRight: true
                         PathReference_StartPlanner: true
                         Value: true
-                        PlanningFactor:
+                        VirtualWall:
                           Value: true
-                          PlanningFactor (StaticObstacleAvoidance): true
-                          PlanningFactor (AvoidanceByLC): true
-                          PlanningFactor (LaneChangeRight): true
-                          PlanningFactor (LaneChangeLeft): true
-                          PlanningFactor (ExtLaneChangeRight): true
-                          PlanningFactor (ExtLaneChangeLeft): true
-                          PlanningFactor (GoalPlanner): true
-                          PlanningFactor (StartPlanner): true
-                          PlanningFactor (BidirectionalTraffic): true
-                          PlanningFactor (BlindSpot): true
-                          PlanningFactor (Crosswalk): true
-                          PlanningFactor (Walkway): true
-                          PlanningFactor (DetectionArea): true
-                          PlanningFactor (Intersection): true
-                          PlanningFactor (IntersectionOcclusion): true
-                          PlanningFactor (MergeFromPrivateArea): true
-                          PlanningFactor (NoStoppingArea): true
-                          PlanningFactor (OcclusionSpot): true
-                          PlanningFactor (StopLine): true
-                          PlanningFactor (TrafficLight): true
-                          PlanningFactor (VirtualTrafficLight): true
-                          PlanningFactor (RunOut): true
-                          PlanningFactor (SpeedBump): true
-                          PlanningFactor (NoDrivableLane): true
-                          PlanningFactor (SideShift): true
-                          PlanningFactor (DynamicObstacleAvoidance): true
-                          PlanningFactor (BehaviorPathPlanner): true
+                          VirtualWall (StaticObstacleAvoidance): true
+                          VirtualWall (AvoidanceByLC): true
+                          VirtualWall (BlindSpot): true
+                          VirtualWall (Crosswalk): true
+                          VirtualWall (DetectionArea): true
+                          VirtualWall (ExtLaneChangeLeft): true
+                          VirtualWall (ExtLaneChangeRight): true
+                          VirtualWall (GoalPlanner): true
+                          VirtualWall (Intersection): true
+                          VirtualWall (LaneChangeLeft): true
+                          VirtualWall (LaneChangeRight): true
+                          VirtualWall (MergeFromPrivateArea): true
+                          VirtualWall (NoDrivableLane): true
+                          VirtualWall (NoStoppingArea): true
+                          VirtualWall (OcclusionSpot): true
+                          VirtualWall (RunOut): true
+                          VirtualWall (SpeedBump): true
+                          VirtualWall (StartPlanner): true
+                          VirtualWall (StopLine): true
+                          VirtualWall (TrafficLight): true
+                          VirtualWall (VirtualTrafficLight): true
+                          VirtualWall (Walkway): true
                       MotionPlanning:
                         DebugMarker:
                           ObstacleAvoidance: true
@@ -2547,19 +2402,10 @@ Visualization Manager:
                         Value: true
                         VirtualWall:
                           Value: true
-                          VirtualWall (MotionVelocitySmoother): true
-                          VirtualWall (ObstacleVelocityLimiter): true
-                          VirtualWall (BoundaryDeparturePrevention): true
-                        PlanningFactor:
-                          Value: true
-                          PlanningFactor (SurroundObstacle): true
-                          PlanningFactor (ObstacleStop): true
-                          PlanningFactor (ObstacleSlowDown): true
-                          PlanningFactor (ObstacleCruise): true
-                          PlanningFactor (OutOfLane): true
-                          PlanningFactor (DynamicObstacleStop): true
-                          PlanningFactor (RunOut): true
-                          PlanningFactor (RoadUserStop): true
+                          VirtualWall (ObstacleAvoidance): true
+                          VirtualWall (ObstacleCruise): true
+                          VirtualWall (ObstacleStop): true
+                          VirtualWall (SurroundObstacle): true
                       Value: true
                     ModifiedGoal: true
                     Parking:
@@ -3476,18 +3322,6 @@ Visualization Manager:
                     Value: true
                   - Class: rviz_default_plugins/MarkerArray
                     Enabled: true
-                    Name: Roundabout
-                    Namespaces:
-                      {}
-                    Topic:
-                      Depth: 5
-                      Durability Policy: Volatile
-                      History Policy: Keep Last
-                      Reliability Policy: Reliable
-                      Value: /planning/debug/objects_of_interest/roundabout
-                    Value: true
-                  - Class: rviz_default_plugins/MarkerArray
-                    Enabled: true
                     Name: BlindSpot
                     Namespaces:
                       {}
@@ -3698,18 +3532,6 @@ Visualization Manager:
                     Value: false
                   - Class: rviz_default_plugins/MarkerArray
                     Enabled: true
-                    Name: Roundabout
-                    Namespaces:
-                      {}
-                    Topic:
-                      Depth: 5
-                      Durability Policy: Volatile
-                      History Policy: Keep Last
-                      Reliability Policy: Reliable
-                      Value: /planning/scenario_planning/lane_driving/behavior_planning/behavior_velocity_planner/debug/roundabout
-                    Value: false
-                  - Class: rviz_default_plugins/MarkerArray
-                    Enabled: true
                     Name: Blind Spot
                     Namespaces:
                       {}
@@ -3791,6 +3613,18 @@ Visualization Manager:
                       History Policy: Keep Last
                       Reliability Policy: Reliable
                       Value: /planning/scenario_planning/lane_driving/behavior_planning/behavior_velocity_planner/debug/no_stopping_area
+                    Value: false
+                  - Class: rviz_default_plugins/MarkerArray
+                    Enabled: false
+                    Name: RunOut
+                    Namespaces:
+                      {}
+                    Topic:
+                      Depth: 5
+                      Durability Policy: Volatile
+                      History Policy: Keep Last
+                      Reliability Policy: Reliable
+                      Value: /planning/scenario_planning/lane_driving/behavior_planning/behavior_velocity_planner/debug/run_out
                     Value: false
                   - Class: rviz_default_plugins/MarkerArray
                     Enabled: true

@@ -32,6 +32,5 @@
 
   <export>
     <build_type>ament_cmake</build_type>
-    <autoware_guideline_check file="test/autoware_guideline_check.yaml"/>
   </export>
 </package>

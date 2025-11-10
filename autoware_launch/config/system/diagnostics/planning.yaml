@@ -1,6 +1,6 @@
 units:
   - path: /autoware/planning
-    type: and
+    type: short-circuit-and
     list:
       - type: link
         link: /autoware/planning/routing/state

@@ -17,6 +17,15 @@ Changelog for package common_awsim_labs_sensor_launch
   ---------
 * Contributors: Yi-Hsiang Fang (Vivid), github-actions
 
+0.45.3 (2025-07-17)
+-------------------
+
+0.45.2 (2025-06-28)
+-------------------
+
+0.45.1 (2025-06-27)
+-------------------
+
 0.45.0 (2025-05-22)
 -------------------
 * Merge remote-tracking branch 'origin/main' into tmp/bot/bump_version_base

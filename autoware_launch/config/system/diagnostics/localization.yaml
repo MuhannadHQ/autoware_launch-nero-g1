@@ -1,6 +1,6 @@
 units:
   - path: /autoware/localization
-    type: and
+    type: short-circuit-and
     list:
       - type: link
         link: /autoware/localization/state

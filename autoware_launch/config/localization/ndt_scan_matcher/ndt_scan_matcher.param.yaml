@@ -17,7 +17,7 @@
 
       # Required distance of input sensor points. [m]
       # If the max distance of input sensor points is lower than this value, the scan matching will not be performed.
-      required_distance: 10.0
+      required_distance: 8.0
 
 
     ndt:
