@@ -6,37 +6,25 @@
 
     <!-- Switch topic name -->
     <let name="navsatfix_topic_name" value="xsens/nav_sat_fix"/>
-    <let name="orientation_topic_name" value="/autoware_orientation"/>
+    <let name="orientation_topic_name" value="xsens/autoware_orientation"/>
 
       <push-ros-namespace namespace="xsens"/>
       <!-- Xsens GNSS + RTK -->
-      <group if="$(eval &quot;'$(var launch_driver)'">
+      <group if="$(eval &quot;$(var launch_driver)&quot;)">
 
         <node pkg="xsens_mti_ros2_driver" exec="xsens_mti_node" name="xsens_mti_node" respawn="true">
           <param from="$(find-pkg-share xsens_mti_ros2_driver)/param/xsens_mti_node.yaml"/>
-          <remap from="/gnss" to="xsens/nav_sat_fix"/>
+          <remap from="gnss" to="nav_sat_fix"/>
         </node>
         <!-- ntrip Client -->
         <include file="$(find-pkg-share ntrip)/launch/ntrip_launch.py"/>
+
+        <!-- XSens GNSS Bridge -->
+        <include file="$(find-pkg-share xsens_gnss_bridge)/launch/xsens_gnss_bridge.launch.xml">
+          <arg name="launch_driver" value="$(var launch_driver)"/>
+        </include>
+
       </group>
-    
-    <!-- GNSS-INS Converter Node -->
-    <!-- <node pkg="gnss_ins_converter"
-          exec="converter_node"
-          name="gnss_ins_converter"
-          output="screen"> -->
-
-      <!-- Optional parameters -->
-      <!-- <param name="rmse_x" value="0.01"/>
-      <param name="rmse_y" value="0.01"/>
-      <param name="rmse_z" value="0.02"/>
-    </node> -->
-
-    <!-- GNSS Twist Converter Node -->
-    <!-- <node pkg="gnss_twist_convertor"
-          exec="gnss_twist_convertor"
-          name="gnss_twist_convertor"
-          output="screen"/> -->
 
     <!-- NavSatFix to MGRS Pose -->
     <include file="$(find-pkg-share autoware_gnss_poser)/launch/gnss_poser.launch.xml">
@@ -51,4 +39,24 @@
      </include>
 
   </group>
+
+  <!-- IMU corrector -->
+  <group>
+    <push-ros-namespace namespace="imu"/>
+
+    <arg name="imu_raw_name" default="/sensing/gnss/xsens/imu/data"/>
+    <arg name="imu_corrector_param_file" default="$(find-pkg-share e1r_sensor_kit_description)/config/imu_corrector.param.yaml"/>
+    <include file="$(find-pkg-share autoware_imu_corrector)/launch/imu_corrector.launch.xml">
+      <arg name="input_topic" value="$(var imu_raw_name)"/>
+      <arg name="output_topic" value="imu_data"/>
+      <arg name="param_file" value="$(var imu_corrector_param_file)"/>
+    </include>
+
+    <include file="$(find-pkg-share autoware_imu_corrector)/launch/gyro_bias_estimator.launch.xml">
+      <arg name="input_imu_raw" value="$(var imu_raw_name)"/>
+      <arg name="input_odom" value="/localization/kinematic_state"/>
+      <arg name="imu_corrector_param_file" value="$(var imu_corrector_param_file)"/>
+    </include>
+  </group>
+
 </launch>
