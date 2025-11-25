@@ -10,7 +10,7 @@
   <arg name="model" default="Bpearl"/>
   <arg name="max_range" default="30.0"/>
   <arg name="min_range" default="0.4"/>
-  <arg name="sensor_frame" default="e1rlidar"/>
+  <arg name="sensor_frame" default="rslidar"/>
   <arg name="return_mode" default="SingleStrongest"/>
   <arg name="sensor_ip" default="192.168.1.200"/>
   <arg name="host_ip" default="255.255.255.255"/>
@@ -27,9 +27,11 @@
   <group>
     <push-ros-namespace namespace="lidar"/>
 
-    <!-- E1R Driver -->
+    <!-- E1R Driver 
     <include file="$(find-pkg-share rslidar_sdk)/launch/start.py">
-    </include>
+    </include>  -->
+
+    <include file="$(find-pkg-share ac_driver)/launch/start.py"/>
 
     <!-- Lidar Convertor Driver -->
     <node pkg="lidar_pointcloud_converter_cpp"

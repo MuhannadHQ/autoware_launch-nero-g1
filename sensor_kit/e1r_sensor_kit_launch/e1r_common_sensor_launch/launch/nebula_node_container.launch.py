@@ -207,7 +207,7 @@ def launch_setup(context, *args, **kwargs):
                 ("~/input/twist", "/sensing/vehicle_velocity_converter/twist_with_covariance"),
                 ("~/input/imu", "/sensing/imu/imu_data"),
                 ("~/input/pointcloud", "mirror_cropped/pointcloud_ex"),
-                ("~/output/pointcloud", "rectified/pointcloud_ex"),
+                ("~/output/pointcloud", "rectified/pointcloud_ex_old"),
             ],
             parameters=[distortion_corrector_node_param],
             extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
@@ -225,7 +225,7 @@ def launch_setup(context, *args, **kwargs):
             plugin="autoware::pointcloud_preprocessor::RingOutlierFilterComponent",
             name="ring_outlier_filter",
             remappings=[
-                ("input", "rectified/pointcloud_ex"),
+                ("input", "mirror_cropped/pointcloud_ex"),
                 ("output", "concatenated/pointcloud"),
             ],
             parameters=[ring_outlier_filter_node_param, ring_outlier_output_frame],

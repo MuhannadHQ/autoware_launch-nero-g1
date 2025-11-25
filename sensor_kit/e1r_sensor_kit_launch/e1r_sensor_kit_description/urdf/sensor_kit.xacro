@@ -23,8 +23,32 @@
     <!-- sensor -->
     <xacro:property name="calibration" value="${xacro.load_yaml('$(arg config_dir)/sensor_kit_calibration.yaml')}"/>
 
-    <!-- lidar -->
+    <!-- lidar 
     <xacro:VLS-128 parent="sensor_kit_base_link" name="e1rlidar" topic="/e1r_lidar_points" hz="10" samples="220" gpu="$(arg gpu)">
+      <origin
+        xyz="${calibration['sensor_kit_base_link']['e1rlidar_base_link']['x']}
+             ${calibration['sensor_kit_base_link']['e1rlidar_base_link']['y']}
+             ${calibration['sensor_kit_base_link']['e1rlidar_base_link']['z']}"
+        rpy="${calibration['sensor_kit_base_link']['e1rlidar_base_link']['roll']}
+             ${calibration['sensor_kit_base_link']['e1rlidar_base_link']['pitch']}
+             ${calibration['sensor_kit_base_link']['e1rlidar_base_link']['yaw']}"
+      />
+    </xacro:VLS-128> -->
+
+    <!-- lidar -->
+    <xacro:VLS-128 parent="sensor_kit_base_link" name="rslidar" topic="/sensing/lidar/pointcloud_raw_ex" hz="10" samples="220" gpu="$(arg gpu)">
+      <origin
+        xyz="${calibration['sensor_kit_base_link']['rslidar_base_link']['x']}
+             ${calibration['sensor_kit_base_link']['rslidar_base_link']['y']}
+             ${calibration['sensor_kit_base_link']['rslidar_base_link']['z']}"
+        rpy="${calibration['sensor_kit_base_link']['rslidar_base_link']['roll']}
+             ${calibration['sensor_kit_base_link']['rslidar_base_link']['pitch']}
+             ${calibration['sensor_kit_base_link']['rslidar_base_link']['yaw']}"
+      />
+    </xacro:VLS-128>
+
+    <!-- lidar -->
+    <xacro:VLS-128 parent="sensor_kit_base_link" name="e1rlidar" topic="/sensing/lidar/pointcloud_raw_ex" hz="10" samples="220" gpu="$(arg gpu)">
       <origin
         xyz="${calibration['sensor_kit_base_link']['e1rlidar_base_link']['x']}
              ${calibration['sensor_kit_base_link']['e1rlidar_base_link']['y']}

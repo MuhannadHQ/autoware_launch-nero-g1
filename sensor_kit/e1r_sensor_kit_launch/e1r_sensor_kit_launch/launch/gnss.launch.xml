@@ -59,7 +59,7 @@
   <!-- IMU corrector -->
   <group>
     <push-ros-namespace namespace="imu"/>
-    <arg name="imu_raw_name" default="/sensing/gnss/imu/data"/>
+    <arg name="imu_raw_name" default="/rs_imu"/>
     <arg name="imu_corrector_param_file" default="$(find-pkg-share e1r_sensor_kit_description)/config/imu_corrector.param.yaml"/>
     <include file="$(find-pkg-share autoware_imu_corrector)/launch/imu_corrector.launch.xml">
       <arg name="input_topic" value="$(var imu_raw_name)"/>
