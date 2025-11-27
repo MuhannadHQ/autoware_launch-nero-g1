@@ -1,8 +1,8 @@
 sensor_kit_base_link:
   rslidar_base_link:
-    x: 1.03
+    x: 0.0
     y: 0.0
-    z: 1.23
+    z: 0.0
     roll: 0.0
     pitch: 0.0
     yaw: 0.0
@@ -14,6 +14,13 @@ sensor_kit_base_link:
     pitch: 0.0
     yaw: 0.0
   imu_link:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    roll: 0.0
+    pitch: 0.0
+    yaw: 0.0
+  camera0/camera_link:
     x: 0.0
     y: 0.0
     z: 0.0
