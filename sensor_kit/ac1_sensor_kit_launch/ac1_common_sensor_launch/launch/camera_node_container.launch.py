@@ -26,7 +26,7 @@ import yaml
 
 def launch_setup(context, *args, **kwargs):
 
-    output_topic= LaunchConfiguration("output_topic").perform(context)
+    #output_topic= LaunchConfiguration("output_topic").perform(context)
 
     image_name = LaunchConfiguration("input_image").perform(context)
     camera_container_name = LaunchConfiguration("camera_container_name").perform(context)

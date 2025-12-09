@@ -14,6 +14,4 @@
     pitch="${calibration['base_link']['sensor_kit_base_link']['pitch']}"
     yaw="${calibration['base_link']['sensor_kit_base_link']['yaw']}"
   />
-
-  </xacro:VLP-16>
 </robot>
