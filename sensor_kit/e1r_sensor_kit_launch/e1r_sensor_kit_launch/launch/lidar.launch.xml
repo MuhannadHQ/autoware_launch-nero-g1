@@ -5,7 +5,7 @@
   <arg name="vehicle_id" default="$(env VEHICLE_ID default)"/>
   <arg name="vehicle_mirror_param_file"/>
   <arg name="pointcloud_container_name" default="pointcloud_container"/>
-  <arg name="lidar_raw_topic" default="/rs_lidar/points" description="LiDAR raw topic" />
+  <arg name="lidar_raw_topic" default="/e1r_lidar_points" description="LiDAR raw topic" />
 
   <!-- Parameters for Nebula Container  -->
   <arg name="model" default="Bpearl"/>

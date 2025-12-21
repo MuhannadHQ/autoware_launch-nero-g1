@@ -35,7 +35,7 @@
     # Navigation Parameters
     # Basic Navigation Functions
     common:
-      imu_rate: 50
+      imu_rate: 200
       gnss_rate: 5
       stop_judgment_threshold: 0.01
       slow_judgment_threshold: 0.278
