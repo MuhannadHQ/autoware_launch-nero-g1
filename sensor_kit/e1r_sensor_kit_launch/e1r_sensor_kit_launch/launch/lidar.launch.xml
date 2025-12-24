@@ -27,11 +27,12 @@
 
   <group>
     <push-ros-namespace namespace="lidar"/>
-
-    <!-- E1R Driver -->
-    <include file="$(find-pkg-share rslidar_sdk)/launch/start.py">
-    </include>
-
+    <group if="$(var launch_driver)">
+      <!-- E1R Driver -->
+      <include file="$(find-pkg-share rslidar_sdk)/launch/start.py">
+      </include>
+    </group>
+    
     <!-- Lidar Convertor Driver -->
     <node pkg="lidar_pointcloud_converter_cpp"
           exec="lidar_pointcloud_converter"

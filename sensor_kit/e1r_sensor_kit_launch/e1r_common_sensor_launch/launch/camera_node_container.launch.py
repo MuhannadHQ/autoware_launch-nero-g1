@@ -39,14 +39,14 @@ def generate_launch_description():
     context = LaunchContext()
     camera_param_path = os.path.join(
         FindPackageShare("lucid_vision_driver").perform(context),
-        "param/test.param.yaml"
+        "param/camera0.param.yaml"
     )
     with open(camera_param_path, "r") as f:
         camera_yaml_param = yaml.safe_load(f)["/**"]["ros__parameters"]
 
     container = ComposableNodeContainer(
-        name="camera_node_right",
-        namespace="/perception/object_detection",
+        name="camera0",
+        namespace="/sensing/camera",
         package="rclcpp_components",
         executable="component_container",
         composable_node_descriptions=[
@@ -75,13 +75,13 @@ def generate_launch_description():
                              }],
                 remappings=[
                     # remap raw image
-                    ("/lucid_vision/camera0/image", "image_raw"),
+                    ("/lucid_vision/camera_0/image", "image_raw"),
                     # remap rectified image
-                    ("/lucid_vision/camera0/image_rect", "image_rect_color"),
+                    ("/lucid_vision/camera_0/image_rect", "image_rect_color"),
                     # remap compressed image if needed
-                    ("/lucid_vision/camera0/image_compressed", "image_compressed"),
+                    ("/lucid_vision/camera_0/image_compressed", "image_compressed"),
                     # remap camera info
-                    ("/lucid_vision/camera0/camera_info", "camera_info"),
+                    ("/lucid_vision/camera_0/camera_info", "camera_info"),
                 ],
                 extra_arguments=[
                     {"use_intra_process_comms": True}
