@@ -79,7 +79,7 @@ def generate_launch_description():
                     # remap rectified image
                     ("/lucid_vision/camera_0/image_rect", "image_rect_color"),
                     # remap compressed image if needed
-                    ("/lucid_vision/camera_0/image_compressed", "image_compressed"),
+                    ("/lucid_vision/camera_0/image_compressed", "image_rect_color/compressed"),
                     # remap camera info
                     ("/lucid_vision/camera_0/camera_info", "camera_info"),
                 ],
