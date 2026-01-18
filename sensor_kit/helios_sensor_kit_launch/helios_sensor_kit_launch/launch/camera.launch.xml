@@ -1,0 +1,37 @@
+<launch>
+  <arg name="launch_driver" default="true"/>
+  <arg name="camera_type" default="camera0"/>
+
+  <group>
+    <push-ros-namespace namespace="camera"/>
+    
+      <push-ros-namespace namespace="camera0"/>
+
+        <group if="$(var launch_driver)">
+          <include file="$(find-pkg-share helios_common_sensor_launch)/launch/camera_node_container.launch.py">
+            <arg name="input_image" value="$(var camera_type)"/>
+            <arg name="camera_container_name" value="lucid_camera_container"/>
+            <arg name="use_multithread" value="$(var use_multithread)"/>
+          </include>
+        </group>
+
+    <group>
+      <push-ros-namespace namespace="traffic_light"/>
+
+      <!-- (usb_cam_node is assumed to have launched on logging PC) -->
+      <node pkg="topic_tools" exec="relay" name="tl_camera_info_relay" output="log">
+        <param name="input_topic" value="$(var camera_type)/camera_info"/>
+        <param name="output_topic" value="camera_info"/>
+        <param name="type" value="sensor_msgs/msg/CameraInfo"/>
+        <param name="reliability" value="best_effort"/>
+      </node>
+
+      <node pkg="topic_tools" exec="relay" name="tl_compressed_image_relay" output="log">
+        <param name="input_topic" value="$(var camera_type)/image_raw/compressed"/>
+        <param name="output_topic" value="image_raw/compressed"/>
+        <param name="type" value="sensor_msgs/msg/CompressedImage"/>
+        <param name="reliability" value="best_effort"/>
+      </node>
+    </group>
+  </group>
+</launch>

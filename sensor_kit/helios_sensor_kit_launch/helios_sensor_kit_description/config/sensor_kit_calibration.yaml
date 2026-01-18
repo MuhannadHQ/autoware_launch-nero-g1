@@ -1,0 +1,35 @@
+sensor_kit_base_link:
+  camera0/camera_link:
+    x: 1.053
+    y: 0.1
+    z: 1.0
+    roll: 0.0
+    pitch: 0.0
+    yaw: 0.0
+  
+  # AC1 Lidar
+  rslidar_base_link:
+    x: 1.074
+    y: -0.022
+    z: 1.033
+    roll: 0.0
+    pitch: 0.0
+    yaw: 0.0
+
+  # E1R Lidar
+  e1rlidar_base_link:
+    x: 1.163
+    y: -0.03
+    z: 0.312
+    roll: 0.0
+    pitch: 0.0
+    yaw: 0.0
+
+  # XSens GNSS
+  imu_link:
+    x: 0.957
+    y: 0.176
+    z: 0.517
+    roll: 0.0
+    pitch: 0.0
+    yaw: 0.0

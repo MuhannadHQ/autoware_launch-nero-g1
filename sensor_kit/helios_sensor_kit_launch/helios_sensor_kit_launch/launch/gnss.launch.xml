@@ -1,0 +1,81 @@
+<launch>
+  <arg name="launch_driver" default="true"/>
+
+  <group>
+    <push-ros-namespace namespace="gnss"/>
+
+    <!-- Switch topic name -->
+    <let name="navsatfix_topic_name" value="nav_sat_fix"/>
+    <let name="orientation_topic_name" value="autoware_orientation"/>
+
+      <group>
+
+        <group if="$(var launch_driver)">
+
+          <!-- Xsens GNSS + RTK -->
+          <node pkg="xsens_mti_ros2_driver" exec="xsens_mti_node" name="xsens_mti_node" respawn="true">
+            <param from="$(find-pkg-share xsens_mti_ros2_driver)/param/xsens_mti_node.yaml"/>
+            
+            <remap from="/filter/free_acceleration" to="filter/free_acceleration"/>
+            <remap from="/filter/positionlla" to="filter/positionlla"/>
+            <remap from="/filter/quaternion" to="filter/quaternion"/>
+            <remap from="/filter/euler" to="filter/euler"/>
+            <remap from="/filter/twist" to="filter/twist"/>
+            <remap from="/filter/velocity" to="filter/velocity"/>
+            <remap from="/gnss" to="nav_sat_fix"/>
+            <remap from="/gnss_pose" to="gnss_pose"/>
+            <remap from="/imu/acceleration" to="imu/acceleration"/>
+            <remap from="/imu/angular_velocity" to="imu/angular_velocity"/>
+            <remap from="/imu/data" to="imu/data"/>
+            <remap from="/imu/mag" to="imu/mag"/>
+            <remap from="/imu/time_ref" to="imu/time_ref"/>
+            <remap from="/nmea" to="nmea"/>
+            <remap from="/pressure" to="pressure"/>
+            <remap from="/status" to="status"/>
+            <remap from="/temperature" to="temperature"/>
+          </node>
+        
+          <!-- ntrip Client -->
+          <include file="$(find-pkg-share ntrip)/launch/ntrip_launch.py"/>
+        </group>
+        <!-- XSens GNSS Bridge -->
+        <include file="$(find-pkg-share xsens_gnss_bridge)/launch/xsens_gnss_bridge.launch.xml">
+          <arg name="launch_driver" value="$(var launch_driver)"/>
+        </include>
+
+      </group>
+
+    <!-- NavSatFix to MGRS Pose -->
+    <include file="$(find-pkg-share autoware_gnss_poser)/launch/gnss_poser.launch.xml">
+      <arg name="input_topic_fix" value="$(var navsatfix_topic_name)"/>
+      <arg name="input_topic_orientation" value="$(var orientation_topic_name)"/>
+
+      <arg name="output_topic_gnss_pose" value="pose"/>
+      <arg name="output_topic_gnss_pose_cov" value="pose_with_covariance"/>
+      <arg name="output_topic_gnss_fixed" value="fixed"/>
+
+      <arg name="use_gnss_ins_orientation" value="true"/>
+     </include>
+
+  </group>
+
+  <!-- IMU corrector -->
+  <group>
+    <push-ros-namespace namespace="imu"/>
+    <arg name="imu_raw_name" default="/sensing/gnss/imu/data"/>
+    <arg name="imu_corrector_param_file" default="$(find-pkg-share helios_sensor_kit_description)/config/imu_corrector.param.yaml"/>
+    <include file="$(find-pkg-share autoware_imu_corrector)/launch/imu_corrector.launch.xml">
+      <arg name="input_topic" value="$(var imu_raw_name)"/>
+      <arg name="output_topic" value="imu_data"/>
+      <arg name="param_file" value="$(var imu_corrector_param_file)"/>
+    </include>
+    <!--
+    <include file="$(find-pkg-share autoware_imu_corrector)/launch/gyro_bias_estimator.launch.xml">
+      <arg name="input_imu_raw" value="$(var imu_raw_name)"/>
+      <arg name="input_odom" value="/localization/kinematic_state"/>
+      <arg name="imu_corrector_param_file" value="$(var imu_corrector_param_file)"/>
+    </include>
+    -->
+  </group>
+
+</launch>
