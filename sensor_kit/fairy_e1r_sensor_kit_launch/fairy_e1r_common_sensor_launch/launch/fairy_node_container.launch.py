@@ -20,7 +20,7 @@ from launch_ros.descriptions import ComposableNode
 
 
 def launch_setup(context, *args, **kwargs):
-    pkg_dir = get_package_share_directory("fairy_common_sensor_launch")
+    pkg_dir = get_package_share_directory("fairy_e1r_common_sensor_launch")
     cropbox_param_file = os.path.join(pkg_dir, "config", "crop_box_filter_self.param.yaml")
 
     driver_params = {
