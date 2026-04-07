@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <arg name="vehicle_id" default="$(env VEHICLE_ID default)"/>
+
+  <!-- YHS Dummy Vehicle -->
+  <include file="$(find-pkg-share yhs_dummy_vehicle)/launch/dummy_vehicle.launch.py">
+  </include> 
+
+</launch>

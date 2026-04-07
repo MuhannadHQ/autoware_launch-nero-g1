@@ -1,0 +1,26 @@
+sensor_kit_base_link:
+  camera0/camera_link:
+    x: 0.072836
+    y: 0.024726
+    z: -0.569802
+    roll: 1.581131
+    pitch: -0.052355
+    yaw: 1.734129
+  
+  # Fairy Lidar
+  fairy_base_link:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    roll: 0.0 
+    pitch: 0.0 
+    yaw: 0.0
+
+  # XSens GNSS
+  imu_link:
+    x: 0.45
+    y: -0.035
+    z: -0.639
+    roll: 0.0
+    pitch: 0.0
+    yaw: 0.0

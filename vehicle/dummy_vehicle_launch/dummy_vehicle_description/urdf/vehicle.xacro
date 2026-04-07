@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   <!-- load parameter -->
-  <xacro:property name="vehicle_info" value="${xacro.load_yaml('$(find nero_vehicle_description)/config/vehicle_info.param.yaml')}"/>
+  <xacro:property name="vehicle_info" value="${xacro.load_yaml('$(find dummy_vehicle_description)/config/vehicle_info.param.yaml')}"/>
 
   <!-- vehicle body -->
   <link name="base_link">
     <visual>
       <origin xyz="${vehicle_info['/**']['ros__parameters']['rear_overhang']*-1} ${vehicle_info['/**']['ros__parameters']['wheel_tread']/-2 - vehicle_info['/**']['ros__parameters']['right_overhang']} 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://nero_vehicle_description/mesh/whill_vehicle.dae" scale="0.002 0.0015 0.0015"/>
+        <mesh filename="package://dummy_vehicle_description/mesh/whill_vehicle.dae" scale="0.002 0.0015 0.0015"/>
       </geometry>
     </visual>
   </link>
