@@ -132,7 +132,7 @@ def generate_launch_description():
         DeclareLaunchArgument("sensor_ip", default_value="192.168.1.204"),
         DeclareLaunchArgument("msop_port", default_value="6655"),
         DeclareLaunchArgument("difop_port", default_value="7744"),
-        DeclareLaunchArgument("imu_port", default_value="6644"),
+        DeclareLaunchArgument("imu_port", default_value="8844"),
         DeclareLaunchArgument("frame_id", default_value="airy_right"),
         DeclareLaunchArgument("return_mode", default_value="Strongest"),
         DeclareLaunchArgument("receive_buffer_size", default_value="4194304"),
