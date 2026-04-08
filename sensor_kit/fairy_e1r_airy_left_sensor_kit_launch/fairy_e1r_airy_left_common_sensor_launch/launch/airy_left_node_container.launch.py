@@ -136,8 +136,8 @@ def generate_launch_description():
         DeclareLaunchArgument("frame_id", default_value="airy_left"),
         DeclareLaunchArgument("return_mode", default_value="Strongest"),
         DeclareLaunchArgument("receive_buffer_size", default_value="4194304"),
-        DeclareLaunchArgument("input_frame", default_value="sensor_kit_base_link"),
-        DeclareLaunchArgument("output_frame", default_value="sensor_kit_base_link"),
+        DeclareLaunchArgument("input_frame", default_value="base_link"),
+        DeclareLaunchArgument("output_frame", default_value="base_link"),
     ]
 
     return LaunchDescription(

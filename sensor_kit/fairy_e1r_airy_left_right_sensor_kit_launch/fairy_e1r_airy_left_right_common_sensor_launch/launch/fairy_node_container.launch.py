@@ -20,7 +20,7 @@ from launch_ros.descriptions import ComposableNode
 
 
 def launch_setup(context, *args, **kwargs):
-    pkg_dir = get_package_share_directory("fairy_e1r_airy_left_common_sensor_launch")
+    pkg_dir = get_package_share_directory("fairy_e1r_airy_left_right_common_sensor_launch")
     cropbox_param_file = os.path.join(pkg_dir, "config", "crop_box_filter_self.param.yaml")
 
     driver_params = {
@@ -82,8 +82,8 @@ def generate_launch_description():
         DeclareLaunchArgument("difop_port", default_value="7766"),
         DeclareLaunchArgument("frame_id", default_value="fairy"),
         DeclareLaunchArgument("return_mode", default_value="Strongest"),
-        DeclareLaunchArgument("input_frame", default_value="sensor_kit_base_link"),
-        DeclareLaunchArgument("output_frame", default_value="sensor_kit_base_link"),
+        DeclareLaunchArgument("input_frame", default_value="base_link"),
+        DeclareLaunchArgument("output_frame", default_value="base_link"),
     ]
 
     return LaunchDescription(

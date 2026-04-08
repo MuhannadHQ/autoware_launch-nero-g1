@@ -28,7 +28,7 @@ def _bool(value: str) -> bool:
 
 
 def launch_setup(context, *args, **kwargs):
-    pkg_dir = get_package_share_directory("fairy_e1r_airy_left_common_sensor_launch")
+    pkg_dir = get_package_share_directory("fairy_e1r_airy_left_right_common_sensor_launch")
     cropbox_param_file = os.path.join(pkg_dir, "config", "crop_box_filter_self.param.yaml")
 
     container_name = LaunchConfiguration("container_name").perform(context)
@@ -136,8 +136,8 @@ def generate_launch_description():
         DeclareLaunchArgument("frame_id", default_value="airy_left"),
         DeclareLaunchArgument("return_mode", default_value="Strongest"),
         DeclareLaunchArgument("receive_buffer_size", default_value="4194304"),
-        DeclareLaunchArgument("input_frame", default_value="sensor_kit_base_link"),
-        DeclareLaunchArgument("output_frame", default_value="sensor_kit_base_link"),
+        DeclareLaunchArgument("input_frame", default_value="base_link"),
+        DeclareLaunchArgument("output_frame", default_value="base_link"),
     ]
 
     return LaunchDescription(
