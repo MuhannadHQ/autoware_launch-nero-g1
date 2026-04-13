@@ -2,9 +2,9 @@
   ros__parameters:
     negative: true
     min_x: -0.3
-    max_x: 1.9
-    min_y: -0.65
-    max_y: 0.65
+    max_x: 1.6
+    min_y: -0.55
+    max_y: 0.55
     min_z: -0.1
     max_z: 1.5
     processing_time_threshold_sec: 0.01
