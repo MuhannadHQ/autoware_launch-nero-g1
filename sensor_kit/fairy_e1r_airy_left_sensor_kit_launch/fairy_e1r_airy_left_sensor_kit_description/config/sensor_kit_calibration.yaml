@@ -18,22 +18,22 @@ sensor_kit_base_link:
 
   # E1R Lidar
   e1r_base_link:
-    x: 0.756634
-    y: 0.0832408
-    z: -0.843052
-    roll: -0.0230637
-    pitch: -0.0185876
-    yaw: 0.068822
+    x: 0.730976
+    y: 0.0187822
+    z: -0.906737
+    roll: -0.0137271
+    pitch: -0.00425854 
+    yaw: 0.0282072
 
   # Airy Lidar Left
   airy_left_base_link:
-    x: 0.0082942
-    y: 0.230527
-    z: -0.355334
-    roll: 0.100265
-    pitch: 1.63422
-    yaw: 1.81329
-
+    x: -0.0351711
+    y: 0.229565
+    z: -0.414868
+    roll: -1.47046
+    pitch: 1.58922
+    yaw: 0.119637
+    
   # XSens GNSS
   imu_link:
     x: 0.45
