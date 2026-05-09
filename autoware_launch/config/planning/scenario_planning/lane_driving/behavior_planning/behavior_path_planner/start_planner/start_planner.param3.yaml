@@ -19,7 +19,7 @@
         check_motorcycle: true
         check_pedestrian: true
         check_unknown: true
-      th_distance_to_middle_of_the_road: 2.0
+      th_distance_to_middle_of_the_road: 0.5
       center_line_path_interval: 1.0
       # shift pull out
       enable_shift_pull_out: true
@@ -40,8 +40,8 @@
       arc_path_interval: 1.0
       divide_pull_out_path: true
       geometric_pull_out_velocity: 1.0
-      lane_departure_margin: 0.5
-      lane_departure_check_expansion_margin: 0.3
+      lane_departure_margin: 0.2
+      lane_departure_check_expansion_margin: 0.0
       backward_velocity: -1.0
       geometric_pull_out_max_steer_angle_margin_scale: 0.72
       # search start pose backward
