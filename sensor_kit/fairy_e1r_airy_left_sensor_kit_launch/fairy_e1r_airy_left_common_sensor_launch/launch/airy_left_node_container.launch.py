@@ -28,8 +28,8 @@ def _bool(value: str) -> bool:
 
 
 def launch_setup(context, *args, **kwargs):
-    pkg_dir = get_package_share_directory("fairy_e1r_airy_left_right_common_sensor_launch")
-    cropbox_param_file = os.path.join(pkg_dir, "config", "crop_box_filter_self_left.param.yaml")
+    pkg_dir = get_package_share_directory("fairy_e1r_airy_left_common_sensor_launch")
+    cropbox_param_file = os.path.join(pkg_dir, "config", "crop_box_filter_self.param.yaml")
 
     container_name = LaunchConfiguration("container_name").perform(context)
     node_name = LaunchConfiguration("node_name").perform(context)
