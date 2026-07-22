@@ -1,51 +1,49 @@
 <launch>
   <arg name="launch_driver" default="true"/>
 
+  <!-- Top-level GNSS source selector.
+         xsens      : Xsens MTi provides BOTH GNSS and IMU (current default behavior).
+         septentrio : Septentrio mosaic-G5 provides GNSS; Xsens MTi provides IMU only. -->
+  <arg name="gnss_module" default="xsens" description="xsens or septentrio"/>
+
+  <!-- gnss_poser inputs. Both sources publish the same topic names in this
+       namespace, so the poser wiring below is identical for either module. -->
+  <let name="navsatfix_topic_name" value="nav_sat_fix"/>
+  <let name="orientation_topic_name" value="autoware_orientation"/>
+
+  <!-- =========================== GNSS + IMU source =========================== -->
+
+  <!-- Xsens: GNSS + IMU -->
+  <group if="$(eval &quot;'$(var gnss_module)'=='xsens'&quot;)">
+    <push-ros-namespace namespace="gnss"/>
+    <include file="$(find-pkg-share xsens_gnss_bridge)/launch/xsens_gnss_bridge.launch.py">
+      <arg name="launch_driver" value="$(var launch_driver)"/>
+      <arg name="mode" value="gnss_imu"/>
+    </include>
+  </group>
+
+  <!-- Septentrio: GNSS ; Xsens: IMU only -->
+  <group if="$(eval &quot;'$(var gnss_module)'=='septentrio'&quot;)">
+    <!-- Septentrio GNSS: publishes gnss/nav_sat_fix + gnss/autoware_orientation,
+         runs its own host NTRIP bridge and base_link->gnss_link TF. -->
+    <include file="$(find-pkg-share septentrio_gnss_bridge)/launch/septentrio_gnss.launch.xml">
+      <arg name="namespace" value="gnss"/>
+      <arg name="launch_driver" value="$(var launch_driver)"/>
+    </include>
+
+    <!-- Xsens IMU only: driver + IMU bridge, no GNSS/NTRIP publishers (no clash). -->
+    <group>
+      <push-ros-namespace namespace="gnss"/>
+      <include file="$(find-pkg-share xsens_gnss_bridge)/launch/xsens_gnss_bridge.launch.py">
+        <arg name="launch_driver" value="$(var launch_driver)"/>
+        <arg name="mode" value="imu_only"/>
+      </include>
+    </group>
+  </group>
+
+  <!-- ===================== Common: NavSatFix -> MGRS Pose ===================== -->
   <group>
     <push-ros-namespace namespace="gnss"/>
-
-    <!-- Switch topic name -->
-    <let name="navsatfix_topic_name" value="nav_sat_fix"/>
-    <let name="orientation_topic_name" value="autoware_orientation"/>
-
-      <group>
-
-        <group if="$(var launch_driver)">
-
-          <!-- Xsens GNSS + RTK -->
-          <node pkg="xsens_mti_ros2_driver" exec="xsens_mti_node" name="xsens_mti_node" respawn="true">
-            <param from="$(find-pkg-share xsens_mti_ros2_driver)/param/xsens_mti_node.yaml"/>
-            
-            <remap from="/filter/free_acceleration" to="filter/free_acceleration"/>
-            <remap from="/filter/positionlla" to="filter/positionlla"/>
-            <remap from="/filter/quaternion" to="filter/quaternion"/>
-            <remap from="/filter/euler" to="filter/euler"/>
-            <remap from="/filter/twist" to="filter/twist"/>
-            <remap from="/filter/velocity" to="filter/velocity"/>
-            <remap from="/gnss" to="nav_sat_fix"/>
-            <remap from="/gnss_pose" to="gnss_pose"/>
-            <remap from="/imu/acceleration" to="imu/acceleration"/>
-            <remap from="/imu/angular_velocity" to="imu/angular_velocity"/>
-            <remap from="/imu/data" to="imu/raw"/>
-            <remap from="/imu/mag" to="imu/mag"/>
-            <remap from="/imu/time_ref" to="imu/time_ref"/>
-            <remap from="/nmea" to="nmea"/>
-            <remap from="/pressure" to="pressure"/>
-            <remap from="/status" to="status"/>
-            <remap from="/temperature" to="temperature"/>
-          </node>
-        
-          <!-- ntrip Client -->
-          <include file="$(find-pkg-share ntrip)/launch/ntrip_launch.py"/>
-        </group>
-        <!-- XSens GNSS Bridge -->
-        <include file="$(find-pkg-share xsens_gnss_bridge)/launch/xsens_gnss_bridge.launch.xml">
-          <arg name="launch_driver" value="$(var launch_driver)"/>
-        </include>
-
-      </group>
-
-    <!-- NavSatFix to MGRS Pose -->
     <include file="$(find-pkg-share autoware_gnss_poser)/launch/gnss_poser.launch.xml">
       <arg name="input_topic_fix" value="$(var navsatfix_topic_name)"/>
       <arg name="input_topic_orientation" value="$(var orientation_topic_name)"/>
@@ -55,11 +53,10 @@
       <arg name="output_topic_gnss_fixed" value="fixed"/>
 
       <arg name="use_gnss_ins_orientation" value="true"/>
-     </include>
-
+    </include>
   </group>
 
-  <!-- IMU corrector -->
+  <!-- ========================= Common: IMU corrector ========================= -->
   <group>
     <push-ros-namespace namespace="imu"/>
     <arg name="imu_raw_name" default="/sensing/gnss/imu/data"/>
@@ -69,7 +66,6 @@
       <arg name="output_topic" value="imu_data"/>
       <arg name="param_file" value="$(var imu_corrector_param_file)"/>
     </include>
-
   </group>
 
 </launch>
