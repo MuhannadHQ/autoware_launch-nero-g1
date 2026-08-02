@@ -4,7 +4,7 @@
   <!-- Top-level GNSS source selector.
          xsens      : Xsens MTi provides BOTH GNSS and IMU (current default behavior).
          septentrio : Septentrio mosaic-G5 provides GNSS; Xsens MTi provides IMU only. -->
-  <arg name="gnss_module" default="xsens" description="xsens or septentrio"/>
+  <arg name="gnss_module" default="septentrio" description="xsens or septentrio"/>
 
   <!-- gnss_poser inputs. Both sources publish the same topic names in this
        namespace, so the poser wiring below is identical for either module. -->
