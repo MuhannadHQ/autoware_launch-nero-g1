@@ -1,0 +1,53 @@
+<launch>
+  <!-- ======================================================================
+       SENSING SG3S-ISX031C-GMSL2F cameras on the SG10A-AGON-G2M adapter.
+
+       DRIVER ONLY. This starts the cameras and publishes
+         /sensing/camera/<name>/image_raw             (yuv422)
+         /sensing/camera/<name>/image_raw/compressed  (jpeg)
+         /sensing/camera/<name>/camera_info
+       and nothing else - no rectification, no detection, no fusion.
+
+       TF: published by fairy_e1r_airy_left_right_sensor_kit_description, NOT
+       by this driver. sensor_kit.xacro already instantiates
+       monocular_camera_macro with name="camera0/camera", which creates
+       camera0/camera_link and camera0/camera_optical_link (the standard
+       -pi/2, 0, -pi/2 mount->optical rotation), using the calibrated pose in
+       config/sensor_kit_calibration.yaml. The driver stamps
+       camera0/camera_optical_link, so the two already agree.
+
+       Prerequisite: /dev/video* must exist. That is the job of
+       nero-jetson-setup/scripts/setup_sensing_cameras.sh (master step 6).
+         ls /dev/video*
+         sudo dmesg | grep -E '/dev/video[0-9]+ is'
+       ====================================================================== -->
+
+  <arg name="launch_driver" default="true" description="do launch driver"/>
+
+  <arg name="cameras" default="camera0"
+       description="Comma-separated camera names, or empty for every camera
+                    marked enabled in cameras.yaml. Default is camera0 only --
+                    the front wide-FOV camera Autoware and TF++ consume."/>
+
+  <arg name="camera_config_file"
+       default="$(find-pkg-share sensing_camera)/config/cameras.yaml"
+       description="Camera map: names, devices, containers, rates."/>
+
+  <arg name="camera_calibration_directory"
+       default="$(find-pkg-share sensing_camera)/config/calibration"
+       description="Directory holding &lt;camera_name&gt;.yaml intrinsics.
+                    A missing file is not an error: the driver then publishes a
+                    synthetic CameraInfo and warns."/>
+
+  <arg name="camera_backend" default=""
+       description="Override the backend ('mock' runs with no hardware)."/>
+
+  <group if="$(var launch_driver)">
+    <include file="$(find-pkg-share sensing_camera)/launch/sensing_camera.launch.py">
+      <arg name="cameras" value="$(var cameras)"/>
+      <arg name="config_file" value="$(var camera_config_file)"/>
+      <arg name="calibration_directory" value="$(var camera_calibration_directory)"/>
+      <arg name="backend" value="$(var camera_backend)"/>
+    </include>
+  </group>
+</launch>
