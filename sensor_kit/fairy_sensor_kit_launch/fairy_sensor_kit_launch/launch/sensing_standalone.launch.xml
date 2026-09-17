@@ -1,0 +1,84 @@
+<launch>
+  <!-- ======================================================================
+       Standalone sensing bring-up for fairy_sensor_kit.
+
+       Starts ONLY what the sensor drivers need to run exactly as they do
+       inside the full Autoware stack, with the same node names, namespaces
+       and topics (/sensing/lidar/..., /sensing/gnss/..., /sensing/imu/...):
+
+         1. robot_state_publisher  -> TF tree base_link -> sensor_kit_base_link
+                                      -> fairy / imu_link (from <vehicle_model>_description
+                                      + this kit's sensors.xacro). Without it
+                                      crop_box_filter_self would fail its
+                                      fairy->base_link lookup.
+         2. pointcloud_container   -> the shared component container that
+                                      autoware.launch.xml normally creates (this
+                                      kit loads nothing into it: the single Fairy
+                                      cloud is relayed to concatenated/pointcloud).
+         3. lidar.launch.xml       -> Fairy driver container + relay to concatenated/pointcloud.
+         4. gnss.launch.xml        -> Septentrio GNSS + Xsens IMU (or Xsens
+                                      GNSS+IMU with gnss_module:=xsens), gnss_poser,
+                                      imu_corrector.
+
+       Not started: vehicle interface, vehicle_velocity_converter, map,
+       localization, perception, planning, control, API.
+
+       Normally invoked through scripts/launch_sensors.sh, which sources the
+       workspaces and checks that every sensor is reachable first.
+       ====================================================================== -->
+
+  <!-- Captured before any include: $(dirname) is not restored after a python
+       include (Humble), so a later $(dirname) would point at autoware_launch. -->
+  <let name="kit_launch_dir" value="$(dirname)"/>
+
+  <arg name="vehicle_model" default="nero_vehicle" description="vehicle description package prefix (URDF + mirror.param.yaml)"/>
+  <arg name="sensor_model" default="fairy_sensor_kit" description="this sensor kit (description package prefix)"/>
+  <arg name="vehicle_id" default="$(env VEHICLE_ID default)"/>
+  <arg name="pointcloud_container_name" default="pointcloud_container"/>
+
+  <arg name="launch_tf" default="true" description="publish the vehicle + sensor kit TF tree (robot_state_publisher)"/>
+  <arg name="launch_lidar" default="true" description="launch the LiDAR driver and the relay to concatenated/pointcloud"/>
+  <arg name="launch_gnss" default="true" description="launch GNSS/IMU drivers, gnss_poser and imu_corrector"/>
+  <arg name="gnss_module" default="septentrio" description="xsens or septentrio (see gnss.launch.xml)"/>
+
+  <arg name="vehicle_mirror_param_file" default="$(find-pkg-share $(var vehicle_model)_description)/config/mirror.param.yaml"/>
+
+  <!-- 1. TF: identical to what tier4_vehicle_launch does inside autoware.launch.xml,
+          minus the vehicle interface. -->
+  <group if="$(var launch_tf)">
+    <include file="$(find-pkg-share tier4_vehicle_launch)/launch/vehicle.launch.xml">
+      <arg name="vehicle_model" value="$(var vehicle_model)"/>
+      <arg name="sensor_model" value="$(var sensor_model)"/>
+      <arg name="vehicle_id" value="$(var vehicle_id)"/>
+      <arg name="launch_vehicle_interface" value="false"/>
+      <arg name="config_dir" value="$(find-pkg-share $(var sensor_model)_description)/config"/>
+    </include>
+  </group>
+
+  <!-- 2. Shared pointcloud container (same as autoware.launch.xml). -->
+  <include file="$(find-pkg-share autoware_launch)/launch/pointcloud_container.launch.py">
+    <arg name="use_multithread" value="true"/>
+    <arg name="container_name" value="$(var pointcloud_container_name)"/>
+  </include>
+
+  <!-- 3./4. Drivers, under the same /sensing namespace tier4_sensing_launch pushes. -->
+  <group>
+    <push-ros-namespace namespace="sensing"/>
+
+    <group if="$(var launch_lidar)">
+      <include file="$(var kit_launch_dir)/lidar.launch.xml">
+        <arg name="launch_driver" value="true"/>
+        <arg name="vehicle_id" value="$(var vehicle_id)"/>
+        <arg name="vehicle_mirror_param_file" value="$(var vehicle_mirror_param_file)"/>
+        <arg name="pointcloud_container_name" value="$(var pointcloud_container_name)"/>
+      </include>
+    </group>
+
+    <group if="$(var launch_gnss)">
+      <include file="$(var kit_launch_dir)/gnss.launch.xml">
+        <arg name="launch_driver" value="true"/>
+        <arg name="gnss_module" value="$(var gnss_module)"/>
+      </include>
+    </group>
+  </group>
+</launch>

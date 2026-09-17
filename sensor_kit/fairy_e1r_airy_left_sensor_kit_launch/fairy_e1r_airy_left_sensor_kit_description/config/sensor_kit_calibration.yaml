@@ -1,39 +1,39 @@
 sensor_kit_base_link:
   camera0/camera_link:
-    x: 0.072836
-    y: 0.024726
-    z: -0.569802
-    roll: 1.581131
-    pitch: -0.052355
-    yaw: 1.734129
-  
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    roll: 0.0
+    pitch: 0.0
+    yaw: 0.0
+
   # Fairy Lidar
   fairy_base_link:
     x: 0.0
     y: 0.0
     z: 0.0
-    roll: 0.0 
-    pitch: 0.0 
+    roll: 0.0
+    pitch: 0.0
     yaw: 0.0
 
   # E1R Lidar
   e1r_base_link:
-    x: 0.729291
-    y: 0.0498612
-    z: -0.906721
-    roll: -0.00971123
-    pitch: -0.0119282 
-    yaw: 0.0267976
+    x: 0.670304
+    y: 0.0685222
+    z: -0.913094
+    roll: -0.0124453
+    pitch: -0.00789263
+    yaw: 0.035486
 
   # Airy Lidar Left
   airy_left_base_link:
-    x: -0.0299814
-    y: 0.217083
-    z: -0.41219
-    roll: -1.11875
-    pitch: 1.58005
-    yaw: 0.468354
-    
+    x: 0.186554
+    y: 0.204473
+    z: -0.478724
+    roll: -0.447179
+    pitch: 1.58666
+    yaw: 1.16116
+
   # XSens GNSS
   imu_link:
     x: 0.45
