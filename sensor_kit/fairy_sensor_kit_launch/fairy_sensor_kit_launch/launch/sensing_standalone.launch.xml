@@ -17,8 +17,9 @@
                                       cloud is relayed to concatenated/pointcloud).
          3. lidar.launch.xml       -> Fairy driver container + relay to concatenated/pointcloud.
          4. gnss.launch.xml        -> Septentrio GNSS + Xsens IMU (or Xsens
-                                      GNSS+IMU with gnss_module:=xsens), gnss_poser,
-                                      imu_corrector.
+                                      GNSS+IMU with gnss_module:=xsens) and
+                                      imu_corrector (gnss_poser is skipped: it
+                                      needs the map's projector info).
 
        Not started: vehicle interface, vehicle_velocity_converter, map,
        localization, perception, planning, control, API.
@@ -78,6 +79,8 @@
       <include file="$(var kit_launch_dir)/gnss.launch.xml">
         <arg name="launch_driver" value="true"/>
         <arg name="gnss_module" value="$(var gnss_module)"/>
+        <!-- no map here: gnss_poser would only warn once a second -->
+        <arg name="launch_gnss_poser" value="false"/>
       </include>
     </group>
   </group>

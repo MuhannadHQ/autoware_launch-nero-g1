@@ -14,6 +14,11 @@ find_package(ament_cmake_auto REQUIRED)
 
 ament_auto_find_build_dependencies()
 
+install(PROGRAMS
+  scripts/launch_vehicle.sh
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 ament_auto_package(INSTALL_TO_SHARE
   launch
 )

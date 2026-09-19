@@ -5,6 +5,9 @@
          xsens      : Xsens MTi provides BOTH GNSS and IMU (current default behavior).
          septentrio : Septentrio mosaic-G5 provides GNSS; Xsens MTi provides IMU only. -->
   <arg name="gnss_module" default="septentrio" description="xsens or septentrio"/>
+  <!-- gnss_poser needs /map/map_projector_info from the map loader; standalone
+       sensor bring-up (sensing_standalone.launch.xml) has no map and turns it off. -->
+  <arg name="launch_gnss_poser" default="true"/>
 
   <!-- gnss_poser inputs. Both sources publish the same topic names in this
        namespace, so the poser wiring below is identical for either module. -->
@@ -42,7 +45,7 @@
   </group>
 
   <!-- ===================== Common: NavSatFix -> MGRS Pose ===================== -->
-  <group>
+  <group if="$(var launch_gnss_poser)">
     <push-ros-namespace namespace="gnss"/>
     <include file="$(find-pkg-share autoware_gnss_poser)/launch/gnss_poser.launch.xml">
       <arg name="input_topic_fix" value="$(var navsatfix_topic_name)"/>
