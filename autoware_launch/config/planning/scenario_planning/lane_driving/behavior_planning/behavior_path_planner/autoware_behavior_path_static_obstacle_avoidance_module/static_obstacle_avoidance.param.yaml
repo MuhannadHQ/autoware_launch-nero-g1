@@ -218,7 +218,7 @@
       avoidance:
         # avoidance lateral parameters
         lateral:
-          th_avoid_execution: 0.09                      # [m] FOR DEVELOPER
+          th_avoid_execution: 0.01                      # [m] FOR DEVELOPER
           th_small_shift_length: 0.101                  # [m] FOR DEVELOPER
           soft_drivable_bound_margin: 0.2               # [m]
           hard_drivable_bound_margin: 0.1               # [m]
