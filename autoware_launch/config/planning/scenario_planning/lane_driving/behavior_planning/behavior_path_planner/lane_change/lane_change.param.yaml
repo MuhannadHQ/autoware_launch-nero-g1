@@ -3,7 +3,7 @@
     lane_change:
       time_limit: 50.0 # [ms]
       backward_lane_length: 200.0
-      backward_length_buffer_for_end_of_lane: 3.0 # [m]
+      backward_length_buffer_for_end_of_lane: 0.5 # [m] (was 3.0)
       backward_length_buffer_for_blocking_object: 3.0 # [m]
       backward_length_from_intersection: 5.0 # [m]
       enable_stopped_vehicle_buffer: true
@@ -19,14 +19,14 @@
 
       # trajectory generation
       trajectory:
-        max_prepare_duration: 4.0
-        min_prepare_duration: 2.0
-        lateral_jerk: 0.5
+        max_prepare_duration: 1.5 # (was 4.0)
+        min_prepare_duration: 0.5 # (was 2.0)
+        lateral_jerk: 1.5 # (was 0.5)
         min_longitudinal_acc: -1.0
         max_longitudinal_acc: 1.0
         th_prepare_length_diff: 1.0
         th_lane_changing_length_diff: 1.0
-        min_lane_changing_velocity: 2.78
+        min_lane_changing_velocity: 1.0 # (was 2.78)
         lon_acc_sampling_num: 5
         lat_acc_sampling_num: 3
         lane_changing_decel_factor: 0.5
@@ -41,7 +41,7 @@
 
       # trajectory generation near terminal using frenet planner
       frenet:
-        enable: true
+        enable: false # (was true)
         th_yaw_diff: 10.0  # [deg]
         th_curvature_smoothing: 0.1 # [/]
 
@@ -144,8 +144,8 @@
         unsafe_hysteresis_threshold: 5      # [/]
         deceleration_sampling_num: 5 # [/]
 
-      lane_change_finish_judge_buffer: 2.0      # [m]
-      finish_judge_lateral_threshold: 0.1        # [m]
+      lane_change_finish_judge_buffer: 0.5      # [m] (was 2.0)
+      finish_judge_lateral_threshold: 0.2        # [m] (was 0.1)
       finish_judge_lateral_angle_deviation: 1.0 # [deg]
 
       # debug
