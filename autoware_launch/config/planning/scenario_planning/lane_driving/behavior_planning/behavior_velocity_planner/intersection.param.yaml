@@ -60,7 +60,7 @@
           trailer: true
           motorcycle: true
           bicycle: true
-          unknown: false
+          unknown: true
         velocity_profile:
           use_upstream: true
           minimum_upstream_velocity: 0.01
