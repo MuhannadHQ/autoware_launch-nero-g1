@@ -6,8 +6,9 @@
       print_debug_info: false
 
       # limits for speed bump height and slow down speed to create a linear equation
+      # speed [km/h] = 6 - (height - 0.05) / 0.05  ->  0.05 m: 6, 0.10 m: 5, 0.15 m: 4, 0.20 m: 3, 0.25 m: 2
       speed_calculation:
-        min_height: 0.05 # [m]
-        max_height: 0.30 # [m]
-        min_speed: 0.833  # [m/s] = [2 kph]
-        max_speed: 1.111  # [m/s] = [3 kph]
+        min_height: 0.05 # [m]  (6 km/h at or below this height)
+        max_height: 0.25 # [m]  (2 km/h at or above; was 0.30)
+        min_speed: 0.556  # [m/s] = 2 km/h (was 0.833 m/s = 3.0 km/h)
+        max_speed: 1.667  # [m/s] = 6 km/h (was 1.111 m/s = 4.0 km/h)
