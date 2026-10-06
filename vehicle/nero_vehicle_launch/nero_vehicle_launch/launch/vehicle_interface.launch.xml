@@ -2,13 +2,17 @@
 <launch>
   <arg name="vehicle_id" default="$(env VEHICLE_ID default)"/>
   
-  <!-- Bridge node -->
+  <!-- Bridge node. Brake gain, safe-stop timeout and remote clamps live in
+       the package's config/bridge.param.yaml (defaults = the old constants). -->
+  <arg name="bridge_param_file" default="$(find-pkg-share yhs_autoware_bridge)/config/bridge.param.yaml"/>
   <node
     pkg="yhs_autoware_bridge"
     exec="bridge_node"
     name="bridge_node"
     output="screen"
-  /> 
+  >
+    <param from="$(var bridge_param_file)"/>
+  </node>
 
   <!-- YHS Can Control -->
   <include file="$(find-pkg-share yhs_can_control)/launch/yhs_can_control.launch.py">
