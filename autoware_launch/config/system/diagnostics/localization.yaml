@@ -27,10 +27,17 @@ units:
     node: topic_state_monitor_pose_twist_fusion_filter_pose
     name: localization_topic_status
 
+  # 2026-10-06 (field test 10-05, issue 06 RC3): one NDT frame below the NVTL threshold raised a
+  # WARN that made autonomous unavailable -> 0.1 s MRM pulses (20+ in 20 s at 18:47). NDT already
+  # discards those frames. A real loss still stops the vehicle: sensor_fusion_status (EKF) goes
+  # WARN after 1 s without a pose update (pose_no_update_count_threshold_warn 50 @ 50 Hz), plus
+  # the accuracy (error ellipse) link. Backup: localization.yaml.bak-20261006.
   - path: /autoware/localization/scan_matching_status
-    type: diag
-    node: ndt_scan_matcher
-    name: scan_matching_status
+    type: warn-to-ok
+    item:
+      type: diag
+      node: ndt_scan_matcher
+      name: scan_matching_status
 
   - path: /autoware/localization/accuracy
     type: diag
