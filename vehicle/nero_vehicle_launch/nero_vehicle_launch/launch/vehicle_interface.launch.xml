@@ -5,18 +5,22 @@
        plan = brake only to stop/hold or for acc < hard_brake_acc (RC2 collapse fix, 2026-10-06).
        Set from the launcher GUI (Brake mode) or brake_mode:=plan on the command line. -->
   <arg name="brake_mode" default="legacy"/>
-  
-  <!-- Bridge node -->
+
+  <!-- Bridge node. Brake gain, safe-stop timeout, remote clamps and the brake_mode
+       thresholds live in the package's config/bridge.param.yaml (defaults = the old
+       constants). brake_mode is set after the file, so the launch argument wins. -->
+  <arg name="bridge_param_file" default="$(find-pkg-share yhs_autoware_bridge)/config/bridge.param.yaml"/>
   <node
     pkg="yhs_autoware_bridge"
     exec="bridge_node"
     name="bridge_node"
     output="screen">
+    <param from="$(var bridge_param_file)"/>
     <param name="brake_mode" value="$(var brake_mode)"/>
   </node>
 
   <!-- YHS Can Control -->
   <include file="$(find-pkg-share yhs_can_control)/launch/yhs_can_control.launch.py">
-  </include> 
+  </include>
 
 </launch>
