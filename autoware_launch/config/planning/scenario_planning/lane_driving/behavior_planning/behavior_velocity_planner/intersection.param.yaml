@@ -50,8 +50,8 @@
         distance_threshold: 5.0
 
       collision_detection:
-        consider_wrong_direction_vehicle: true
-        collision_detection_hold_time: 0.5
+        consider_wrong_direction_vehicle: false
+        collision_detection_hold_time: 1.5
         min_predicted_path_confidence: 0.05
         target_type:
           car: true
@@ -63,9 +63,11 @@
           unknown: true
         velocity_profile:
           use_upstream: true
-          minimum_upstream_velocity: 0.01
+          minimum_upstream_velocity: 0.7
           default_velocity: 2.778
           minimum_default_velocity: 1.388
+          standstill_start_acceleration: 0.4
+          standstill_start_delay: 0.9
         fully_prioritized:
           collision_start_margin_time: 2.0
           collision_end_margin_time: 0.0
@@ -73,7 +75,7 @@
           collision_start_margin_time: 3.0
           collision_end_margin_time: 2.0
         not_prioritized:
-          collision_start_margin_time: 5.0
+          collision_start_margin_time: 4.0
           collision_end_margin_time: 2.0
         yield_on_green_traffic_light:
           distance_to_assigned_lanelet_start: 10.0
@@ -87,6 +89,7 @@
           object_margin_to_path: 2.0
         avoid_collision_by_acceleration:
           object_time_margin_to_collision_point: 4.0
+        cut_predicted_path_with_start_margin: true
 
       occlusion:
         enable: false

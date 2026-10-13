@@ -1,0 +1,30 @@
+# RTK + NDT "blend only" (autoware_pose_covariance_modifier). Values from the NeroStation replays
+# (~/rtk_fusion_sim/REPORT.md, 2026-10-12). Changed vs the package default:
+#   xy_bound_lower 0.1 -> 0.0  never GNSS-only: NDT always stays fused
+#   z_max 0.1 -> 0.15          the relay floors z std at 0.05
+#   yaw_deg_max 0.3 -> 15.0    the relay sends the EKF's own yaw with a 10 deg std (position only)
+# The modifier reads nero_gnss_pose_relay's /sensing/gnss/pose_with_covariance_corrected.
+/**:
+  ros__parameters:
+    # If GNSS yaw standard deviation values are larger than this, trust only NDT
+    threshold_gnss_stddev_yaw_deg_max: 15.0
+
+    # If GNSS position Z standard deviation values are larger than this, trust only NDT
+    threshold_gnss_stddev_z_max: 0.15
+
+    # If GNSS position XY standard deviation values are lower than this, trust only GNSS
+    threshold_gnss_stddev_xy_bound_lower: 0.0
+
+    # If GNSS position XY standard deviation values are higher than this, trust only NDT
+    threshold_gnss_stddev_xy_bound_upper: 0.25
+
+    # Lower bound value for standard deviation of NDT positions (x, y, z) when used with GNSS
+    ndt_std_dev_bound_lower: 0.14
+
+    # Upper bound value for standard deviation of NDT positions (x, y, z) when used with GNSS
+    ndt_std_dev_bound_upper: 0.30
+
+    # If GNSS data is not received for this duration, trust only NDT
+    gnss_pose_timeout_sec: 1.0
+
+    enable_debug_topics: true
