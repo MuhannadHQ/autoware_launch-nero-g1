@@ -40,3 +40,7 @@
     diagnostics_error_delay: 1.0     # [sec]
     diagnostics_warn_extrapolation: 0.5      # [sec]
     diagnostics_error_extrapolation: 1.0      # [sec]
+    unknown_tracker.measured_footprint: true
+    unknown_tracker.shape_jump_reset_distance: 0.8
+    unknown_tracker.shape_jump_area_ratio: 1.4
+    vehicle_tracker.use_unavailable_bicycle_yaw: true
