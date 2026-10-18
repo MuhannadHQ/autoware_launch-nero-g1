@@ -1,9 +1,9 @@
 /**:
   ros__parameters:
     lane_change:
-      time_limit: 50.0 # [ms]
+      time_limit: 100.0  # [ms]
       backward_lane_length: 200.0
-      backward_length_buffer_for_end_of_lane: 0.5 # [m] (was 3.0)
+      backward_length_buffer_for_end_of_lane: 10.0  # [m]
       backward_length_buffer_for_blocking_object: 3.0 # [m]
       backward_length_from_intersection: 5.0 # [m]
       enable_stopped_vehicle_buffer: true
@@ -13,21 +13,21 @@
 
       # terminal path
       terminal_path:
-        enable: true
+        enable: false
         disable_near_goal: true
         stop_at_boundary: false
 
       # trajectory generation
       trajectory:
-        max_prepare_duration: 1.5 # (was 4.0)
-        min_prepare_duration: 0.5 # (was 2.0)
-        lateral_jerk: 1.5 # (was 0.5)
+        max_prepare_duration: 3.0
+        min_prepare_duration: 1.0
+        lateral_jerk: 1.0
         min_longitudinal_acc: -1.0
-        max_longitudinal_acc: 1.0
-        th_prepare_length_diff: 1.0
-        th_lane_changing_length_diff: 1.0
-        min_lane_changing_velocity: 1.0 # (was 2.78)
-        lon_acc_sampling_num: 5
+        max_longitudinal_acc: 0.3
+        th_prepare_length_diff: 0.5
+        th_lane_changing_length_diff: 0.5
+        min_lane_changing_velocity: 2.0
+        lon_acc_sampling_num: 7
         lat_acc_sampling_num: 3
         lane_changing_decel_factor: 0.5
         th_prepare_curvature: 0.03 # [/]
@@ -41,7 +41,7 @@
 
       # trajectory generation near terminal using frenet planner
       frenet:
-        enable: false # (was true)
+        enable: true
         th_yaw_diff: 10.0  # [deg]
         th_curvature_smoothing: 0.1 # [/]
 
@@ -49,33 +49,33 @@
       safety_check:
         allow_loose_check_for_cancel: true
         enable_target_lane_bound_check: true
-        stopped_object_velocity_threshold: 1.0 # [m/s]
+        stopped_object_velocity_threshold: 0.3  # [m/s]
         execution:
           expected_front_deceleration: -1.0
-          expected_rear_deceleration: -1.0
-          rear_vehicle_reaction_time: 2.0
-          rear_vehicle_safety_time_margin: 1.0
+          expected_rear_deceleration: -1.5
+          rear_vehicle_reaction_time: 1.5
+          rear_vehicle_safety_time_margin: 0.8
           lateral_distance_max_threshold: 2.0
           longitudinal_distance_min_threshold: 3.0
-          longitudinal_velocity_delta_time: 0.0
+          longitudinal_velocity_delta_time: 1.0
           extended_polygon_policy: "rectangle"
         parked:
           expected_front_deceleration: -1.0
           expected_rear_deceleration: -2.0
           rear_vehicle_reaction_time: 1.0
           rear_vehicle_safety_time_margin: 0.8
-          lateral_distance_max_threshold: 1.0
+          lateral_distance_max_threshold: 0.25
           longitudinal_distance_min_threshold: 3.0
           longitudinal_velocity_delta_time: 0.0
           extended_polygon_policy: "rectangle"
         cancel:
           expected_front_deceleration: -1.0
-          expected_rear_deceleration: -2.0
-          rear_vehicle_reaction_time: 1.5
-          rear_vehicle_safety_time_margin: 0.8
-          lateral_distance_max_threshold: 1.0
-          longitudinal_distance_min_threshold: 2.5
-          longitudinal_velocity_delta_time: 0.0
+          expected_rear_deceleration: -2.5
+          rear_vehicle_reaction_time: 0.8
+          rear_vehicle_safety_time_margin: 0.4
+          lateral_distance_max_threshold: 0.5
+          longitudinal_distance_min_threshold: 2.0
+          longitudinal_velocity_delta_time: 0.8
           extended_polygon_policy: "rectangle"
         stuck:
           expected_front_deceleration: -1.0
@@ -95,8 +95,8 @@
       # lateral acceleration map
       lateral_acceleration:
         velocity: [0.0, 4.0, 10.0]
-        min_values: [0.4, 0.4, 0.4]
-        max_values: [0.65, 0.65, 0.65]
+        min_values: [0.5, 0.5, 0.5]
+        max_values: [1.0, 1.0, 1.0]
 
       # target object
       target_object:
@@ -104,7 +104,7 @@
         truck: true
         bus: true
         trailer: true
-        unknown: false
+        unknown: true
         bicycle: true
         motorcycle: true
         pedestrian: true
@@ -112,7 +112,7 @@
       # collision check
       collision_check:
         enable_for_prepare_phase:
-          general_lanes: false
+          general_lanes: true
           intersection: true
           turns: true
         prediction_time_resolution: 0.5
@@ -120,7 +120,7 @@
         yaw_diff_threshold: 3.1416 # [rad]
         check_current_lanes: false
         check_other_lanes: false
-        use_all_predicted_paths: false
+        use_all_predicted_paths: true
 
       # lane change regulations
       regulation:
@@ -144,8 +144,8 @@
         unsafe_hysteresis_threshold: 5      # [/]
         deceleration_sampling_num: 5 # [/]
 
-      lane_change_finish_judge_buffer: 0.5      # [m] (was 2.0)
-      finish_judge_lateral_threshold: 0.2        # [m] (was 0.1)
+      lane_change_finish_judge_buffer: 2.0      # [m]
+      finish_judge_lateral_threshold: 0.1        # [m]
       finish_judge_lateral_angle_deviation: 1.0 # [deg]
 
       # debug

@@ -6,7 +6,7 @@
       unknown: 10.0 #[s]
     lateral_control_time_horizon: 5.0 #[s]
     prediction_sampling_delta_time: 0.5 #[s]
-    min_velocity_for_map_based_prediction: 1.0 #[m/s]
+    min_velocity_for_map_based_prediction: 0.5  #[m/s]
     min_crosswalk_user_velocity: 1.39 #[m/s]
     max_crosswalk_user_delta_yaw_threshold_for_lanelet: 0.785 #[m/s]
     dist_threshold_for_searching_lanelet: 3.0 #[m]
@@ -15,8 +15,8 @@
     sigma_yaw_angle_deg: 5.0 #[angle degree]
     object_buffer_time_length: 2.0 #[s]
     history_time_length: 1.0 #[s]
-    check_lateral_acceleration_constraints: false # whether to check if the predicted path complies with lateral acceleration constraints
-    max_lateral_accel: 2.0 # [m/ss] max acceptable lateral acceleration for predicted vehicle paths
+    check_lateral_acceleration_constraints: true  # whether to check if the predicted path complies with lateral acceleration constraints
+    max_lateral_accel: 3.0  # [m/ss] max acceptable lateral acceleration for predicted vehicle paths
     min_acceleration_before_curve: -2.0 # [m/ss] min acceleration a vehicle might take to decelerate before a curve
     use_vehicle_acceleration: false # whether to consider current vehicle acceleration when predicting paths or not
     speed_limit_multiplier: 1.5 # When using vehicle acceleration. Set vehicle's maximum predicted speed as the legal speed limit in that lanelet times this value
