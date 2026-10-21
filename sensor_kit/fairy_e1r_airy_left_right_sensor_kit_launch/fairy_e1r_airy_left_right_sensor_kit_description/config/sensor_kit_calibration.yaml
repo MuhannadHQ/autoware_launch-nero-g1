@@ -27,8 +27,8 @@ sensor_kit_base_link:
 
   # Airy Lidar Left
   airy_left_base_link:
-    x: 0.294902
-    y: 0.178175
+    x: 0.225679
+    y: 0.137191
     z: -0.366789
     roll: -1.877123
     pitch: -1.567580
