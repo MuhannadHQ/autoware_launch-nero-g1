@@ -31,6 +31,7 @@ def _bool(value: str) -> bool:
 def launch_setup(context, *args, **kwargs):
     pkg_dir = get_package_share_directory("fairy_e1r_airy_left_right_common_sensor_launch")
     cropbox_param_file = os.path.join(pkg_dir, "config", "crop_box_filter_self_right.param.yaml")
+    dc_param_file = os.path.join(pkg_dir, "config", "distortion_corrector_node.param.yaml")
 
     container_name = LaunchConfiguration("container_name").perform(context)
     node_name = LaunchConfiguration("node_name").perform(context)
@@ -87,17 +88,33 @@ def launch_setup(context, *args, **kwargs):
         namespace=node_ns,
         remappings=[
             ("input", "airy_points"),
-            ("output", "pointcloud_before_sync"),
+            ("output", "self_cropped/pointcloud"),
         ],
         parameters=[cropbox_param_file, frame_overrides],
         extra_arguments=[{"use_intra_process_comms": use_ipc}],
     )
 
-    nodes = [airy_node, crop_box_node]
+    # Motion (distortion) correction of each sweep with the ego twist + IMU yaw rate (2026-10-22).
+    distortion_corrector_node = ComposableNode(
+        package="autoware_pointcloud_preprocessor",
+        plugin="autoware::pointcloud_preprocessor::DistortionCorrectorComponent",
+        name="distortion_corrector_node",
+        namespace=node_ns,
+        remappings=[
+            ("~/input/twist", "/sensing/vehicle_velocity_converter/twist_with_covariance"),
+            ("~/input/imu", "/sensing/imu/imu_data"),
+            ("~/input/pointcloud", "self_cropped/pointcloud"),
+            ("~/output/pointcloud", "pointcloud_before_sync"),
+        ],
+        parameters=[dc_param_file],
+        extra_arguments=[{"use_intra_process_comms": use_ipc}],
+    )
 
-    # Cloudini 1 mm compression of the crop-box output, recorded instead of the raw cloud
-    # (~6x smaller bags). Relative topics and the crop box's namespace, so it lands next to
-    # pointcloud_before_sync.
+    nodes = [airy_node, crop_box_node, distortion_corrector_node]
+
+    # Cloudini 1 mm compression of the motion-corrected crop-box output, recorded instead of the
+    # raw cloud (~6x smaller bags). Relative topics and the crop box's namespace, so it lands next
+    # to pointcloud_before_sync.
     if IfCondition(LaunchConfiguration("enable_cloudini")).evaluate(context):
         nodes.append(
             ComposableNode(
