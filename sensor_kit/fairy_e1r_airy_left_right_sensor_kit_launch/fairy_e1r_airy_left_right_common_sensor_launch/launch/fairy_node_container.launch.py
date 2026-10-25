@@ -14,6 +14,7 @@ import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, OpaqueFunction
+from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import ComposableNodeContainer
 from launch_ros.descriptions import ComposableNode
@@ -62,12 +63,37 @@ def launch_setup(context, *args, **kwargs):
         extra_arguments=[{"use_intra_process_comms": True}],
     )
 
+    nodes = [fairy_node, crop_box_node]
+
+    # Cloudini 1 mm compression of the crop-box output, recorded instead of the raw cloud
+    # (~6x smaller bags). Relative topics, so it lands next to pointcloud_before_sync.
+    if IfCondition(LaunchConfiguration("enable_cloudini")).evaluate(context):
+        nodes.append(
+            ComposableNode(
+                package="cloudini_ros",
+                plugin="CloudiniPointcloudConverter",
+                name="cloudini_before_sync",
+                parameters=[
+                    {
+                        "topic_input": "pointcloud_before_sync",
+                        "topic_output": "pointcloud_before_sync/cloudini",
+                        "compressing": True,
+                        "resolution": float(LaunchConfiguration("cloudini_resolution").perform(context)),
+                    }
+                ],
+                extra_arguments=[{"use_intra_process_comms": True}],
+            )
+        )
+
+    # Multithreaded by default so compression does not delay the driver and crop box callbacks.
+    use_mt = IfCondition(LaunchConfiguration("use_multithread_container")).evaluate(context)
+
     container = ComposableNodeContainer(
         name="fairy_driver_container",
         namespace="pointcloud_driver",
         package="rclcpp_components",
-        executable="component_container",
-        composable_node_descriptions=[fairy_node, crop_box_node],
+        executable="component_container_mt" if use_mt else "component_container",
+        composable_node_descriptions=nodes,
         output="screen",
     )
 
@@ -84,6 +110,9 @@ def generate_launch_description():
         DeclareLaunchArgument("return_mode", default_value="Strongest"),
         DeclareLaunchArgument("input_frame", default_value="base_link"),
         DeclareLaunchArgument("output_frame", default_value="base_link"),
+        DeclareLaunchArgument("use_multithread_container", default_value="true"),
+        DeclareLaunchArgument("enable_cloudini", default_value="true"),
+        DeclareLaunchArgument("cloudini_resolution", default_value="0.001"),
     ]
 
     return LaunchDescription(

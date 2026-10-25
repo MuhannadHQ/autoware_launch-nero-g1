@@ -18,6 +18,7 @@ import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, OpaqueFunction
+from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import ComposableNodeContainer
 from launch_ros.descriptions import ComposableNode
@@ -92,12 +93,36 @@ def launch_setup(context, *args, **kwargs):
         extra_arguments=[{"use_intra_process_comms": use_ipc}],
     )
 
+    nodes = [airy_node, crop_box_node]
+
+    # Cloudini 1 mm compression of the crop-box output, recorded instead of the raw cloud
+    # (~6x smaller bags). Relative topics and the crop box's namespace, so it lands next to
+    # pointcloud_before_sync.
+    if IfCondition(LaunchConfiguration("enable_cloudini")).evaluate(context):
+        nodes.append(
+            ComposableNode(
+                package="cloudini_ros",
+                plugin="CloudiniPointcloudConverter",
+                name="cloudini_before_sync",
+                namespace=node_ns,
+                parameters=[
+                    {
+                        "topic_input": "pointcloud_before_sync",
+                        "topic_output": "pointcloud_before_sync/cloudini",
+                        "compressing": True,
+                        "resolution": float(LaunchConfiguration("cloudini_resolution").perform(context)),
+                    }
+                ],
+                extra_arguments=[{"use_intra_process_comms": use_ipc}],
+            )
+        )
+
     container = ComposableNodeContainer(
         name=container_name,
         namespace=namespace,
         package="rclcpp_components",
         executable="component_container_mt" if use_mt else "component_container",
-        composable_node_descriptions=[airy_node, crop_box_node],
+        composable_node_descriptions=nodes,
         output="both",
     )
 
@@ -138,6 +163,8 @@ def generate_launch_description():
         DeclareLaunchArgument("receive_buffer_size", default_value="4194304"),
         DeclareLaunchArgument("input_frame", default_value="base_link"),
         DeclareLaunchArgument("output_frame", default_value="base_link"),
+        DeclareLaunchArgument("enable_cloudini", default_value="true"),
+        DeclareLaunchArgument("cloudini_resolution", default_value="0.001"),
     ]
 
     return LaunchDescription(
