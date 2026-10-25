@@ -83,7 +83,7 @@
             trailer: true
             motorcycle: true
             bicycle: true
-            pedestrian: false
+            pedestrian: true  # [nero 2026-10-25] was false: a pedestrian-class object moving along the path at >= 3.0 m/s (runner, kick scooter) was taken by neither obstacle_stop (< 3.0) nor cruise
 
           outside:
             unknown: false
@@ -128,4 +128,4 @@
 
         # hysteresis for cruise and stop
         obstacle_velocity_threshold_from_cruise : 3.0 # stop planning is executed to the obstacle whose velocity is less than this value [m/s]
-        obstacle_velocity_threshold_to_cruise : 3.5 # stop planning is executed to the obstacle whose velocity is less than this value [m/s]
+        obstacle_velocity_threshold_to_cruise : 3.0 # stop planning is executed to the obstacle whose velocity is less than this value [m/s]  # [nero 2026-10-25] was 3.5: a car first seen at 3.0-3.5 m/s was taken by neither obstacle_stop (< 3.0) nor cruise (> 3.5)
