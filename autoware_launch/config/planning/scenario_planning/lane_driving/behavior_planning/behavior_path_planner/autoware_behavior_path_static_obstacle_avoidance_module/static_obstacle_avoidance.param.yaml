@@ -150,9 +150,9 @@
           # "auto"   : generate candidate path. if RTC is running as AUTO mode, the ego avoids it automatically.
           # "manual" : generate candidate path and wait operator approval even if RTC is running as AUTO mode.
           # "ignore" : never avoid it.
-          policy: "manual"                                # [-]
+          policy: "auto"                                  # [-]  # [nero 2026-10-22] was "manual": the car decides
           condition:
-            th_stopped_time: 1.0                        # [s]  # [tuned 2026-10-10] was 3.0
+            th_stopped_time: 3.0                        # [s]  # [nero 2026-10-22] back to 3.0: no operator check any more
             th_moving_distance: 1.0                     # [m]
           ignore_area:
             traffic_light:
@@ -180,7 +180,7 @@
           truck: true                                   # [-]
           bus: true                                     # [-]
           trailer: true                                 # [-]
-          unknown: false                                # [-]
+          unknown: true                                 # [-]  # [nero 2026-10-22] was false: a car still seen as a moving UNKNOWN in the oncoming lane must stop the pull-out
           bicycle: true                                 # [-]
           motorcycle: true                              # [-]
           pedestrian: true                              # [-]
