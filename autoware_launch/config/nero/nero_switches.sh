@@ -93,3 +93,4 @@ export NERO_CRUISE_CUTIN_EARLY=1.5,0.5,0.5,0.05,0.5,1.0,2.5 NERO_CRUISE_CUTIN_TA
 export NERO_IX_SIGHT=70,1.5,2.0,0.8,0.4,3.0,12.0,0.5,0.5   # leftsight_1027: at a stop-sign turn across a priority lane, wait for a car the lidar grid sees before perception publishes it; never stop inside that lane for a car it can clear (QUEUE LTP)
 export NERO_SOA_CORRIDOR_GIVEWAY=6.0,12.0,0.3,1.0   # corridor_1027: static avoidance gives way to a car standing in / coming down the free width of a narrow street (keep right, wait or pass slowly, then go on)
 export NERO_SOA_PATH_FROM_EGO=0.1,0.3   # pathstep_1028: static avoidance never steps its plan sideways under the robot (a jump > 0.1 m or the robot > 0.3 m off starts the plan from the robot)
+export NERO_IX_CROSSING_HOLD=2.0,12.0,2.0,1.0,0.5,0.5,0.5,0.5,25,3.0,5.0,2.0   # crosshold_1028: at a stop-sign lane without a mapped crossing road, hold at the line while traffic is predicted across the robot's way
