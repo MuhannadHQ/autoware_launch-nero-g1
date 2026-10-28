@@ -11,6 +11,7 @@ endif()
 
 install(PROGRAMS
   scripts/launch_sensors.sh
+  scripts/usb2_hub.sh
   DESTINATION lib/${PROJECT_NAME}
 )
 
