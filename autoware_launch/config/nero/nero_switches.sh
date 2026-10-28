@@ -94,3 +94,4 @@ export NERO_IX_SIGHT=70,1.5,2.0,0.8,0.4,3.0,12.0,0.5,0.5   # leftsight_1027: at 
 export NERO_SOA_CORRIDOR_GIVEWAY=6.0,12.0,0.3,1.0   # corridor_1027: static avoidance gives way to a car standing in / coming down the free width of a narrow street (keep right, wait or pass slowly, then go on)
 export NERO_SOA_PATH_FROM_EGO=0.1,0.3   # pathstep_1028: static avoidance never steps its plan sideways under the robot (a jump > 0.1 m or the robot > 0.3 m off starts the plan from the robot)
 export NERO_IX_CROSSING_HOLD=2.0,12.0,2.0,1.0,0.5,0.5,0.5,0.5,25,3.0,5.0,2.0   # crosshold_1028: at a stop-sign lane without a mapped crossing road, hold at the line while traffic is predicted across the robot's way
+export NERO_SOA_ROUTE_LC=28 NERO_LC_MULTI_HOLD_V=6.0,3.0   # lca_1028: a car parked near a lane end is left to the route's own lane change; a double change is held in lane while the strict check says unsafe
