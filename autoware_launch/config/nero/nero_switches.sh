@@ -97,3 +97,4 @@ export NERO_IX_CROSSING_HOLD=2.0,12.0,2.0,1.0,0.5,0.5,0.5,0.5,25,3.0,5.0,2.0   #
 export NERO_SOA_ROUTE_LC=28 NERO_LC_MULTI_HOLD_V=6.0,3.0   # lca_1028: a car parked near a lane end is left to the route's own lane change; a double change is held in lane while the strict check says unsafe
 export NERO_SCSEL_FAR_STOP=0.72,0.8,0.7,0.45,1.0,5.56,2.4,0.5,0.65   # farstop_1028: a stop the comfort profile can still make is braked earlier and gentler; stops needing more keep today's braking
 export NERO_USB2_HUB=1   # usb2_hub (sensor kit sensing.launch.xml): run the external USB hub (PCAN, Xsens, Kingston) at USB 2.0; its USB 3 link jams the GNSS
+export NERO_SOA_PROJ_FAST=1   # trajgap_1028: static avoidance projects its NERO loops' points without copying the path per call (the same numbers; the five-fixes build fell under 5 Hz -> MRMs)
