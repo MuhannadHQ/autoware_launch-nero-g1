@@ -18,10 +18,34 @@ from launch_ros.actions import ComposableNodeContainer
 from launch_ros.descriptions import ComposableNode
 
 
+def _near_weak_params(value):
+    """NERO_E1R_NEAR_WEAK=<max_distance m>,<max_intensity>,<neighbor_radius_ratio>,<max_neighbors> or None."""
+    value = value.strip()
+    if not value:
+        return None
+    try:
+        r, i, k, n = value.split(",")
+        return {
+            "max_distance": float(r),
+            "max_intensity": int(i),
+            "neighbor_radius_ratio": float(k),
+            "max_neighbors": int(n),
+        }
+    except ValueError:
+        print(f"[e1r_node_container] NERO_E1R_NEAR_WEAK='{value}' is not 4 numbers: E1R path unchanged")
+        return None
+
+
 def launch_setup(context, *args, **kwargs):
     pkg_dir = get_package_share_directory("fairy_e1r_airy_left_right_common_sensor_launch")
     cropbox_param_file = os.path.join(pkg_dir, "config", "crop_box_filter_self.param.yaml")
     dc_param_file = os.path.join(pkg_dir, "config", "distortion_corrector_node.param.yaml")
+
+    # [nero 2026-10-28 AEBD] NERO_E1R_NEAR_WEAK (e.g. 1.5,3,0.07,10) puts autoware_near_weak_return_filter after the
+    # distortion corrector: it drops E1R returns that are near the sensor, weak AND isolated (the dust / near-range
+    # noise behind the 10-27 20:47:49.7 phantom AEB stop). Unset: this container is exactly the car's.
+    near_weak = _near_weak_params(os.environ.get("NERO_E1R_NEAR_WEAK", ""))
+    dc_output = "near_weak_filter/input" if near_weak else "pointcloud_before_sync"
 
     driver_params = {
         "host_ip": LaunchConfiguration("host_ip"),
@@ -71,13 +95,25 @@ def launch_setup(context, *args, **kwargs):
             ("~/input/twist", "/sensing/vehicle_velocity_converter/twist_with_covariance"),
             ("~/input/imu", "/sensing/imu/imu_data"),
             ("~/input/pointcloud", "self_cropped/pointcloud"),
-            ("~/output/pointcloud", "pointcloud_before_sync"),
+            ("~/output/pointcloud", dc_output),
         ],
         parameters=[dc_param_file],
         extra_arguments=[{"use_intra_process_comms": True}],
     )
 
     nodes = [e1r_node, crop_box_node, distortion_corrector_node]
+
+    if near_weak:
+        nodes.append(
+            ComposableNode(
+                package="autoware_near_weak_return_filter",
+                plugin="autoware::near_weak_return_filter::NearWeakReturnFilterComponent",
+                name="near_weak_return_filter",
+                remappings=[("input", dc_output), ("output", "pointcloud_before_sync")],
+                parameters=[near_weak],
+                extra_arguments=[{"use_intra_process_comms": True}],
+            )
+        )
 
     # Cloudini 1 mm compression of the motion-corrected crop-box output, recorded instead of the
     # raw cloud (~6x smaller bags). Relative topics, so it lands next to pointcloud_before_sync.
