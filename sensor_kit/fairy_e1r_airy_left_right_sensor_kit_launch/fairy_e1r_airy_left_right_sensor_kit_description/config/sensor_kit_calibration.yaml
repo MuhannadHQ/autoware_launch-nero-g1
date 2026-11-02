@@ -18,12 +18,12 @@ sensor_kit_base_link:
   
   # E1R Lidar 
   e1r_base_link:
-    x: 0.748832
-    y: 0.039769
-    z: -1.005612
-    roll: -0.007985
-    pitch: -0.012476
-    yaw: 0.005589
+    x: 0.736452
+    y: 0.081989
+    z: -0.952686
+    roll: -0.009382
+    pitch: -0.010061
+    yaw: 0.020165
 
   # Airy Lidar Left
   airy_left_base_link:
