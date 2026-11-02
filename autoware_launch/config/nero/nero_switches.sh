@@ -124,3 +124,8 @@ export NERO_VAL_BODY=0.25,1.0,10,0.8,0,0,0.3,25,3,2.5,0,25,0.1,0.5,3,7,45   # va
 export NERO_PID_START_LEAD=0.6,3.0,6.0,-1.5   # pulloff_1101: pid_longitudinal_controller, a departure from a stop in LaneDriving: the velocity target is the plan's own speed 0.6 s ahead (faded out by 3 m/s; only when higher than the car's target; not with a stop point within 6 m); a departure the plan takes back stops at <= -1.5 m/s2; a place where a lead departure was cut short gets the car's start until the robot has left (QUEUE PULLOFF)
 export NERO_PID_ROLLING_RESET=1   # pulloff_1101: pid_longitudinal_controller, upstream #10684 (d1b44201c): a release while still rolling no longer keeps the brake on for ~1.2-1.7 s (QUEUE PULLOFF)
 export NERO_MPC_CONVERGE_WINDOW=0.3   # pulloff_1101: mpc_lateral_controller, the steering-steadiness window before the robot may start moves from 1.0 s to 0.3 s (same 0.01 rad test) in LaneDriving; Parking keeps 1.0 s (QUEUE PULLOFF)
+# stagewatch_1102 (trajstall, QUEUE TRJ2, 2026-11-02): a read-only observer of the planning chain. When the trajectory
+# stalls (the 11-01 MRMs) it names the stage and what the planning processes' threads did: [NERO_STAGE_WATCH] lines in
+# /rosout (captures). Publishes nothing. Needs the universe commit (package autoware_nero_stage_watch + the group in
+# tier4_planning_launch planning.launch.xml). Rollback: comment this line out (the node is then not launched).
+export NERO_STAGE_WATCH=1
