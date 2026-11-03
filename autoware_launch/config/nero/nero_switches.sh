@@ -130,3 +130,7 @@ export NERO_MPC_CONVERGE_WINDOW=0.3   # pulloff_1101: mpc_lateral_controller, th
 # tier4_planning_launch planning.launch.xml). Rollback: comment this line out (the node is then not launched).
 export NERO_STAGE_WATCH=1
 export NERO_DBT_VISIBLE_END=0.3   # parkghost_1102: perception detection_by_tracker: a vehicle box made from the tracker's merged clusters may not stand more than 0.3 m in front of the vehicle's visible end on the side facing the lidar (else it slides back along its length, <= 1.5 m), and points of a tracked pedestrian / bicycle / motorcycle are not used for a vehicle's box: a parked car's track is no longer walked forward by its own prediction while CenterPoint misses it (11-02 12:53 phantom across the road, QUEUE GHOSTX)
+# bppstall_1103 (bppstall, QUEUE TRJ2, 2026-11-03): behavior_path_planner's cycle without per-call path copies (11-02 13:24-13:28: BPP at
+# 3-7 Hz in the 72467 -> 44311 street and at the 153664 lane-change hold -> trajectory-rate WARN -> emergency stops). The same numbers
+# (check mode: 0 mismatches). Needs the universe commit (BPP common + static avoidance + lane change). Rollback: comment this line out.
+export NERO_BPP_PROJ_FAST=1 NERO_LC_FRENET_REF_MEMO=1
