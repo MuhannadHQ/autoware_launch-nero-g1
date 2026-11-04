@@ -134,3 +134,9 @@ export NERO_DBT_VISIBLE_END=0.3   # parkghost_1102: perception detection_by_trac
 # 3-7 Hz in the 72467 -> 44311 street and at the 153664 lane-change hold -> trajectory-rate WARN -> emergency stops). The same numbers
 # (check mode: 0 mismatches). Needs the universe commit (BPP common + static avoidance + lane change). Rollback: comment this line out.
 export NERO_BPP_PROJ_FAST=1 NERO_LC_FRENET_REF_MEMO=1
+# lidphase_1104 (QUEUE LIDPHASE / CONCATPHASE, 2026-11-04): the lidar concat node groups the four scans by their stamps (advanced
+# matching, offsets 0, +-0.04 s noise window per lidar) instead of by arrival. With the gPTP lock (nero-ptp4l-lidar, applied 11-04
+# 15:49) the four scans start together and group exactly; it also ends the next-scan pairing after a lost scan (car 11-04 17:0x:
+# 1 % of groups > 80 ms, 3 missing of 302). Offline on window 074: locked span 0.3 ms / age 114 ms, pairing 0 %; unlocked == the
+# car (span 75.7 / age 182.6, no split). Needs launch 9b20dba. Rollback: comment this line out (unset = naive, as before).
+export NERO_LIDAR_CONCAT_MATCH=advanced,0.04
