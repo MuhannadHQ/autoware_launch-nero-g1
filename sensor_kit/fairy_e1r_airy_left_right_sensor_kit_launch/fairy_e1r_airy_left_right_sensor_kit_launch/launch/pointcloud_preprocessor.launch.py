@@ -36,6 +36,33 @@ def launch_setup(context, *args, **kwargs):
         allow_substs=True,
     )
 
+    concat_parameters = [concatenate_and_time_sync_node_param]
+    # [nero 2026-11-04 LIDPHASE / CONCATPHASE] NERO_LIDAR_CONCAT_MATCH=advanced,<noise_s>[,<offset_s> x 4]: group the four
+    # lidar scans by their header stamps (matching_strategy "advanced": stamp - offset within the summed noise windows)
+    # instead of by arrival (naive), so one late / lost scan no longer pairs every later cloud with that lidar's NEXT
+    # scan. noise_s per lidar (0.04 = +-80 ms between two lidars: wider than any free-running phase spread seen, 32-62 ms,
+    # and narrower than the 100 ms sweep, so a next-cycle scan never joins). Unset / empty / invalid: the param file as is.
+    nero_match = os.environ.get("NERO_LIDAR_CONCAT_MATCH", "").strip()
+    if nero_match:
+        fields = [f.strip() for f in nero_match.split(",")]
+        try:
+            if fields[0] != "advanced" or len(fields) not in (2, 6):
+                raise ValueError("expected advanced,<noise_s>[,<offset_s> x 4]")
+            noise = float(fields[1])
+            offsets = [float(f) for f in fields[2:]] if len(fields) == 6 else [0.0, 0.0, 0.0, 0.0]
+            if not (0.0 < noise < 0.05) or any(abs(o) > 0.1 for o in offsets):
+                raise ValueError("noise_s must be in (0, 0.05), offsets within +-0.1 s")
+            concat_parameters.append(
+                {
+                    "matching_strategy.type": "advanced",
+                    "matching_strategy.lidar_timestamp_offsets": offsets,
+                    "matching_strategy.lidar_timestamp_noise_window": [noise] * 4,
+                }
+            )
+            print(f"[NERO_LIDAR_CONCAT_MATCH] advanced matching, noise {noise} s, offsets {offsets}")
+        except (ValueError, IndexError) as e:
+            print(f"[NERO_LIDAR_CONCAT_MATCH] '{nero_match}' ignored ({e}): the param file's matching as is")
+
     # set concat filter as a component
     concat_component = ComposableNode(
         package="autoware_pointcloud_preprocessor",
@@ -46,7 +73,7 @@ def launch_setup(context, *args, **kwargs):
             ("output", "concatenated/pointcloud"),
             ("output_info", "concatenated/pointcloud_info"),
         ],
-        parameters=[concatenate_and_time_sync_node_param],
+        parameters=concat_parameters,
         extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
     )
 
