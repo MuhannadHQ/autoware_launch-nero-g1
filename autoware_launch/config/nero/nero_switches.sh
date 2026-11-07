@@ -140,3 +140,4 @@ export NERO_BPP_PROJ_FAST=1 NERO_LC_FRENET_REF_MEMO=1
 # 1 % of groups > 80 ms, 3 missing of 302). Offline on window 074: locked span 0.3 ms / age 114 ms, pairing 0 %; unlocked == the
 # car (span 75.7 / age 182.6, no split). Needs launch 9b20dba. Rollback: comment this line out (unset = naive, as before).
 export NERO_LIDAR_CONCAT_MATCH=advanced,0.04
+export NERO_MOT_STAND_SPEED=0,2.0,1   # vstoplag_1104: multi_object_tracker: the PUBLISHED speed of a vehicle whose boxes stand is 0 (a hard stop read at once instead of a slowly decaying tail) and a car starting after a stand is published at its measured speed (11-02 #28: a hard stop read ~1.2 s late); output only, the tracker's filter, association and positions untouched
