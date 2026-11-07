@@ -28,6 +28,51 @@ def _bool(value: str) -> bool:
     return value.strip().lower() in ("true", "1", "yes")
 
 
+# [nero 2026-11-06 AEBD2, aebdust_1106] The dust cloud in front of the bumper is also seen by the side Airys (11-04 14:46:32 /
+# 18:21:19: the LEFT Airy's view of it made obstacle_stop stop the robot for 0.7-1.4 s after the E1R's dust stage removed its own
+# part). NERO_AIRY_NEAR_DUST=1 runs the near weak return filter's dust tests on this Airy in FOLLOWER mode: it has no gate of its
+# own and drops returns only within follow_sec of an open frame of the front E1R's dust gate (that stage publishes it), only in
+# front of the bumper (x > 1.0, |y| <= 1.5, 0.08 < z <= 0.6 base_link, < 3.5 m from this Airy) and only off every surface / line of
+# this Airy's range image in a mostly-dust, non-planar neighbourhood. It needs NERO_E1R_NEAR_DUST (and so NERO_E1R_NEAR_WEAK).
+# Unset (or without the E1R stage): this container is exactly the car's.
+_AIRY_DUST_DEFAULTS = {
+    "dust.enabled": True, "dust.follow": True, "dust.follow_sec": 0.3, "dust.max_abs_y": 1.5, "dust.max_distance": 3.5,
+    "dust.angle_radius": 0.025, "dust.segment_range": 4.5, "dust.segment_margin": 0.5, "dust.planar_min_points": 30,
+}
+_AIRY_DUST_KEYS = {
+    "follow_sec": float, "max_abs_y": float, "max_distance": float, "angle_radius": float, "segment_range": float,
+    "segment_margin": float, "planar_min_points": int, "max_intensity": int, "min_z": float, "max_z": float, "min_x": float, "range_tol_abs": float,
+    "range_tol_rel": float, "surface_core": int, "surface_min": int, "line_core": int, "line_min": int, "line_extent": float,
+    "local_radius": float, "local_share": float, "planar_max": float,
+}
+_DUST_GATE_TOPIC = "/sensing/lidar/front/near_weak_return_filter/dust_gate"   # the front E1R stage's ~/dust_gate
+
+
+def _airy_dust_params(value):
+    """NERO_AIRY_NEAR_DUST=1 (the defaults) or <key>=<value>,... (overrides), only with the E1R dust stage; else None."""
+    value = value.strip()
+    if not value or value.lower() in ("0", "false", "off"):
+        return None
+    e1r_dust = os.environ.get("NERO_E1R_NEAR_DUST", "").strip().lower()
+    e1r_weak = os.environ.get("NERO_E1R_NEAR_WEAK", "").strip()
+    if not e1r_dust or e1r_dust in ("0", "false", "off") or not e1r_weak:
+        print("[airy_right_node_container] NERO_AIRY_NEAR_DUST needs NERO_E1R_NEAR_DUST + NERO_E1R_NEAR_WEAK (the E1R stage leads it): off")
+        return None
+    params = dict(_AIRY_DUST_DEFAULTS)
+    # the first stage of the component (the E1R's weak isolated returns) stays off on an Airy
+    params.update({"max_distance": 0.0, "max_intensity": 3, "neighbor_radius_ratio": 0.07, "max_neighbors": 10})
+    if value.lower() in ("1", "true", "on"):
+        return params
+    try:
+        for kv in value.split(","):
+            k, v = kv.split("=")
+            params["dust." + k.strip()] = _AIRY_DUST_KEYS[k.strip()](v)
+        return params
+    except (ValueError, KeyError):
+        print(f"[airy_right_node_container] NERO_AIRY_NEAR_DUST='{value}' is not 1 or key=value pairs: off")
+        return None
+
+
 def launch_setup(context, *args, **kwargs):
     pkg_dir = get_package_share_directory("fairy_e1r_airy_left_right_common_sensor_launch")
     cropbox_param_file = os.path.join(pkg_dir, "config", "crop_box_filter_self_right.param.yaml")
@@ -116,6 +161,40 @@ def launch_setup(context, *args, **kwargs):
     )
 
     nodes = [airy_node, crop_box_node, distortion_corrector_node]
+
+    # [nero 2026-11-06 AEBD2] NERO_AIRY_NEAR_DUST: the dust follower between the distortion corrector and pointcloud_before_sync
+    # (the corrector is re-declared with the follower's input as its output; its parameters as declared above)
+    airy_dust = _airy_dust_params(os.environ.get("NERO_AIRY_NEAR_DUST", ""))
+    if airy_dust:
+        nodes[2] = ComposableNode(
+            package="autoware_pointcloud_preprocessor",
+            plugin="autoware::pointcloud_preprocessor::DistortionCorrectorComponent",
+            name="distortion_corrector_node",
+            namespace=node_ns,
+            remappings=[
+                ("~/input/twist", "/sensing/vehicle_velocity_converter/twist_with_covariance"),
+                ("~/input/imu", "/sensing/imu/imu_data"),
+                ("~/input/pointcloud", "self_cropped/pointcloud"),
+                ("~/output/pointcloud", "near_dust_filter/input"),
+            ],
+            parameters=distortion_corrector_node.parameters,
+            extra_arguments=[{"use_intra_process_comms": use_ipc}],
+        )
+        nodes.append(
+            ComposableNode(
+                package="autoware_near_weak_return_filter",
+                plugin="autoware::near_weak_return_filter::NearWeakReturnFilterComponent",
+                name="near_weak_return_filter",
+                namespace=node_ns,
+                remappings=[
+                    ("input", "near_dust_filter/input"),
+                    ("output", "pointcloud_before_sync"),
+                    ("dust_gate_in", _DUST_GATE_TOPIC),
+                ],
+                parameters=[airy_dust],
+                extra_arguments=[{"use_intra_process_comms": use_ipc}],
+            )
+        )
 
     # Cloudini 1 mm compression of the motion-corrected crop-box output, recorded instead of the
     # raw cloud (~6x smaller bags). Relative topics and the crop box's namespace, so it lands next

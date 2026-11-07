@@ -36,6 +36,34 @@ def _near_weak_params(value):
         return None
 
 
+_DUST_KEYS = {
+    "max_distance": float, "max_intensity": int, "min_z": float, "max_z": float, "min_x": float, "max_abs_y": float,
+    "angle_radius": float, "range_tol_abs": float, "range_tol_rel": float, "surface_core": int, "surface_min": int,
+    "line_core": int, "line_min": int, "line_extent": float, "segment_range": float, "local_radius": float,
+    "local_share": float, "planar_max": float, "planar_min_points": int, "frame_min": int, "gate_max_intensity": int,
+    "gate_weak_share": float, "hold_min": int, "hold_sec": float,
+    "gate_max_abs_y": float, "segment_margin": float,   # aebdust_1106
+}
+
+
+def _near_dust_params(value):
+    """NERO_E1R_NEAR_DUST=1 (the package defaults) or <key>=<value>,... (overrides) or None."""
+    value = value.strip()
+    if not value or value.lower() in ("0", "false", "off"):
+        return None
+    params = {"dust.enabled": True}
+    if value.lower() in ("1", "true", "on"):
+        return params
+    try:
+        for kv in value.split(","):
+            k, v = kv.split("=")
+            params["dust." + k.strip()] = _DUST_KEYS[k.strip()](v)
+        return params
+    except (ValueError, KeyError):
+        print(f"[e1r_node_container] NERO_E1R_NEAR_DUST='{value}' is not 1 or key=value pairs: dust stage off")
+        return None
+
+
 def launch_setup(context, *args, **kwargs):
     pkg_dir = get_package_share_directory("fairy_e1r_airy_left_right_common_sensor_launch")
     cropbox_param_file = os.path.join(pkg_dir, "config", "crop_box_filter_self.param.yaml")
@@ -50,6 +78,13 @@ def launch_setup(context, *args, **kwargs):
     # distortion corrector: it drops E1R returns that are near the sensor, weak AND isolated (the dust / near-range
     # noise behind the 10-27 20:47:49.7 phantom AEB stop). Unset: this container is exactly the car's.
     near_weak = _near_weak_params(os.environ.get("NERO_E1R_NEAR_WEAK", ""))
+    # [nero 2026-11-05 AEBD2] NERO_E1R_NEAR_DUST=1 also runs the component's dust stage (dense dust in front of the
+    # bumper that the weak-return stage keeps: the 10-29 / 11-01 / 11-04 phantom AEB stops). It lives in the same
+    # component, so it needs NERO_E1R_NEAR_WEAK. Unset: the component's parameters are exactly as before.
+    near_dust = _near_dust_params(os.environ.get("NERO_E1R_NEAR_DUST", ""))
+    if near_dust and not near_weak:
+        print("[e1r_node_container] NERO_E1R_NEAR_DUST needs NERO_E1R_NEAR_WEAK (the same component): dust stage off")
+        near_dust = None
     dc_output = "near_weak_filter/input" if near_weak else "pointcloud_before_sync"
 
     driver_params = {
@@ -115,7 +150,7 @@ def launch_setup(context, *args, **kwargs):
                 plugin="autoware::near_weak_return_filter::NearWeakReturnFilterComponent",
                 name="near_weak_return_filter",
                 remappings=[("input", dc_output), ("output", "pointcloud_before_sync")],
-                parameters=[near_weak],
+                parameters=[dict(near_weak, **near_dust) if near_dust else near_weak],
                 extra_arguments=[{"use_intra_process_comms": True}],
             )
         )
