@@ -63,16 +63,33 @@ def launch_setup(context, *args, **kwargs):
         except (ValueError, IndexError) as e:
             print(f"[NERO_LIDAR_CONCAT_MATCH] '{nero_match}' ignored ({e}): the param file's matching as is")
 
+    # [nero 2026-11-05 jolt] NERO_LIDAR_MOTION_3D=1: bring each scan from its own reference time (stamp + its first point's
+    # time: the distortion corrector's reference) to the group's stamp in 3D with the IMU's roll / pitch / yaw rate
+    # (nero_imu_3d) instead of speed + yaw rate between the stamps. Unset / any other value: as is.
+    concat_remappings = [
+        ("~/input/twist", "/sensing/vehicle_velocity_converter/twist_with_covariance"),
+        ("output", "concatenated/pointcloud"),
+        ("output_info", "concatenated/pointcloud_info"),
+    ]
+    # [jolt-6] the front E1R is taken at its STAMP: its time_stamp starts 13.3 ms after the stamp in every frame (since 11-03)
+    # while its corrected cloud lines up with the other lidars at the stamp (recorded drives, 0..+5 ms); the Airys line up at
+    # stamp + first point.
+    if os.environ.get("NERO_LIDAR_MOTION_3D", "").strip() == "1":
+        concat_parameters.append(
+            {
+                "nero_imu_3d": True,
+                "nero_imu_3d_header_reference_topics": ["/sensing/lidar/front/pointcloud_before_sync"],
+            }
+        )
+        concat_remappings.append(("~/input/imu", "/sensing/imu/imu_data"))
+        print("[NERO_LIDAR_MOTION_3D] 3D motion compensation in the concatenation (IMU)")
+
     # set concat filter as a component
     concat_component = ComposableNode(
         package="autoware_pointcloud_preprocessor",
         plugin="autoware::pointcloud_preprocessor::PointCloudConcatenateDataSynchronizerComponent",
         name="concatenate_data",
-        remappings=[
-            ("~/input/twist", "/sensing/vehicle_velocity_converter/twist_with_covariance"),
-            ("output", "concatenated/pointcloud"),
-            ("output_info", "concatenated/pointcloud_info"),
-        ],
+        remappings=concat_remappings,
         parameters=concat_parameters,
         extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
     )

@@ -40,6 +40,11 @@ def launch_setup(context, *args, **kwargs):
     pkg_dir = get_package_share_directory("fairy_e1r_airy_left_right_common_sensor_launch")
     cropbox_param_file = os.path.join(pkg_dir, "config", "crop_box_filter_self.param.yaml")
     dc_param_file = os.path.join(pkg_dir, "config", "distortion_corrector_node.param.yaml")
+    # [nero 2026-11-05 jolt] NERO_LIDAR_MOTION_3D=1: correct each sweep in 3D with the IMU's roll / pitch / yaw rate
+    # (upstream DistortionCorrector3D: use_3d_distortion_correction). Unset / any other value: the param file as is.
+    dc_params = [dc_param_file]
+    if os.environ.get("NERO_LIDAR_MOTION_3D", "").strip() == "1":
+        dc_params.append({"use_3d_distortion_correction": True})
 
     # [nero 2026-10-28 AEBD] NERO_E1R_NEAR_WEAK (e.g. 1.5,3,0.07,10) puts autoware_near_weak_return_filter after the
     # distortion corrector: it drops E1R returns that are near the sensor, weak AND isolated (the dust / near-range
@@ -97,7 +102,7 @@ def launch_setup(context, *args, **kwargs):
             ("~/input/pointcloud", "self_cropped/pointcloud"),
             ("~/output/pointcloud", dc_output),
         ],
-        parameters=[dc_param_file],
+        parameters=dc_params,
         extra_arguments=[{"use_intra_process_comms": True}],
     )
 

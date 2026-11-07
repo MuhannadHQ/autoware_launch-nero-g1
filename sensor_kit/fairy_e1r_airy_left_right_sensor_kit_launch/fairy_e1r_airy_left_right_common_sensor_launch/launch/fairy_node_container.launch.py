@@ -24,6 +24,11 @@ def launch_setup(context, *args, **kwargs):
     pkg_dir = get_package_share_directory("fairy_e1r_airy_left_right_common_sensor_launch")
     cropbox_param_file = os.path.join(pkg_dir, "config", "crop_box_filter_self.param.yaml")
     dc_param_file = os.path.join(pkg_dir, "config", "distortion_corrector_node.param.yaml")
+    # [nero 2026-11-05 jolt] NERO_LIDAR_MOTION_3D=1: correct each sweep in 3D with the IMU's roll / pitch / yaw rate
+    # (upstream DistortionCorrector3D: use_3d_distortion_correction). Unset / any other value: the param file as is.
+    dc_params = [dc_param_file]
+    if os.environ.get("NERO_LIDAR_MOTION_3D", "").strip() == "1":
+        dc_params.append({"use_3d_distortion_correction": True})
 
     driver_params = {
         "host_ip": LaunchConfiguration("host_ip"),
@@ -75,7 +80,7 @@ def launch_setup(context, *args, **kwargs):
             ("~/input/pointcloud", "self_cropped/pointcloud"),
             ("~/output/pointcloud", "pointcloud_before_sync"),
         ],
-        parameters=[dc_param_file],
+        parameters=dc_params,
         extra_arguments=[{"use_intra_process_comms": True}],
     )
 

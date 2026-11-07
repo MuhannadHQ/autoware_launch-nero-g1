@@ -152,3 +152,17 @@ export NERO_IX_PRIORITY_TURN_EARLY=0.7,6,2.0,15,2,1   # ixturnev_1106 (IXTURNEV,
 export NERO_IX_ADJACENT_OWN=1.0   # ixovt_1107 (IXOVT): intersection module: a car that passed the robot and cut in ahead (came along its own lane) is no crossing conflict through its exit
 export NERO_BS_DETECT_NON_VRU=0,2.0,1.0,0.5,60,1.2,0.3,1.5,0.5   # ixlpass_1107: blind_spot module, LEFT turns: a car / truck / bus passing the robot on its left (oncoming lane / the left part of its lane) holds the robot at its line until it has crossed the turn path (QUEUE IXLPASS)
 export NERO_CRUISE_KERB=1.0,2.5,1.5,2.0,1.2,4.0,0.35   # kerbout_1106: motion_velocity_planner obstacle_cruise brakes / holds for a vehicle that stood at the kerb beside the robot's way and starts to move into it (a pull-out ahead, a reverse-out across; QUEUE KERBOUT); unset = the car
+# jolt_1105 (QUEUE PTH, 2026-11-05): lidar motion compensation in 3D. A pothole / bump at 17-20 km/h pitches / rolls the body
+# 4-7 deg within one 100 ms sweep; the 2D correction (speed + yaw rate) left the road 4-11 m ahead lifted 0.15-0.5 m -> an UNKNOWN in
+# the path (10-29 19:02:24 obstacle_stop -3.4, 10-27 20:53:50 blob) or an AEB cluster (10-29 20:42:00.6 / 18:59:27.8 emergency
+# stops). Each lidar's distortion corrector runs upstream's 3D mode (IMU roll / pitch / yaw rate) and the concatenation brings each
+# scan from its first point's time to the group's stamp in 3D (IMU). Needs the universe commit (autoware_pointcloud_preprocessor)
+# and this sensor kit commit. Rollback: comment this line out (unset = 2D, as before).
+export NERO_LIDAR_MOTION_3D=1
+# jolt_1105b (QUEUE PTH, 2026-11-05): ground + height filter levelled to the road. The scan ground filter and the obstacle band's
+# ceiling (vehicle height 0.52 m) worked in base_link: a body pitched / rolled by a pothole, a bump or braking lifted the road into
+# the band or squeezed a real object out of it. Per cloud the road plane is fitted from the cloud's own low points 2-12 m ahead
+# (robust line per axis, tilt <= 8 deg, else base_link as before), the points are classified and cut at the ceiling in that road
+# frame, and the kept points are output unchanged in base_link. Needs the universe commit (autoware_ground_segmentation +
+# tier4_perception_launch: the common crop box passes +1.5 m only with this switch). Rollback: comment this line out (unset = base_link).
+export NERO_GROUND_LEVEL=1
