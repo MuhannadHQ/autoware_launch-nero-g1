@@ -17,7 +17,16 @@
                     "/sensing/lidar/left/pointcloud_before_sync",
                 ]
     output_frame: base_link
+    # [nero 2026-11-09 PTPSTAMP] "advanced": group scans by header stamp. Valid because the four LiDARs are
+    # PTP-synchronised and the drivers (nero-drivers-g1 feature/ptp-time-sync, stamp_mode "sensor") stamp
+    # each cloud with the sensor's scan-start time. Under PTP every LiDAR's scan is phase-locked to the
+    # 100 ms grid; measured scan start within the cycle (sensor_sync bench/repo_bench, 1200 scans each):
+    #   Airy-L -0.04 ms, Airy-R -0.03 ms (jitter p1..p99 -0.42..+0.08 ms), E1R +0.22 ms (+-0.001),
+    #   Fairy +3.90 ms (+-0.22). Offsets are relative to the earliest (the Airys), in input_topics order
+    #   [top=Fairy, front=E1R, right, left]. Noise window 5 ms: >10x the jitter, far from the 100 ms cycle.
+    # Re-measure after changing a sensor's phase/rotation settings (bench/repo_bench/analyze_phase.py).
+    # Free-running (no PTP) LiDARs: set type naive.
     matching_strategy:
-      type: naive
-      lidar_timestamp_offsets: [0.003, 0.001, 0.001, 0.001]
-      lidar_timestamp_noise_window: [0.005, 0.003, 0.003, 0.003]
+      type: advanced
+      lidar_timestamp_offsets: [0.0039, 0.0003, 0.0, 0.0]
+      lidar_timestamp_noise_window: [0.005, 0.005, 0.005, 0.005]
