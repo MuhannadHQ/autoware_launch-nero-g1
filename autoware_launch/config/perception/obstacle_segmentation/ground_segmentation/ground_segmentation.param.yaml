@@ -9,7 +9,7 @@
         max_x: 150.0
         min_y: -70.0
         max_y: 70.0
-        margin_max_z: 0.0  # to extend the crop box max_z from vehicle_height
+        margin_max_z: 0.78  # heightband_1108: max_z = vehicle_height 0.52 + 0.78 = 1.30 m (the car is 1.24 m at the top lidar); was 0.0
         margin_min_z: -2.5 # to extend the crop box min_z from ground
         negative: False
 
