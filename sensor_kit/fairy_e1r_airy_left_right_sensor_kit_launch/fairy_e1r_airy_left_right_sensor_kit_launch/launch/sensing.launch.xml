@@ -4,6 +4,7 @@
   <arg name="pointcloud_container_name" default="pointcloud_container"/>
   <arg name="vehicle_id" default="$(env VEHICLE_ID default)"/>
   <arg name="launch_usb2_hub" default="$(env NERO_USB2_HUB 0)" description="run the external USB hub at USB 2.0 (its USB 3 link jams the GNSS)"/>
+  <arg name="launch_time_health" default="$(env NERO_TIME_HEALTH 1)" description="nero_time_health: per-sensor time_valid + /diagnostics (nero-drivers-g1)"/>
 
   <!-- External USB hub at USB 2.0: its USB 3 link jams the Septentrio's L1 (2026-10-28).
        One shot: lists what is on the hub, switches its USB 3 half off, exits. -->
@@ -31,6 +32,13 @@
     <include file="$(find-pkg-share fairy_e1r_airy_left_right_sensor_kit_launch)/launch/gnss.launch.xml">
       <arg name="launch_driver" value="$(var launch_driver)"/>
     </include>
+
+    <!-- [2026-11-09 PTPSTAMP] Time-sync health: host clock (GNSS PPS / holdover), each LiDAR's PTP lock (driver
+         /diagnostics + Fairy/Airy web sync_data), IMU and GNSS stream rates. Publishes /diagnostics and
+         /sensing/time_health/<sensor>/time_valid, /sensing/time_health/all_valid. NERO_TIME_HEALTH=0 disables. -->
+    <group if="$(var launch_time_health)">
+      <include file="$(find-pkg-share nero_time_health)/launch/time_health.launch.xml"/>
+    </group>
 
     <!-- Vehicle Velocity Converter  -->
     <include file="$(find-pkg-share autoware_vehicle_velocity_converter)/launch/vehicle_velocity_converter.launch.xml">
