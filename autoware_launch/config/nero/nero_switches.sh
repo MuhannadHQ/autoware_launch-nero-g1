@@ -9,6 +9,27 @@
 # Taken verbatim from nero-jetson ~/.autoware_env.sh on 2026-10-26 (after the 17:27 kit install),
 # minus the RMW/CycloneDDS lines, which are machine settings and stay in that file.
 
+# camstack_1110 (QUEUE CAMSTACK; carries camfront_1109 + camwall_1110's camera0 add-on): the forward wide camera (recorded cross_left) is
+# camera0 of the driving stack. (Here at the top, not appended at the end, so that the next packages' appended lines never conflict with it.)
+# NERO_CAMERA0_INPUT=<raw|h265>:<topic>: camera0_node (C++, fisheye -> pinhole, ONE frame per lidar cycle at the lidar's phase) + tensorrt_yolox
+#   (rois0; with NERO_CAMERA0_MODEL also the 16-class mask0 that camwall's NERO_MOT_UNKNOWN_CAM_STILL reads). raw = the camera driver's
+#   sensor_msgs/Image (yuv422 / nv12 / bgr8 ...: the driver needs publish_raw); h265 only with NERO_CAMERA0_DECODER = a hardware decoder.
+# NERO_ROI_CLUSTER_FUSION=1: camera boxes of pedestrians (score >= 0.5, not cut by the image border; two-wheelers / vehicles never) label the
+#   UNKNOWN lidar clusters they match (IoU > 0.65, inside); vehicle boxes never label; nothing is ever dropped.
+# NERO_FUSION_CAMERA_GATE=1.0: a dead / late camera (no cluster message fused with camera boxes for 1.0 s) = no wait in the fusion (the car's
+#   timing); without it a silent camera holds every cluster message 20 ms.
+# NERO_CAMERA0_CONTAINER=<the driver's container>: load camera0_node into it (intra-process: the raw frames by pointer, no 30 Hz DDS copy).
+# NERO_ROI_OBJECT_CONFIRM=1: side node camera0/confirmed/objects (the CenterPoint objects a camera box confirms): nothing reads it -> off.
+# DEPLOY_CHECKLIST first: the live raw topic + encoding + the driver's container, the YOLOX seg16cls engine built on the Orin, the Orin cost.
+# A wrong / silent topic = a dead camera = the car (camwall's rules and the fusion fall back by themselves).
+# Rollback: comment the camstack lines (no rebuild).
+export NERO_CAMERA0_INPUT=raw:/sensing/camera/cross_left/image_raw   # camstack_1110
+export NERO_CAMERA0_MODEL=yolox-sPlus-opt-pseudoV2-T4-960x960-T4-seg16cls   # camstack_1110 (camwall_1110's model)
+export NERO_ROI_CLUSTER_FUSION=1   # camstack_1110 (camfront_1109's pedestrian labels)
+export NERO_FUSION_CAMERA_GATE=1.0   # camstack_1110
+#export NERO_CAMERA0_CONTAINER=/sensing/camera/camera_container_cross   # camstack_1110: the driver's container name on the car (DEPLOY_CHECKLIST 1)
+#export NERO_ROI_OBJECT_CONFIRM=1
+
 # intersection (session 2 + 4)
 export NERO_IX_ADJACENT_FIX=1 NERO_IX_EGO_ACC=0.35 NERO_IX_MERGE=1.0,2.0,2.0,6.0
 export NERO_IX_CREEP=2.0,0.5,2.0,0.3,2.0,0.5,1.5 NERO_IX_CREEP_COMMIT_M=2.0

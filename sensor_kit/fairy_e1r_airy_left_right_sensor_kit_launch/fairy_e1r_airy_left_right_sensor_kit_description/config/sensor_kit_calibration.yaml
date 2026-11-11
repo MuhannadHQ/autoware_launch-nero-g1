@@ -1,11 +1,11 @@
 sensor_kit_base_link:
   camera0/camera_link:
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    roll: 0.0
-    pitch: 0.0
-    yaw: 0.0
+    x: 0.248912
+    y: 0.399063
+    z: -0.262879
+    roll: 0.005174
+    pitch: 0.012010
+    yaw: -0.029455
   
   # Fairy Lidar
   fairy_base_link:
