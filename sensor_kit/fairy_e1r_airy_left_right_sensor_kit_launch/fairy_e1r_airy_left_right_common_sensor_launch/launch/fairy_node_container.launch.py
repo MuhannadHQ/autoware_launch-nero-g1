@@ -37,6 +37,7 @@ def launch_setup(context, *args, **kwargs):
         "difop_port": LaunchConfiguration("difop_port"),
         "frame_id": LaunchConfiguration("frame_id"),
         "return_mode": LaunchConfiguration("return_mode"),
+        "cut_angle": float(LaunchConfiguration("cut_angle").perform(context)),
     }
 
     fairy_node = ComposableNode(
@@ -128,6 +129,11 @@ def generate_launch_description():
         DeclareLaunchArgument("data_port", default_value="6677"),
         DeclareLaunchArgument("difop_port", default_value="7766"),
         DeclareLaunchArgument("frame_id", default_value="fairy"),
+        # [nero 2026-11-11 PHASELOCK] frame seam (driver cut_angle, deg, sensor encoder frame) = the azimuth that points to the
+        # vehicle rear (sensor_kit_calibration.yaml v0.44.3). The lidar's Phase Lock (web PhaLockSet) puts it there on every
+        # whole second, so each cloud is stamped on the PTP 100 ms grid and all lidars look forward together at +50 ms.
+        # nero-drivers-g1 docs/LIDAR_PHASE_LOCK.md (recompute after a re-mount / re-calibration). 0 = old azimuth-wrap cut.
+        DeclareLaunchArgument("cut_angle", default_value="177.75"),
         DeclareLaunchArgument("return_mode", default_value="Strongest"),
         DeclareLaunchArgument("input_frame", default_value="base_link"),
         DeclareLaunchArgument("output_frame", default_value="base_link"),

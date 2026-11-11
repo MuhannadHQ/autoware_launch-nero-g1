@@ -164,7 +164,10 @@ export NERO_BPP_PROJ_FAST=1 NERO_LC_FRENET_REF_MEMO=1
 # 15:49) the four scans start together and group exactly; it also ends the next-scan pairing after a lost scan (car 11-04 17:0x:
 # 1 % of groups > 80 ms, 3 missing of 302). Offline on window 074: locked span 0.3 ms / age 114 ms, pairing 0 %; unlocked == the
 # car (span 75.7 / age 182.6, no split). Needs launch 9b20dba. Rollback: comment this line out (unset = naive, as before).
-export NERO_LIDAR_CONCAT_MATCH=advanced,0.04
+# [2026-11-11 PHASELOCK] retired: the LiDARs are PTP-locked on a PPS-disciplined clock and phase-locked so every cloud starts
+# on the 100 ms grid; the matching lives in concatenate_and_time_sync_node.param.yaml (advanced, measured offsets, 5 ms).
+# This override (+-40 ms, zero offsets) dates from free-running LiDARs. Uncomment only for unsynced LiDARs.
+# export NERO_LIDAR_CONCAT_MATCH=advanced,0.04
 export NERO_MOT_STAND_SPEED=0,2.0,1,0,0.15,8   # trkup_1110: fields 5-6 (camghost: the start boost re-verified 0.15 m, fires only from a view turned <= 8 deg) | vstoplag_1104: multi_object_tracker: the PUBLISHED speed of a vehicle whose boxes stand is 0 (a hard stop read at once instead of a slowly decaying tail) and a car starting after a stand is published at its measured speed (11-02 #28: a hard stop read ~1.2 s late); output only, the tracker's filter, association and positions untouched
 export NERO_MOT_DEDUP_EXPORT=1   # trkup_1110: multi_object_tracker (upstream main 0.53.0 since trkup_1110): a detection stream never re-exports a stamp it already exported (MOTDUP: the window-end message was applied twice)
 export NERO_MOT_KEEP_STANDING=20,0.5,0.35,1.0   # trkup_1110: an established standing vehicle track (>= 20 measurements, <= 0.5 m/s) is never absorbed by a younger track and is kept 1.0 s without a box (upstream dropped it after ~0.6 s and re-born it with a false speed)
