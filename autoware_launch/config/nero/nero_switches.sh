@@ -19,6 +19,9 @@
 # NERO_FUSION_CAMERA_GATE=1.0: a dead / late camera (no cluster message fused with camera boxes for 1.0 s) = no wait in the fusion (the car's
 #   timing); without it a silent camera holds every cluster message 20 ms.
 # NERO_CAMERA0_CONTAINER=<the driver's container>: load camera0_node into it (intra-process: the raw frames by pointer, no 30 Hz DDS copy).
+#   =driver (the car, 2026-11-11): Autoware starts NO camera0_node; the camera driver's launch (nero-jetson-bridge run_stream_cameras.sh,
+#   started by the launcher for streaming) reads these lines, publishes the NERO_CAMERA0_INPUT camera raw at 30 Hz and loads camera0_node
+#   into that camera's container, so it lives and dies with the driver. Commenting NERO_CAMERA0_INPUT turns both sides off.
 # NERO_ROI_OBJECT_CONFIRM=1: side node camera0/confirmed/objects (the CenterPoint objects a camera box confirms): nothing reads it -> off.
 # DEPLOY_CHECKLIST first: the live raw topic + encoding + the driver's container, the YOLOX seg16cls engine built on the Orin, the Orin cost.
 # A wrong / silent topic = a dead camera = the car (camwall's rules and the fusion fall back by themselves).
@@ -27,7 +30,7 @@ export NERO_CAMERA0_INPUT=raw:/sensing/camera/cross_left/image_raw   # camstack_
 export NERO_CAMERA0_MODEL=yolox-sPlus-opt-pseudoV2-T4-960x960-T4-seg16cls   # camstack_1110 (camwall_1110's model)
 export NERO_ROI_CLUSTER_FUSION=1   # camstack_1110 (camfront_1109's pedestrian labels)
 export NERO_FUSION_CAMERA_GATE=1.0   # camstack_1110
-#export NERO_CAMERA0_CONTAINER=/sensing/camera/camera_container_cross   # camstack_1110: the driver's container name on the car (DEPLOY_CHECKLIST 1)
+export NERO_CAMERA0_CONTAINER=driver   # camstack_1110: camera0_node inside the camera driver's container (cross_left), loaded by run_stream_cameras.sh
 #export NERO_ROI_OBJECT_CONFIRM=1
 
 # intersection (session 2 + 4)
