@@ -220,3 +220,9 @@ export NERO_DIAG_HZ=10   # diaghz_1111: localization + control: gyro_odometer, N
 export NERO_ABLC_LANES=1 NERO_ABLC_CENTRE=1.0,3.0,20 NERO_ABLC_WAIT=3.0 NERO_SOA_ABLC_HANDOFF=1.0 NERO_ABLC_CROSS=0.3,0.0 NERO_ABLC_BLINK=1
 export NERO_LC_PASSED_CLEAR=0.8 NERO_LC_TERMINAL_OVERRUN=3.0,0.3 NERO_LC_R79_YIELD=0.3,1.0,1.0,4.0,3.0
 export NERO_LC_R79_REAR=1.0,2.0,1.0,1 NERO_LC_R79_SHIELD=1.0 NERO_LC_HOLD_COMMITTED=1
+
+# cpusafe_1112 (2026-11-12): two debug evaluators left out (universe launch switches). Both only publish metrics; nothing on
+# the car subscribes to them and the trip bags do not record them. Parked engaged car: processing_time_checker 6.1-6.3 and
+# planning_evaluator 3.6-4.2 % of one core. control_evaluator stays (the bridge's dashboard reads its metrics).
+# Rollback: comment these lines out (unset = launched as before)
+export NERO_PROCESSING_TIME_CHECKER=0 NERO_PLANNING_EVALUATOR=0
