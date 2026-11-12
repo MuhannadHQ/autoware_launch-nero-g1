@@ -20,7 +20,7 @@
     # [nero 2026-11-11 PHASELOCK] "advanced": group the four scans by header stamp. Valid because every LiDAR is PTP-locked to
     # the host clock (GNSS PPS), the drivers stamp the sensor scan-start time (stamp_mode sensor, nero-drivers-g1 0f4611b) and
     # the spinning LiDARs are phase-locked so that each cloud starts on the PTP 100 ms grid: Phase Lock (web PhaLockSet) and
-    # driver cut_angle both at the azimuth pointing to the vehicle rear (docs/LIDAR_PHASE_LOCK.md in nero-drivers-g1).
+    # driver cut_angle both at the azimuth pointing to the vehicle rear (nero-jetson-setup timesync/JETSON_TIME_SYNC_SETUP.md §5.7-5.8).
     # Measured scan start within the cycle, nero-jetson 2026-11-11, 450-900 scans each: Fairy 0.0..+0.5 ms (motor jitter),
     # E1R +0.22 ms (frames on the grid by design), Airy-L 0.0, Airy-R 0.0. Offsets in input_topics order [top=Fairy,
     # front=E1R, right, left]. Windows: E1R 5 ms (its frames are exact, +0.221 ms on every frame); Fairy/Airys 30 ms: their
