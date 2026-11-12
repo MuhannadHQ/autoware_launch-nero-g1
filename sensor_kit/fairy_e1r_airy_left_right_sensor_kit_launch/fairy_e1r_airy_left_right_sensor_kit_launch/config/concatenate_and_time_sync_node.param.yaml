@@ -23,8 +23,12 @@
     # driver cut_angle both at the azimuth pointing to the vehicle rear (docs/LIDAR_PHASE_LOCK.md in nero-drivers-g1).
     # Measured scan start within the cycle, nero-jetson 2026-11-11, 450-900 scans each: Fairy 0.0..+0.5 ms (motor jitter),
     # E1R +0.22 ms (frames on the grid by design), Airy-L 0.0, Airy-R 0.0. Offsets in input_topics order [top=Fairy,
-    # front=E1R, right, left]; window 5 ms each (>10x the jitter, far from the 100 ms cycle). Unsynced LiDARs: type naive.
+    # front=E1R, right, left]. Windows: E1R 5 ms (its frames are exact, +0.221 ms on every frame); Fairy/Airys 30 ms: their
+    # motors sometimes run ahead of the phase lock (sensor side; the stamps are right: replayed from the packets), so 0.3-2.5 %
+    # of their scans start 1-20.5 ms early (30-min full-stack run 2026-11-12: with 5 ms windows 108/18001 merged clouds
+    # were lost; with 30 ms 0/3000). 30 ms covers the worst seen with margin and is far from the 100 ms cycle.
+    # Unsynced LiDARs: type naive.
     matching_strategy:
       type: advanced
       lidar_timestamp_offsets: [0.0003, 0.0002, 0.0, 0.0]
-      lidar_timestamp_noise_window: [0.005, 0.005, 0.005, 0.005]
+      lidar_timestamp_noise_window: [0.03, 0.005, 0.03, 0.03]
