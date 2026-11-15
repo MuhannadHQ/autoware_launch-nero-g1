@@ -15,6 +15,8 @@
         object_type_specified_params:
           types:
             - "default"
+            - "car"    # [nero 2026-11-15 parkedcars]
+            - "truck"  # [nero 2026-11-15 parkedcars]
           default:
             moving:
               min_lat_margin: 0.2
@@ -26,6 +28,28 @@
               max_lat_margin: 0.6
               min_ego_velocity: 1.4
               max_ego_velocity: 4.17
+          car:  # [nero 2026-11-15 parkedcars] a standing car beside the path: 5 km/h at 0.2 m, no limit (20 km/h) from 0.6 m; moving = default
+            moving:
+              min_lat_margin: 0.2
+              max_lat_margin: 0.7
+              min_ego_velocity: 0.7
+              max_ego_velocity: 2.78
+            static:
+              min_lat_margin: 0.2
+              max_lat_margin: 0.6
+              min_ego_velocity: 1.4
+              max_ego_velocity: 5.56
+          truck:  # [nero 2026-11-15 parkedcars] a standing truck beside the path: 5 km/h at 0.2 m, no limit (20 km/h) from 0.6 m; moving = default
+            moving:
+              min_lat_margin: 0.2
+              max_lat_margin: 0.7
+              min_ego_velocity: 0.7
+              max_ego_velocity: 2.78
+            static:
+              min_lat_margin: 0.2
+              max_lat_margin: 0.6
+              min_ego_velocity: 1.4
+              max_ego_velocity: 5.56
 
         moving_object_speed_threshold: 0.5 # [m/s] how fast the object needs to move to be considered as "moving"
         moving_object_hysteresis_range: 0.1 # [m/s] hysteresis range used to prevent chattering when obstacle moves close to moving_object_speed_threshold

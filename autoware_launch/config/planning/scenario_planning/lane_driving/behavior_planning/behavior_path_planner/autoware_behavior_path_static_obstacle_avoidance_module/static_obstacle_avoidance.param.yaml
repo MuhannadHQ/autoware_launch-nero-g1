@@ -23,22 +23,22 @@
           th_moving_time: 2.0                           # [s]
           longitudinal_margin: 0.0                      # [m]
           lateral_margin:
-            soft_margin: 0.35                           # [m]  # [tuned 2026-10-10] was 0.25
+            soft_margin: 0.0                            # [m]  # [nero 2026-11-15 parkedcars] was 0.35 (10-10), stock 0.25: pass parked cars without going around
             hard_margin: 0.3                             # [m]
             hard_margin_for_parked_vehicle: 0.3          # [m]
           max_expand_ratio: 0.0                         # [-] FOR DEVELOPER
-          envelope_buffer_margin: 0.1                   # [m] FOR DEVELOPER
+          envelope_buffer_margin: 0.0                   # [m] FOR DEVELOPER  # [nero 2026-11-15 parkedcars] was 0.1
           th_error_eclipse_long_radius : 0.6            # [m]
         truck:
           th_moving_speed: 1.0
           th_moving_time: 2.0
           longitudinal_margin: 0.0
           lateral_margin:
-            soft_margin: 0.35  # [tuned 2026-10-10] was 0.25
+            soft_margin: 0.0  # [nero 2026-11-15 parkedcars] was 0.35 (10-10), stock 0.25
             hard_margin: 0.3
             hard_margin_for_parked_vehicle: 0.3
           max_expand_ratio: 0.0
-          envelope_buffer_margin: 0.1
+          envelope_buffer_margin: 0.0  # [nero 2026-11-15 parkedcars] was 0.1
           th_error_eclipse_long_radius : 0.6
         bus:
           th_moving_speed: 1.0
