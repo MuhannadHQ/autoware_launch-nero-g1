@@ -239,3 +239,4 @@ export NERO_SOA_FIX_10669=1 NERO_SOA_FIX_10890=1 NERO_SOA_FIX_11106=1 NERO_SOA_F
 # disabled in its yaml; #11599 ego out of lanes after a re-engage mid-change):
 # export NERO_LC_FIX_12280=1 NERO_LC_FIX_11599=1
 export NERO_LC_ABORT_ROOM=4.0,2.0   # abortroom_1111: no lane-change abort into a current lane blocked within the abort return length while the hold can stop on the approved path (A); a stalled abort is cancelled (B) (93795 stuck behind a standing truck)
+export NERO_LC_GAP_AHEAD=1.0,3.0,0.5,0.5,0.5,6.0,0.25,0.3,1 NERO_LC_GAP_AHEAD_PREP=0.5,0.5,1.5,1 NERO_LC_GAP_AHEAD_KEEP=1 NERO_LC_APPROVED_PRED_FIX=1 NERO_LC_GAP_AHEAD_PACE=0.5,8.0,0.8   # gapahead_1112c: plan the gap behind a passing target-lane car while it is still coming, go as it passes (Ahmed 11-11 "plan it before the car is beside"); approved lane changes near a lane end re-checked with the true clock; an approved change behind the passer is paced in its lane (leave behind it) instead of held
