@@ -229,3 +229,12 @@ export NERO_LC_R79_REAR=1.0,2.0,1.0,1 NERO_LC_R79_SHIELD=1.0 NERO_LC_HOLD_COMMIT
 # planning_evaluator 3.6-4.2 % of one core. control_evaluator stays (the bridge's dashboard reads its metrics).
 # Rollback: comment these lines out (unset = launched as before)
 export NERO_PROCESSING_TIME_CHECKER=0 NERO_PLANNING_EVALUATOR=0
+
+# mainlane_1111u (2026-11-11): upstream planning fixes ported behind switches (needs mainlane_1111)
+export NERO_LC_FIX_10866=1 NERO_LC_FIX_11342=1 NERO_LC_FIX_11360=1 NERO_LC_FIX_12039=1 NERO_LC_FIX_13566=1
+export NERO_SOA_FIX_10669=1 NERO_SOA_FIX_10890=1 NERO_SOA_FIX_11106=1 NERO_SOA_FIX_11302=1 NERO_SOA_FIX_13008=1 NERO_ABLC_FIX_10669=1
+# in the code, not turned on yet: path-wide (they reach every module; simulated only on lane-change scenes):
+# export NERO_BPP_FIX_10989=1 NERO_BPP_FIX_12039=1 NERO_BPP_FIX_12576=1 NERO_BPP_FIX_11288=1
+# in the code, not turned on yet: cancels whose field case was never simulated (#12280 path miss: the 11-08 13:54 SOA14 MRMs, upstream ships it
+# disabled in its yaml; #11599 ego out of lanes after a re-engage mid-change):
+# export NERO_LC_FIX_12280=1 NERO_LC_FIX_11599=1
