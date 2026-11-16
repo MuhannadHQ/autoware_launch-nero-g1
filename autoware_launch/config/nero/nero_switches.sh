@@ -265,3 +265,4 @@ export NERO_MOT_CLASS_HOLD=3.0   # trkstand_1115 (with NERO_MOT_STAND_HOLD): a s
 # Port of upstream autoware_universe #11361 with those two guards; a log line `[NERO_IX] follower path:` per car and cycle it acts.
 # Rollback: comment the line out (unset = the car).
 export NERO_IX_FOLLOWER_PATH=45
+export NERO_IX_SIGHT_EVIDENCE=0.5,1.0,0.3,0.5,1.0,1,35,0.3,5.0   # sightev_1115 (QUEUE SIGHTPH): the sight rule above takes as an unpublished car only what the lidar hits now: the grid's memory (trails of cars driving away, dropped parked cars) is no car, a blob at a place occupied before starts standing and gains no speed there, a near blob must move like a car, blobs matched best-first, standing objects explain their cells 5 s after they vanish
