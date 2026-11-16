@@ -9,7 +9,7 @@
 # Taken verbatim from nero-jetson ~/.autoware_env.sh on 2026-10-26 (after the 17:27 kit install),
 # minus the RMW/CycloneDDS lines, which are machine settings and stay in that file.
 
-# camstack_1110 (QUEUE CAMSTACK; carries camfront_1109 + camwall_1110's camera0 add-on): the forward wide camera (recorded cross_left) is
+# camstack_1110 (QUEUE CAMSTACK; carries camfront_1109 + camwall_1110's camera0 add-on): the forward wide camera (fzcam 11-002b) is
 # camera0 of the driving stack. (Here at the top, not appended at the end, so that the next packages' appended lines never conflict with it.)
 # NERO_CAMERA0_INPUT=<raw|h265>:<topic>: camera0_node (C++, fisheye -> pinhole, ONE frame per lidar cycle at the lidar's phase) + tensorrt_yolox
 #   (rois0; with NERO_CAMERA0_MODEL also the 16-class mask0 that camwall's NERO_MOT_UNKNOWN_CAM_STILL reads). raw = the camera driver's
@@ -26,11 +26,14 @@
 # DEPLOY_CHECKLIST first: the live raw topic + encoding + the driver's container, the YOLOX seg16cls engine built on the Orin, the Orin cost.
 # A wrong / silent topic = a dead camera = the car (camwall's rules and the fusion fall back by themselves).
 # Rollback: comment the camstack lines (no rebuild).
-export NERO_CAMERA0_INPUT=raw:/sensing/camera/cross_left/image_raw   # camstack_1110
+# [2026-11-16 camera names] The forward wide camera fzcam 11-002b is front_wide since the camera driver's 2026-11-08 role map
+#   (nero-drivers-g1 f448be6; nero-jetson-bridge cameras_stream.yaml since cc2fe82, 2026-11-16 04:03). Before that the streaming map
+#   named it cross_left (recordings before 2026-11-16 04:03); cross_left is now the front-left corner camera fzcama 12-002c.
+export NERO_CAMERA0_INPUT=raw:/sensing/camera/front_wide/image_raw   # camstack_1110; front_wide = fzcam 11-002b, the forward wide camera (2026-11-16)
 export NERO_CAMERA0_MODEL=yolox-sPlus-opt-pseudoV2-T4-960x960-T4-seg16cls   # camstack_1110 (camwall_1110's model)
 export NERO_ROI_CLUSTER_FUSION=1   # camstack_1110 (camfront_1109's pedestrian labels)
 export NERO_FUSION_CAMERA_GATE=1.0   # camstack_1110
-export NERO_CAMERA0_CONTAINER=driver   # camstack_1110: camera0_node inside the camera driver's container (cross_left), loaded by run_stream_cameras.sh
+export NERO_CAMERA0_CONTAINER=driver   # camstack_1110: camera0_node inside the camera driver's container (front_wide's), loaded by run_stream_cameras.sh
 #export NERO_ROI_OBJECT_CONFIRM=1
 
 # intersection (session 2 + 4)
