@@ -1,13 +1,14 @@
 sensor_kit_base_link:
-  # front_wide: board calibration 2026-11-16 (AprilGrid session 14:34 + lidar print, bundle_pw4; nero-jetson-bridge board_calib PR #28).
-  # Was 0.248912 0.399063 -0.262879 / 0.005174 0.012010 -0.029455 (camfront 2026-11-09, targetless, position never solved).
+  # front_wide: position from the board calibration 2026-11-16 (AprilGrid session 14:34 + lidar print, bundle_pw4), angles
+  # refined on far scenery (8-25 m, top lidar, 41 scenes over 2 days: tip -0.15, turn +0.05 deg; nero-jetson-bridge board_calib
+  # PR #28 refine_far.py). Was 0.248912 0.399063 -0.262879 / 0.005174 0.012010 -0.029455 (camfront 2026-11-09, targetless).
   camera0/camera_link:
     x: 0.588347
     y: 0.026240
     z: -0.139688
-    roll: 0.006532
-    pitch: 0.019302
-    yaw: 0.002035
+    roll: 0.006515
+    pitch: 0.021926
+    yaw: 0.001179
   
   # Fairy Lidar
   fairy_base_link:
