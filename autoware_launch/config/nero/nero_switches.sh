@@ -238,3 +238,4 @@ export NERO_SOA_FIX_10669=1 NERO_SOA_FIX_10890=1 NERO_SOA_FIX_11106=1 NERO_SOA_F
 # in the code, not turned on yet: cancels whose field case was never simulated (#12280 path miss: the 11-08 13:54 SOA14 MRMs, upstream ships it
 # disabled in its yaml; #11599 ego out of lanes after a re-engage mid-change):
 # export NERO_LC_FIX_12280=1 NERO_LC_FIX_11599=1
+export NERO_LC_ABORT_ROOM=4.0,2.0   # abortroom_1111: no lane-change abort into a current lane blocked within the abort return length while the hold can stop on the approved path (A); a stalled abort is cancelled (B) (93795 stuck behind a standing truck)
