@@ -290,3 +290,9 @@ export NERO_ABLC_MOVER=0.5
 # first detected as a 'bicycle', kept losing its own track and was shown as a 2.1 x 0.9 m 'CAR' with a new id (TRKCUT). Whole trip F7: vehicle re-births 29 -> 26,
 # standing time unchanged. Start and check: launch.log `[NERO_MOT_BIKE_NO_ABSORB] on` the first time two tracks overlap. Rollback: comment the line out.
 export NERO_MOT_BIKE_NO_ABSORB=2.0
+# heightkeep_1117 (10amimprovement 11-17; universe "feat(multi_object_tracker): a cluster update keeps a vehicle's full-box height"): a cluster /
+# detection_by_tracker update may lower a vehicle track's height only down to 0.9 x its last full-box height. The obstacle cloud is cut 1.3 m above the road,
+# so cluster refits are ~1 m tall and pulled parked cars' tracks to the 1.0 m clamp; the next full box of the same car then failed the 3D overlap check and
+# the car got a new id (TRKCUT). Whole trip F9: vehicle re-births 24 -> 18, boxes <= 1.05 m 19 % -> 0.1 % offline. Start and check: launch.log
+# `[NERO_MOT_HEIGHT_KEEP] on` the first time a vehicle track takes a cluster update. Rollback: comment the line out (unset = as before).
+export NERO_MOT_HEIGHT_KEEP=0.9
