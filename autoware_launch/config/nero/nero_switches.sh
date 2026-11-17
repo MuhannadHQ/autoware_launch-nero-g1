@@ -266,3 +266,9 @@ export NERO_MOT_CLASS_HOLD=3.0   # trkstand_1115 (with NERO_MOT_STAND_HOLD): a s
 # Rollback: comment the line out (unset = the car).
 export NERO_IX_FOLLOWER_PATH=45
 export NERO_IX_SIGHT_EVIDENCE=0.5,1.0,0.3,0.5,1.0,1,35,0.3,5.0   # sightev_1115 (QUEUE SIGHTPH): the sight rule above takes as an unpublished car only what the lidar hits now: the grid's memory (trails of cars driving away, dropped parked cars) is no car, a blob at a place occupied before starts standing and gains no speed there, a near blob must move like a car, blobs matched best-first, standing objects explain their cells 5 s after they vanish
+# gapperf_1117 (10amimprovement 2026-11-16, QUEUE SETLOAD): the lane change candidate loop's lane-bound check and nearest index with the SAME
+# numbers, faster: the combined target-lane bound + lanelet2's own R-tree kept per (lanes, side) instead of rebuilt per path point; findNearestIndex by
+# position (the same index). 11-08 17:28: avoidance_by_lane_change worst 126 ms vs 219-239 ms (the car 134). Check mode (=2): 0 mismatches in 147,908 calls.
+# Start and check: launch.log `[NERO_LC_GEOM_FAST] 1 (1: target-bound R-tree kept per lanes ...` once, then `[NERO_LC_GEOM_FAST] totals mode 1` every 20 s.
+# Rollback: comment the line out (unset = as before).
+export NERO_LC_GEOM_FAST=1
