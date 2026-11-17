@@ -285,3 +285,8 @@ unset NERO_LC_FIX_12039   # setload_1117 (10amimprovement 11-17): the #12039 lan
 # starts as the car pulls away; c20 17:28 three go-around stops gone; c03 14:01 identical). Start and check: launch.log `[NERO_ABLC_MOVER] on` the first time
 # avoidance by lane change builds its targets. Rollback: comment the line out (unset = as before).
 export NERO_ABLC_MOVER=0.5
+# bikenoabsorb_1117 (10amimprovement 11-17; universe "feat(multi_object_tracker): a bicycle track never absorbs a car track"): in the tracker's overlap merge a
+# pedestrian / bicycle track never absorbs a vehicle track more than 2x its area; both tracks stay (never fewer objects). A parked car half hidden behind a bigger car,
+# first detected as a 'bicycle', kept losing its own track and was shown as a 2.1 x 0.9 m 'CAR' with a new id (TRKCUT). Whole trip F7: vehicle re-births 29 -> 26,
+# standing time unchanged. Start and check: launch.log `[NERO_MOT_BIKE_NO_ABSORB] on` the first time two tracks overlap. Rollback: comment the line out.
+export NERO_MOT_BIKE_NO_ABSORB=2.0
