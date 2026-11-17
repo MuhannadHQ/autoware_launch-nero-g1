@@ -278,3 +278,4 @@ export NERO_LC_GEOM_FAST=1
 # Start and check: launch.log `[NERO_SOA_SIDE_FAST] 1 (1: lane polygon edges indexed by band ...` once, then `[NERO_SOA_SIDE_FAST] totals mode 1` every 20 s
 # while the side-lane check runs. Rollback: comment the line out (unset = as before).
 export NERO_SOA_SIDE_FAST=1
+unset NERO_LC_FIX_12039   # setload_1117 (10amimprovement 11-17): the #12039 lane-change port off in the install set: at the 10-28 18:46 stop-sign turn (planning sim w18, 40 hogs) it alone kept lane_change_left / right running every cycle (set 6.3 / 6.9 Hz vs the car 6.7 / 7.2 / 6.8; off 7.1 / 6.7 = the car). Remove this line = #12039 on again.
