@@ -272,3 +272,9 @@ export NERO_IX_SIGHT_EVIDENCE=0.5,1.0,0.3,0.5,1.0,1,35,0.3,5.0   # sightev_1115 
 # Start and check: launch.log `[NERO_LC_GEOM_FAST] 1 (1: target-bound R-tree kept per lanes ...` once, then `[NERO_LC_GEOM_FAST] totals mode 1` every 20 s.
 # Rollback: comment the line out (unset = as before).
 export NERO_LC_GEOM_FAST=1
+# sideperf_1117 (10amimprovement 2026-11-16, QUEUE SETLOAD): soa2_1116's side-lane check (does the planned body leave the lane) with the SAME answer,
+# faster: the lane polygon's edges indexed by bands, a winding number per footprint corner, boost's own call within 0.1 mm of an edge. 11-08 19:15:51:
+# static avoidance worst 56 ms vs 156-216 ms. Check mode (=2): 0 mismatches in 128,860 corners.
+# Start and check: launch.log `[NERO_SOA_SIDE_FAST] 1 (1: lane polygon edges indexed by band ...` once, then `[NERO_SOA_SIDE_FAST] totals mode 1` every 20 s
+# while the side-lane check runs. Rollback: comment the line out (unset = as before).
+export NERO_SOA_SIDE_FAST=1
