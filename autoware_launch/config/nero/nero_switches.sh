@@ -279,3 +279,9 @@ export NERO_LC_GEOM_FAST=1
 # while the side-lane check runs. Rollback: comment the line out (unset = as before).
 export NERO_SOA_SIDE_FAST=1
 unset NERO_LC_FIX_12039   # setload_1117 (10amimprovement 11-17): the #12039 lane-change port off in the install set: at the 10-28 18:46 stop-sign turn (planning sim w18, 40 hogs) it alone kept lane_change_left / right running every cycle (set 6.3 / 6.9 Hz vs the car 6.7 / 7.2 / 6.8; off 7.1 / 6.7 = the car). Remove this line = #12039 on again.
+# ablcmover_1117 (10amimprovement 11-17; universe "feat(avoidance_by_lane_change): no target while moving"): an object off the lane centre is not a target of
+# avoidance by lane change while it has been moving continuously for >= 0.5 s (standing objects unchanged; a one-sample speed blip does not count). 8 Nov 19:12:13
+# the set changed lanes left around a car crossing and driving off ahead, away from the route's right lane (whole trip F6: 19:11 / 19:12 go-arounds gone, 19:10
+# starts as the car pulls away; c20 17:28 three go-around stops gone; c03 14:01 identical). Start and check: launch.log `[NERO_ABLC_MOVER] on` the first time
+# avoidance by lane change builds its targets. Rollback: comment the line out (unset = as before).
+export NERO_ABLC_MOVER=0.5
