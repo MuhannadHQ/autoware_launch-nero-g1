@@ -296,3 +296,9 @@ export NERO_MOT_BIKE_NO_ABSORB=2.0
 # the car got a new id (TRKCUT). Whole trip F9: vehicle re-births 24 -> 18, boxes <= 1.05 m 19 % -> 0.1 % offline. Start and check: launch.log
 # `[NERO_MOT_HEIGHT_KEEP] on` the first time a vehicle track takes a cluster update. Rollback: comment the line out (unset = as before).
 export NERO_MOT_HEIGHT_KEEP=0.9
+# standreseed_1117 (10amimprovement 11-17; universe "feat(multi_object_tracker): re-seed a standing car's held heading from agreeing recent boxes"): when
+# >= 5 trusted boxes of the last 1 s agree within 5 deg and the standing hold's heading is 6-45 deg off, the held heading turns toward them by 30 % per publish.
+# The hold's running mean let noisy far-range headings outweigh steady near ones: 8 Nov 19:07:30 a skewed parked sedan's box turned 9 deg in one publish
+# 8.6 m ahead; now it is right ~2 s earlier and turns smoothly (whole trip F10: heading-error box-fit flags 56 vs 62). Start and check: launch.log
+# `[NERO_MOT_STAND_RESEED] on` at the tracker start. Rollback: comment the line out (unset = as before).
+export NERO_MOT_STAND_RESEED=6,1.0,5,5,45,0.3
