@@ -302,3 +302,11 @@ export NERO_MOT_HEIGHT_KEEP=0.9
 # 8.6 m ahead; now it is right ~2 s earlier and turns smoothly (whole trip F10: heading-error box-fit flags 56 vs 62). Start and check: launch.log
 # `[NERO_MOT_STAND_RESEED] on` at the tracker start. Rollback: comment the line out (unset = as before).
 export NERO_MOT_STAND_RESEED=6,1.0,5,5,45,0.3
+# izparked overnight 11-22 (NeroStation izparked-2/-3; universe 11 commits f16df6f7..7aaa6ada on the 17 Nov set): the 21 Nov Izdihar parked-car captures.
+# Planning sim, Izdihar e9, 19:41-19:47 route x3 seeds beside the install set alone: no lane change at B5/B6 (was from 71 m, 38 s in the other lane), out of
+# the own lane with nothing to pass 7.4 -> <= 0.1 s, over the centre line with an oncoming car 2.7 -> 0.0 s, B7 side gap 0.44 -> 0.82 m, A1 nose-in car passed
+# at walking pace with no stop (46 s, was 54-62 s), 0 hard brakes, must-keeps k21f / k38f hold, cost gate PASS. Rollback: comment a line out (unset = as before).
+export NERO_ABLC_NEED=0.4,0.2,3,20,30,6            # avoidance by lane change only when the own lane has no room (robot + 0.4 - 0.2 m) or a row of >= 3 objects forces the body over the line (gaps < 20 m); started within max(30 m, 6 s); shared stand clock
+export NERO_SOA_INLANE_SOFT=-0.1,0.15              # static avoidance: the soft margin only as far as the body stays 0.1 m inside the own lane (hard margin never cut; fragment-carried vehicles keep hard + 0.15)
+export NERO_OSD_ONCOMING_STILL=1.4,135             # obstacle_slow_down: a standing vehicle facing the robot within the module's 1.1 m band is passed at <= 1.4 m/s
+export NERO_SOA_BLOCKED_PASS=0.2,1.4,0.1,30        # static avoidance: a corridor blocker far ahead (no oncoming car) -> pass the targets on their hard margin + 0.1 within line + 0.2 at <= 1.4 m/s (slow-down <= 0.8 m/s2) instead of waiting / stopping; no hold once every target is passed; a blocker that itself closes the lane = wait, held while a vehicle is still at its place (izparked-3)
