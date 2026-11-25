@@ -354,3 +354,9 @@ export NERO_OSD_CLOSE_LEAD=0.3                # obstacle_slow_down: a vehicle wh
 # fork carries the rest. A route before the warm-up ends is planned as today. A stop during the warm-up waits <= 3 s, then the
 # container ends (exit 0). Start: launch.log `[NERO_PLANNER_MAP_EAGER] route handler built at map arrival`. Rollback: comment out.
 export NERO_PLANNER_MAP_EAGER=1
+
+# --- stops_1125 (the robot stood for good with no reason shown where a route needs two lane changes it cannot fit: U-turn 2118496 3/3, W1 2096795) ---
+# Planning sim on set1125: 23 Nov U-turn and W1 on e23 stuck 29 s -> drive on (give-up + re-route); must-keeps and the final e23 trip unchanged.
+# Rollback: comment a line out.
+export NERO_LC_GIVEUP_NOFIT=1   # stops 2026-11-25: a route change whose due changes cannot fit before the lane end is given up at once (re-route straight on), any speed
+export NERO_LC_PREV_LANES_FIX=1   # stops 2026-11-25: the lane change module compares its previous BACK current/target lanes too (upstream compares each with itself), so a re-route refreshes the target lanes
