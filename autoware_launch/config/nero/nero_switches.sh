@@ -308,7 +308,7 @@ export NERO_MOT_STAND_RESEED=6,1.0,5,5,45,0.3
 # at walking pace with no stop (46 s, was 54-62 s), 0 hard brakes, must-keeps k21f / k38f hold, cost gate PASS. Rollback: comment a line out (unset = as before).
 export NERO_ABLC_NEED=0.4,0.2,3,20,30,6            # avoidance by lane change only when the own lane has no room (robot + 0.4 - 0.2 m) or a row of >= 3 objects forces the body over the line (gaps < 20 m); started within max(30 m, 6 s); shared stand clock
 export NERO_SOA_INLANE_SOFT=-0.1,0.15              # static avoidance: the soft margin only as far as the body stays 0.1 m inside the own lane (hard margin never cut; fragment-carried vehicles keep hard + 0.15)
-export NERO_OSD_ONCOMING_STILL=1.4,135             # obstacle_slow_down: a standing vehicle facing the robot within the module's 1.1 m band is passed at <= 1.4 m/s
+export NERO_OSD_ONCOMING_STILL=1.4,135,0            # obstacle_slow_down: a standing vehicle facing the robot within the module's 1.1 m band is passed at <= 1.4 m/s  [sidegap_1125: third field 0 = only a vehicle LEFT of the path / heading line (oncoming side); was 1.4,135]
 export NERO_SOA_BLOCKED_PASS=0.2,1.4,0.1,30        # static avoidance: a corridor blocker far ahead (no oncoming car) -> pass the targets on their hard margin + 0.1 within line + 0.2 at <= 1.4 m/s (slow-down <= 0.8 m/s2) instead of waiting / stopping; no hold once every target is passed; a blocker that itself closes the lane = wait, held while a vehicle is still at its place (izparked-3)
 
 # --- izlanechange-2026-11-24 (Izdihar lane changes after the 22 Nov drive; universe c12f7bc79 + bc76f25fb + d1764df95) ---
@@ -337,3 +337,12 @@ export NERO_LC_COMMIT_ROUTE=1,1,1       # lane change: commit zone from where eg
 export NERO_LC_IDS_CURRENT_FIRST=1      # lane change: lane-changing points carry {current, target}: the target lane's speed bumps / stop lines / crosswalks / lights stay visible to the velocity planner during the change
 export NERO_MBP_REF_TRIM=1              # map_based_prediction: no copies of cached reference paths, each cut to what the predicted path reaches (identical output)
 export NERO_MBP_LANELET_FAST=1          # map_based_prediction: current-lanelet search without per-segment / per-candidate allocations (identical output)
+
+# --- sidegap_1125 (people passed at 0.27-0.33 m; 1.4 m/s past parked cars on the own kerb that face the robot; late truck nose) ---
+# With the obstacle_slow_down.param.yaml rows of this package (pedestrian / bicycle, car / truck static 1.0 m/s at <= 0.4 m) and
+# NERO_OSD_ONCOMING_STILL=1.4,135,0 above. Planning sim, map e20, scenes from the 22-24 Nov captures: the 23 Nov corridor walker -> waits
+# standing (closest 0.49 m at 0 m/s, car 0.46 m pulling off); own-kerb facing cars 1.41 -> 2.16 m/s; obstacle_stop / AEB / MRM untouched.
+# Rollback: comment these three lines and set NERO_OSD_ONCOMING_STILL back to 1.4,135 (= the car of 24 Nov).
+export NERO_OSD_TYPE_PARAMS=1                 # obstacle_slow_down: per-type speed tables really used (upstream #10672); car / truck / pedestrian / bicycle rows of obstacle_slow_down.param.yaml
+export NERO_OSD_PERSON=0.3,0.5,0.3,2,8      # obstacle_slow_down: a person beside / first seen near -> never above ego speed, <= 0.3 m/s below it, down to the table; held until the robot's rear has passed him; a pedestrian walking toward the robot within 0.5 m of its band and 8 m of its bumper -> wait; enters after 2 cycles
+export NERO_OSD_CLOSE_LEAD=0.3                # obstacle_slow_down: a vehicle whose table speed falls while the robot is already within the prepare distance (box growing into the lane late) is followed down, <= 0.3 m/s below the robot's speed (stock: the first target is kept)

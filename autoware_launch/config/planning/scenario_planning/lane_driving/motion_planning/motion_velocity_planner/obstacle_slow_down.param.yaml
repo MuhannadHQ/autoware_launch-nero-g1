@@ -17,6 +17,8 @@
             - "default"
             - "car"    # [nero 2026-11-15 parkedcars]
             - "truck"  # [nero 2026-11-15 parkedcars]
+            - "pedestrian"  # [nero 2026-11-24 sidegap] used only with NERO_OSD_TYPE_PARAMS=1 (without it every type gets "default")
+            - "bicycle"     # [nero 2026-11-24 sidegap] used only with NERO_OSD_TYPE_PARAMS=1
           default:
             moving:
               min_lat_margin: 0.2
@@ -28,28 +30,50 @@
               max_lat_margin: 0.6
               min_ego_velocity: 1.4
               max_ego_velocity: 4.17
-          car:  # [nero 2026-11-15 parkedcars] a standing car beside the path: 5 km/h at 0.2 m, no limit (20 km/h) from 0.6 m; moving = default
+          car:  # [nero 2026-11-24 sidegap, LATEAVOID-1123] a standing car: 1.0 m/s (3.6 km/h) at <= 0.4 m, 4.17 m/s (15 km/h, = the default table the car really used) from 0.5 m (0.44 m -> 2.27 m/s = the 24 Nov 20:58 'great' pass); moving = default. Live only with NERO_OSD_TYPE_PARAMS=1. (2026-11-15 parkedcars values 0.2/1.4 -> 0.6/5.56 never applied: type lookup bug, upstream #10672)
             moving:
               min_lat_margin: 0.2
               max_lat_margin: 0.7
               min_ego_velocity: 0.7
               max_ego_velocity: 2.78
             static:
-              min_lat_margin: 0.2
-              max_lat_margin: 0.6
-              min_ego_velocity: 1.4
-              max_ego_velocity: 5.56
-          truck:  # [nero 2026-11-15 parkedcars] a standing truck beside the path: 5 km/h at 0.2 m, no limit (20 km/h) from 0.6 m; moving = default
+              min_lat_margin: 0.4
+              max_lat_margin: 0.5
+              min_ego_velocity: 1.0
+              max_ego_velocity: 4.17
+          truck:  # [nero 2026-11-24 sidegap, LATEAVOID-1123] a standing truck: 1.0 m/s (3.6 km/h) at <= 0.4 m, 4.17 m/s (15 km/h, = the default table the car really used) from 0.5 m (0.44 m -> 2.27 m/s = the 24 Nov 20:58 'great' pass); moving = default. Live only with NERO_OSD_TYPE_PARAMS=1. (2026-11-15 parkedcars values 0.2/1.4 -> 0.6/5.56 never applied: type lookup bug, upstream #10672)
             moving:
               min_lat_margin: 0.2
               max_lat_margin: 0.7
               min_ego_velocity: 0.7
               max_ego_velocity: 2.78
             static:
-              min_lat_margin: 0.2
-              max_lat_margin: 0.6
-              min_ego_velocity: 1.4
-              max_ego_velocity: 5.56
+              min_lat_margin: 0.4
+              max_lat_margin: 0.5
+              min_ego_velocity: 1.0
+              max_ego_velocity: 4.17
+          pedestrian:  # [nero 2026-11-24 sidegap, PEDPASS-1122] a person within 0.5 m of the robot's band: 0.6 m/s (2.2 km/h); 2.78 m/s (moving) / 4.17 (standing) from 1.0 m. Read with NERO_OSD_PERSON.
+            moving:
+              min_lat_margin: 0.5
+              max_lat_margin: 1.0
+              min_ego_velocity: 0.6
+              max_ego_velocity: 2.78
+            static:
+              min_lat_margin: 0.5
+              max_lat_margin: 1.0
+              min_ego_velocity: 0.6
+              max_ego_velocity: 4.17
+          bicycle:  # [nero 2026-11-24 sidegap] as pedestrian
+            moving:
+              min_lat_margin: 0.5
+              max_lat_margin: 1.0
+              min_ego_velocity: 0.6
+              max_ego_velocity: 2.78
+            static:
+              min_lat_margin: 0.5
+              max_lat_margin: 1.0
+              min_ego_velocity: 0.6
+              max_ego_velocity: 4.17
 
         moving_object_speed_threshold: 0.5 # [m/s] how fast the object needs to move to be considered as "moving"
         moving_object_hysteresis_range: 0.1 # [m/s] hysteresis range used to prevent chattering when obstacle moves close to moving_object_speed_threshold
