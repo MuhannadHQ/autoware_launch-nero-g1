@@ -346,3 +346,11 @@ export NERO_MBP_LANELET_FAST=1          # map_based_prediction: current-lanelet 
 export NERO_OSD_TYPE_PARAMS=1                 # obstacle_slow_down: per-type speed tables really used (upstream #10672); car / truck / pedestrian / bicycle rows of obstacle_slow_down.param.yaml
 export NERO_OSD_PERSON=0.3,0.5,0.3,2,8      # obstacle_slow_down: a person beside / first seen near -> never above ego speed, <= 0.3 m/s below it, down to the table; held until the robot's rear has passed him; a pedestrian walking toward the robot within 0.5 m of its band and 8 m of its bumper -> wait; enters after 2 cycles
 export NERO_OSD_CLOSE_LEAD=0.3                # obstacle_slow_down: a vehicle whose table speed falls while the robot is already within the prepare distance (box growing into the lane late) is followed down, <= 0.3 m/s below the robot's speed (stock: the first target is kept)
+
+# --- firsttrip_1124 (Ahmed 24 Nov: "the first trip takes 40 seconds and up to a minute to start but later trips take seconds") ---
+# behavior_path_planner builds its route handler (lane map + Lanelet2 routing graphs, ~12 s on the Orin) when the lane map arrives,
+# in an idle-priority thread, not on the first route. UNIVERSE PART ONLY (Ahmed 25 Nov): the behavior / motion velocity planners
+# (autoware_core 1.1.0, upstream) still build on the first route, so the car's first trip goes ~40 -> ~27 s, not 4 s, until a core
+# fork carries the rest. A route before the warm-up ends is planned as today. A stop during the warm-up waits <= 3 s, then the
+# container ends (exit 0). Start: launch.log `[NERO_PLANNER_MAP_EAGER] route handler built at map arrival`. Rollback: comment out.
+export NERO_PLANNER_MAP_EAGER=1
