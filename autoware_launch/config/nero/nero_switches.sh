@@ -327,3 +327,13 @@ export NERO_LC_GRADUAL_HEAD=5,7,9,12,14             # the gentle shapes are set 
 export NERO_LC_DRIVABLE_SIDE=1                      # an approved change may use the target lane where the map draws two lanes side by side with separate bound ways on the same nodes (junction pieces): no pull-back, no stop as the change finishes
 export NERO_LC_ABORT_SMOOTH=0.8,2.0,2.5,6,2,1.0,3.0,0.7,0.2,1   # a cancelled change returns smoothly at lane speed from where the robot will be 0.7 s along its path (gentle 0.8 m/s2 / 2 m/s3, 2.5-6 s; no new approval for 2 s after it); a cancel decided at once when waiting out the 0.6 s unsafe hysteresis would carry the robot past the point where its return still fits; the safety return within the car's 1.0 m/s2 lateral limit (no slow-down while returning) and used also when the gentle return would leave the lane
 export NERO_LC_HOLD_REACH=1.0,1.0                             # the hold for an unsafe approved change (stop on its path) only where the robot can stop at 1.0 m/s2 (+1 m) before that path takes its body out of its lane; otherwise no slow-down in front of the closing car
+
+# --- lcearly_1124 (24 Nov 14:38: early left signal 735 m before the lane left the route + MRM emergency stop at 20 km/h) ---
+# Planning sim, map e20, the car's own 390 tracked objects of 24 Nov: lane-change timing FAIL -> PASS (no left request / lamp on the
+# three-lane road), 0 MRM; prediction identical output, 2-3x cheaper (car estimate <= 60-75 ms/frame at the peak, was 243).
+# Rollback: comment a line out (each line alone = the car of 24 Nov for that part).
+export NERO_KEEP_RIGHT_CHAIN=4          # mission planner: keep right through parallel junction chains up to 4 sections deep (the right lane 2096573 -> 2118558 beside 2096571 -> 2118560)
+export NERO_LC_COMMIT_ROUTE=1,1,1       # lane change: commit zone from where ego's lane leaves the route (walk), a waiting change the zone holds is cancelled (recheck), the zone counted in metres where a change may start (free)
+export NERO_LC_IDS_CURRENT_FIRST=1      # lane change: lane-changing points carry {current, target}: the target lane's speed bumps / stop lines / crosswalks / lights stay visible to the velocity planner during the change
+export NERO_MBP_REF_TRIM=1              # map_based_prediction: no copies of cached reference paths, each cut to what the predicted path reaches (identical output)
+export NERO_MBP_LANELET_FAST=1          # map_based_prediction: current-lanelet search without per-segment / per-candidate allocations (identical output)
