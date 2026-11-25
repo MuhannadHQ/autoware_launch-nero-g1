@@ -360,3 +360,11 @@ export NERO_PLANNER_MAP_EAGER=1
 # Rollback: comment a line out.
 export NERO_LC_GIVEUP_NOFIT=1   # stops 2026-11-25: a route change whose due changes cannot fit before the lane end is given up at once (re-route straight on), any speed
 export NERO_LC_PREV_LANES_FIX=1   # stops 2026-11-25: the lane change module compares its previous BACK current/target lanes too (upstream compares each with itself), so a re-route refreshes the target lanes
+
+# --- stops2_1125 (junction stops never named their object in any capture: the module loggers never reach /rosout) ---
+# Planning sim: car vs set identical (same stops, 0 MRM, out24 on e23 449.3 / 448.7 s); log only. Rollback: comment a line out.
+# stops-2 (2026-11-25, batch JXFOLLOW): junction stops say what they stop for. LOG ONLY: one line per stop through the planner
+# node's own logger (reaches /rosout and every dashboard capture), at the onset, on a change of target and once per second
+# while it holds. Unset / 0 = the car (no line, nothing else changes).
+export NERO_IX_STOP_WHY=1   # intersection module (behavior_velocity_planner): [NERO_IX_STOP] decision + every UNSAFE object (id, class, place from ego, speed, heading, passage s)
+export NERO_BS_STOP_WHY=1   # blind_spot module: [NERO_BS_STOP] which check holds (vehicle check NERO_BS_DETECT_NON_VRU / stock VRU check / state-machine margin) + the object
