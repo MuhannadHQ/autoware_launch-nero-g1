@@ -376,3 +376,6 @@ export NERO_SOA_FRAG_GRID=8            # ownlane: the fragment rule compares on 
 export NERO_SOA_INLANE_HOLD=1.0        # ownlane-2: a row car's in-lane verdict held 1 s at the knife edge (INLANEFLIP-1125)
 export NERO_SOA_COMF_FROM_PATH=1       # ownlane-2: comfort judged from the registered path's level (skipped with the anchor)
 export NERO_SOA_FRAG_PLAN=1            # ownlane-2: a fragment-carried car planned to the fragment rule's level on the grid (SOAFRAG-SIM)
+# --- lateavoid_1126 (static avoidance gets room at a turn's exit from the map's own lanelets; LATEAVOID-1123) ---
+# Planning sim: 23 Nov #19 stand -> pass on 3/3 seeds (field map e16), mk_s19_turn stand gone; out24 + load gate PASS. Rollback: delete the line (unset = as before).
+export NERO_SOA_TURN_EXIT_ROOM=8,0.95  # static_obstacle_avoidance: room at a turn's exit (8 m back, >= 95 % covered by map lanelets); delete = stock
