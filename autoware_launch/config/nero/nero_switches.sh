@@ -368,3 +368,11 @@ export NERO_LC_PREV_LANES_FIX=1   # stops 2026-11-25: the lane change module com
 # while it holds. Unset / 0 = the car (no line, nothing else changes).
 export NERO_IX_STOP_WHY=1   # intersection module (behavior_velocity_planner): [NERO_IX_STOP] decision + every UNSAFE object (id, class, place from ego, speed, heading, passage s)
 export NERO_BS_STOP_WHY=1   # blind_spot module: [NERO_BS_STOP] which check holds (vehicle check NERO_BS_DETECT_NON_VRU / stock VRU check / state-machine margin) + the object
+# --- ownlane3_1126 (static avoidance re-plans the whole manoeuvre every cycle from the targets' current needs; OWNLANE-1122) ---
+# Planning sim iz_e23: n24 row 7.7 -> 4.3 s over the line, route_b2 floor 22.9 -> 2.4 s; load gate + out24 PASS. Rollback: delete the 6 lines (unset = as before).
+export NERO_SOA_REPLAN_ANCHOR=0.2,1.0  # <hysteresis m>,<absent s>[,<hold m> default 30]: plan rebuilt every cycle from current needs, WEAVE (b) hold between needs <= 30 m apart, joined to the robot's shift and rate
+export NERO_SOA_STEP_DOWN=3            # ownlane: descent to a car's own level beside it (no trigger with the anchor; kept as tested)
+export NERO_SOA_FRAG_GRID=8            # ownlane: the fragment rule compares on the module's 0.1 m grid; within 8 m of the car the plain hard margin
+export NERO_SOA_INLANE_HOLD=1.0        # ownlane-2: a row car's in-lane verdict held 1 s at the knife edge (INLANEFLIP-1125)
+export NERO_SOA_COMF_FROM_PATH=1       # ownlane-2: comfort judged from the registered path's level (skipped with the anchor)
+export NERO_SOA_FRAG_PLAN=1            # ownlane-2: a fragment-carried car planned to the fragment rule's level on the grid (SOAFRAG-SIM)
